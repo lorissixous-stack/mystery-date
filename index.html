@@ -2530,30 +2530,111 @@
             renderNoMatch(el);
             return;
         }
-        const {data: matches} = await sb.from('matches').select('*').or(`user_a.eq.${st.userId},user_b.eq.${st.userId}`);
+
+        const {data: matches} = await sb.from('matches')
+        .select('*')
+        .or(`user_a.eq.${st.userId},user_b.eq.${st.userId}`)
+        .in('statut', ['pending', 'accepte'])
+        .order('created_at', {
+            ascending: false
+        })
+        .limit(1);
+
         if (!matches || matches.length === 0) {
             renderNoMatch(el);
             return;
         }
         el.innerHTML = '';
+
         for (const m of matches) {
-            const otherId = m.user_a === st.userId ? m.user_b : m.user_a;
+            const isUserA = m.user_a === st.userId;
+            const otherId = isUserA ? m.user_b : m.user_a;
+            const myReponse = isUserA ? m.reponse_a : m.reponse_b;
             const {data: other} = await sb.from('users').select('prenom,age').eq('id', otherId).single();
             const name = other ? other.prenom : '?';
             const score = m.score || 0;
+
+            let actionHTML = '';
+            if (m.statut === 'accepte') {
+                actionHTML = `<div style="display:flex;align-items:center;gap:8px;padding:10px 0 0;border-top:1px solid #F0DDD0;margin-top:10px;">
+                                <div style="width:8px;height:8px;border-radius:50%;background:#4A9B6F;flex-shrink:0;"></div>
+                                <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:#4A9B6F;">Date confirmé — un café vous attend</span>
+                            </div>`;
+            } else if (myReponse === 'accepte') {
+                actionHTML = `<div style="padding:10px 0 0;border-top:1px solid #F0DDD0;margin-top:10px;">
+                                <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:#A08878;">En attente de sa réponse…</span>
+                            </div>`;
+            } else if (myReponse === 'refuse') {
+                actionHTML = `<div style="padding:10px 0 0;border-top:1px solid #F0DDD0;margin-top:10px;">
+                                <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:#C0392B;">Match refusé</span>
+                            </div>`;
+            } else {
+                actionHTML = `<div style="display:flex;gap:8px;padding-top:12px;border-top:1px solid #F0DDD0;margin-top:10px;">
+                                <button onclick="respondMatch('${m.id}','refuse',${isUserA})" style="flex:1;padding:10px;background:transparent;border:1px solid #E8C8B4;border-radius:2px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#A08878;cursor:pointer;">Refuser</button>
+                                <button onclick="respondMatch('${m.id}','accepte',${isUserA})" style="flex:2;padding:10px;background:#E8622A;border:none;border-radius:2px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#FDF8F4;cursor:pointer;">Accepter le date !</button>
+                            </div>`;
+            }
+
             const card = document.createElement('div');
             card.className = 'match-card';
+            card.style.cursor = 'default';
             card.innerHTML = `
                         <div class="match-card-top">
                             <div class="match-av">${name.charAt(0).toUpperCase()}</div>
-                            <div><div class="match-name">${name}</div><div style="font-family:var(--font-serif);font-size:12px;font-style:italic;color:#A08878;margin-top:2px">${other ? other.age + ' ans' : ''}</div></div>
+                            <div style="flex:1">
+                                <div class="match-name">${name}</div>
+                                <div style="font-family:'Newsreader',serif;font-size:12px;font-style:italic;color:#A08878;margin-top:2px;">${other ? other.age + ' ans' : ''}</div>
+                            </div>
                             <div class="match-score">${score}<span>%</span></div>
                         </div>
                         <div class="match-bar"><div class="match-bar-fill" style="width:${score}%"></div></div>
-                        <div class="match-status">${m.statut === 'accepte' ? '✓ Date confirmé' : 'En attente de confirmation'}</div>`;
-            card.onclick = () => openDetail(m, name, score);
+                        <div style="font-family:'Newsreader',serif;font-size:13px;font-style:italic;color:#7A5A48;line-height:1.5;margin:8px 0 0;">
+                            Vos réponses sont alignées à <strong style="color:#1C1410;">${score}%</strong>. Ici, on rencontre vraiment.
+                        </div>
+                        ${actionHTML}`;
             el.appendChild(card);
         }
+    }
+
+    async function respondMatch(matchId, reponse, isUserA) {
+        const col = isUserA ? 'reponse_a' : 'reponse_b';
+        const update = {
+            [col]: reponse
+        };
+
+        if (reponse === 'refuse')
+            update.statut = 'refuse';
+
+        const {data: match} = await sb.from('matches').update(update).eq('id', matchId).select().single();
+
+        if (reponse === 'accepte' && match) {
+            const autreReponse = isUserA ? match.reponse_b : match.reponse_a;
+            if (autreReponse === 'accepte') {
+                await sb.from('matches').update({
+                    statut: 'accepte'
+                }).eq('id', matchId);
+                showToast('🎉 Match accepté des deux côtés ! Un café vous attend.');
+                setTimeout(() => loadMatchs(), 500);
+                return;
+            }
+        }
+
+        if (reponse === 'refuse') {
+            const {data: m} = await sb.from('matches').select('user_a,user_b').eq('id', matchId).single();
+            if (m) {
+                await sb.from('users').update({
+                    statut_match: 'en_attente'
+                }).eq('id', m.user_a);
+                await sb.from('users').update({
+                    statut_match: 'en_attente'
+                }).eq('id', m.user_b);
+            }
+            showToast('Match refusé — tu seras remis en matching bientôt.');
+        } else {
+            showToast('Super ! On attend sa réponse.');
+        }
+
+        setTimeout(() => loadMatchs(), 500);
     }
     function renderNoMatch(el) {
         el.innerHTML = `<div class="match-empty"><div class="match-empty-title">Pas encore de match</div><p class="match-empty-sub">Ici, on rencontre vraiment. On cherche quelqu'un qui pense comme toi.</p></div>`;
@@ -2683,9 +2764,27 @@
             for (let i = 0; i < users.length; i++) {
                 if (used.has(users[i].id))
                     continue;
+                // Vérifier qu'il n'a pas déjà un match actif
+                const {data: existingA} = await sb.from('matches')
+                .select('id').or(`user_a.eq.${users[i].id},user_b.eq.${users[i].id}`)
+                .in('statut', ['pending', 'accepte']).limit(1);
+                if (existingA && existingA.length > 0) {
+                    used.add(users[i].id);
+                    continue;
+                }
+
                 for (let j = i + 1; j < users.length; j++) {
                     if (used.has(users[j].id))
                         continue;
+                    // Vérifier que l'autre n'a pas déjà un match actif
+                    const {data: existingB} = await sb.from('matches')
+                    .select('id').or(`user_a.eq.${users[j].id},user_b.eq.${users[j].id}`)
+                    .in('statut', ['pending', 'accepte']).limit(1);
+                    if (existingB && existingB.length > 0) {
+                        used.add(users[j].id);
+                        continue;
+                    }
+
                     const score = compatibilityScore(users[i].reponses, users[j].reponses);
                     if (score >= 70) {
                         await sb.from('matches').insert({
