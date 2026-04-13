@@ -78,7 +78,7 @@
     .tab-screen {
         position: absolute;
         inset: 0;
-        bottom: var(--nav-h);
+        bottom: calc(var(--nav-h) + env(safe-area-inset-bottom));
         display: flex;
         flex-direction: column;
         opacity: 0;
@@ -97,7 +97,7 @@
         bottom: 0;
         left: 0;
         right: 0;
-        height: var(--nav-h);
+        height: calc(var(--nav-h) + env(safe-area-inset-bottom));
         background: #0D0D0D;
         border-top: 1px solid var(--line);
         display: none;
@@ -282,7 +282,7 @@
 
     .toast {
         position: fixed;
-        bottom: calc(var(--nav-h) + 16px);
+        bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + 16px);
         left: 50%;
         transform: translateX(-50%);
         background: var(--white);
@@ -1030,7 +1030,7 @@
     .match-detail {
         position: absolute;
         inset: 0;
-        bottom: var(--nav-h);
+        bottom: calc(var(--nav-h) + env(safe-area-inset-bottom));
         background: var(--black);
         z-index: 50;
         display: none;
