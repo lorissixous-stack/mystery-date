@@ -123,11 +123,6 @@
         background: var(--cream2)
     }
 
-    .btn-danger {
-        background: #e05555;
-        color: white
-    }
-
     .input {
         width: 100%;
         padding: 14px 18px;
@@ -149,33 +144,6 @@
         color: var(--ink3)
     }
 
-    .loading-overlay {
-        position: absolute;
-        inset: 0;
-        background: rgba(245, 242, 237, .9);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        z-index: 100;
-        gap: 16px
-    }
-
-    .spinner {
-        width: 32px;
-        height: 32px;
-        border: 2px solid var(--border2);
-        border-top-color: var(--sage);
-        border-radius: 50%;
-        animation: spin .8s linear infinite
-    }
-
-    @keyframes spin {
-        to {
-            transform: rotate(360deg)
-        }
-    }
-
     .toast {
         position: absolute;
         bottom: 32px;
@@ -195,7 +163,31 @@
 
     .toast.show {
         opacity: 1
-    }/* HOME */
+    }
+
+    .spinner-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin: 12px 0
+    }
+
+    .spinner {
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--border2);
+        border-top-color: var(--sage);
+        border-radius: 50%;
+        animation: spin .8s linear infinite
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg)
+        }
+    }
+
     #s-home {
         background: var(--cream);
         overflow: hidden
@@ -306,12 +298,6 @@
         gap: 10px
     }
 
-    .h-count {
-        text-align: center;
-        margin-top: 10px;
-        font-size: 12px;
-        color: var(--ink3)
-    }/* PAGES */
     .pg-head {
         padding: 52px 28px 20px;
         flex-shrink: 0
@@ -411,7 +397,8 @@
         flex-direction: column;
         gap: 10px;
         flex-shrink: 0
-    }/* RECHERCHE */
+    }
+
     .rech-list {
         padding: 8px 28px 16px;
         display: flex;
@@ -481,7 +468,8 @@
         background: var(--sage);
         border-color: var(--sage);
         color: white
-    }/* QUESTIONS */
+    }
+
     #s-questions {
         overflow: hidden
     }
@@ -609,7 +597,8 @@
         color: var(--ink3);
         letter-spacing: .04em;
         margin-top: 10px
-    }/* WAITING */
+    }
+
     #s-waiting {
         align-items: center;
         justify-content: center;
@@ -737,7 +726,8 @@
         color: var(--ink2);
         line-height: 1.6;
         margin-top: 10px
-    }/* MATCH */
+    }
+
     .mtop {
         padding: 48px 28px 24px;
         background: var(--sage-bg);
@@ -923,7 +913,8 @@
         flex-direction: column;
         gap: 10px;
         flex-shrink: 0
-    }/* ADMIN */
+    }
+
     #s-admin {
         background: var(--cream)
     }
@@ -936,7 +927,8 @@
 
     .admin-body {
         padding: 16px 24px;
-        flex: 1
+        flex: 1;
+        overflow-y: auto
     }
 
     .admin-stat-grid {
@@ -1036,8 +1028,6 @@
 </head>
 <body>
     <div id="app">
-
-        <!-- TOAST -->
         <div class="toast" id="toast"></div>
 
         <!-- HOME -->
@@ -1216,7 +1206,7 @@
                     </div>
                     <div class="av av-b">?</div>
                 </div>
-                <div class="mscore" id="mscore">
+                <div class="mscore">
                     94
                     <sup>%</sup>
                 </div>
@@ -1237,14 +1227,14 @@
                     <div class="drow">
                         <div class="dico">📅</div>
                         <div>
-                            <div class="dlbl" id="match-date">Samedi 19 avril</div>
+                            <div class="dlbl">Samedi 19 avril</div>
                             <div class="dsub">19h30</div>
                         </div>
                     </div>
                     <div class="drow">
                         <div class="dico">📍</div>
                         <div>
-                            <div class="dlbl" id="match-lieu">Paris, 11e arrondissement</div>
+                            <div class="dlbl">Paris, 11e arrondissement</div>
                             <div class="dsub">Adresse révélée 1h avant</div>
                         </div>
                     </div>
@@ -1252,7 +1242,7 @@
                         <div class="dico">✦</div>
                         <div>
                             <div class="dlbl">Lieu surprise</div>
-                            <div class="dsub" id="match-raison">Selon vos goûts communs</div>
+                            <div class="dsub">Selon vos goûts communs</div>
                         </div>
                     </div>
                 </div>
@@ -1281,7 +1271,7 @@
             </div>
         </div>
 
-        <!-- ADMIN DASHBOARD -->
+        <!-- ADMIN -->
         <div class="screen" id="s-admin">
             <div class="admin-head">
                 <div style="display:flex;justify-content:space-between;align-items:flex-start">
@@ -1292,8 +1282,8 @@
                     <button onclick="loadAdmin()" style="background:var(--sage-bg);border:none;border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:16px">↻</button>
                 </div>
             </div>
-            <div class="admin-body" style="overflow-y:auto">
-                <div class="admin-stat-grid" id="admin-stats">
+            <div class="admin-body">
+                <div class="admin-stat-grid">
                     <div class="astat">
                         <div class="astat-num" id="stat-users">–</div>
                         <div class="astat-lbl">Inscrits</div>
@@ -1316,17 +1306,18 @@
                     <p style="font-size:13px;color:var(--ink3)">Chargement…</p>
                 </div>
                 <div style="margin-top:20px" class="section-lbl">Actions</div>
-                <button class="btn btn-sage" onclick="runMatching()" style="margin-bottom:10px">Lancer le matching IA maintenant</button>
+                <button class="btn btn-sage" onclick="runMatching()" style="margin-bottom:10px">Lancer le matching IA</button>
                 <button class="btn btn-outline" onclick="goTo('s-home')">Retour à l'app</button>
             </div>
         </div>
 
     </div>
-
     <script>
     const SUPA_URL = 'https://kbekoqwcvacwcrzwftir.supabase.co';
     const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtiZWtvcXdjdmFjd2NyendmdGlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYwODYzNzUsImV4cCI6MjA5MTY2MjM3NX0.gYrzVsno2UZeT_9P6moFMUbubqxXNagG5yXIaACejvg';
-    const ADMIN_PASSWORD = 'mysterydateparis2024';
+
+    // ⚠️ CHANGEZ CE MOT DE PASSE — cherchez cette ligne dans GitHub pour le modifier
+    const ADMIN_PASSWORD = '@@Loris002@@';
 
     const st = {
         genre: null,
@@ -1334,6 +1325,7 @@
         reponses: [],
         prenom: '',
         email: '',
+        age: 0,
         userId: null
     };
     const qs = [
@@ -1400,14 +1392,6 @@
         return r.status === 204 ? null : r.json();
     }
 
-    async function initDB() {
-        try {
-            await supa('users?limit=1');
-        } catch (e) {
-            showToast('Base de données non initialisée — voir README');
-        }
-    }
-
     function goTo(id) {
         document.querySelectorAll('.screen').forEach(s => {
             if (s.classList.contains('active')) {
@@ -1425,34 +1409,18 @@
         setTimeout(() => t.classList.remove('show'), duration);
     }
 
-    function showLoading(screenId) {
-        const s = document.getElementById(screenId);
-        const ov = document.createElement('div');
-        ov.className = 'loading-overlay';
-        ov.id = 'loading-' + screenId;
-        ov.innerHTML = '<div class="spinner"></div><span style="font-size:13px;color:var(--ink2)">Un instant…</span>';
-        s.appendChild(ov);
-    }
-
-    function hideLoading(screenId) {
-        const ov = document.getElementById('loading-' + screenId);
-        if (ov)
-            ov.remove();
-    }
-
     function sg(b, v) {
         st.genre = v;
         document.querySelectorAll('.g-opt').forEach(x => x.classList.remove('sel'));
         b.classList.add('sel');
     }
-
     function sr(b, v) {
         st.recherche = v;
         document.querySelectorAll('.rech-item').forEach(x => x.classList.remove('sel'));
         b.classList.add('sel');
     }
 
-    async function vsignup() {
+    function vsignup() {
         const p = document.getElementById('ip').value.trim();
         const a = document.getElementById('ia').value;
         const e = document.getElementById('ie').value.trim();
@@ -1462,6 +1430,10 @@
         }
         if (parseInt(a) < 18) {
             showToast('Tu dois avoir 18 ans minimum');
+            return;
+        }
+        if (!e.includes('@')) {
+            showToast('Email invalide');
             return;
         }
         st.prenom = p;
@@ -1508,6 +1480,9 @@
             c.classList.remove('right', 'left');
             qi++;
             if (qi >= qs.length) {
+                // ✅ FIX : on sauvegarde ICI après la dernière question
+                goTo('s-waiting');
+                startTimer();
                 await saveUser();
             } else
                 renderQ();
@@ -1515,8 +1490,6 @@
     }
 
     async function saveUser() {
-        goTo('s-waiting');
-        startTimer();
         try {
             const data = await supa('users', 'POST', {
                 prenom: st.prenom,
@@ -1534,7 +1507,12 @@
                 updateUserCount();
             }
         } catch (e) {
-            showToast('Erreur de connexion — réessaie');
+            // Email déjà utilisé ?
+            if (e.message.includes('unique') || e.message.includes('duplicate')) {
+                showToast('Cet email est déjà inscrit');
+            } else {
+                showToast('Erreur — réessaie dans un instant');
+            }
             console.error(e);
         }
     }
@@ -1555,7 +1533,7 @@
     async function updateUserCount() {
         try {
             const data = await supa('users?select=id');
-            if (data)
+            if (data && data.length > 0)
                 document.getElementById('user-count').textContent = 'Paris · ' + data.length + ' inscrits';
         } catch (e) {}
     }
@@ -1568,7 +1546,7 @@
                 });
             } catch (e) {}
         }
-        showToast('🎉 Date confirmé ! Email envoyé.');
+        showToast('🎉 Date confirmé !');
         setTimeout(() => goTo('s-home'), 1500);
     }
 
@@ -1577,9 +1555,9 @@
         if (pw === ADMIN_PASSWORD) {
             goTo('s-admin');
             loadAdmin();
-        } else {
-            showToast('Mot de passe incorrect');
         }
+        else
+            showToast('Mot de passe incorrect');
     }
 
     async function loadAdmin() {
@@ -1587,46 +1565,42 @@
         try {
             const users = await supa('users?order=created_at.desc&limit=50');
             const matches = await supa('matches?select=id,statut');
-
             const total = users ? users.length : 0;
             const matchCount = matches ? matches.length : 0;
             const waiting = users ? users.filter(u => u.statut_match === 'en_attente').length : 0;
             const accepted = matches ? matches.filter(m => m.statut === 'accepte').length : 0;
-
             document.getElementById('stat-users').textContent = total;
             document.getElementById('stat-matches').textContent = matchCount;
             document.getElementById('stat-waiting').textContent = waiting;
             document.getElementById('stat-accepted').textContent = accepted;
-
             if (!users || users.length === 0) {
                 document.getElementById('admin-users').innerHTML = '<p style="font-size:13px;color:var(--ink3)">Aucun utilisateur encore.</p>';
                 return;
             }
-
-            document.getElementById('admin-users').innerHTML = users.slice(0, 10).map(u => `
+            document.getElementById('admin-users').innerHTML = users.slice(0, 15).map(u => `
                   <div class="user-row">
                     <div class="user-av">${u.prenom ? u.prenom.charAt(0).toUpperCase() : '?'}</div>
-                    <div>
+                    <div style="flex:1;min-width:0">
                       <div class="user-name">${u.prenom || '–'}, ${u.age || '–'} ans</div>
-                      <div class="user-info">${u.genre || '–'} · cherche ${u.recherche_genre || '–'} · ${u.email || ''}</div>
+                      <div class="user-info">${u.genre || '–'} · cherche ${u.recherche_genre || '–'}</div>
+                      <div class="user-info">${u.email || ''}</div>
                     </div>
                     <span class="user-badge ${u.statut_match === 'en_attente' ? 'badge-wait' : 'badge-match'}">${u.statut_match === 'en_attente' ? 'Attente' : 'Matché'}</span>
-                  </div>
-                `).join('');
+                  </div>`).join('');
         } catch (e) {
-            document.getElementById('admin-users').innerHTML = '<p style="font-size:13px;color:#e05555">Erreur : tables non créées. Voir README.</p>';
+            document.getElementById('admin-users').innerHTML = '<p style="font-size:13px;color:#e05555">Erreur de connexion Supabase.</p>';
         }
     }
 
     async function runMatching() {
-        showToast('Matching en cours…', 5000);
+        showToast('Analyse en cours…', 5000);
         try {
-            const users = await supa('users?statut_match=eq.en_attente');
+            const users = await supa('users?statut_match=eq.en_attente&order=created_at.asc');
             if (!users || users.length < 2) {
                 showToast('Pas assez de profils en attente');
                 return;
             }
-            showToast('✓ ' + users.length + ' profils analysés');
+            showToast('✓ ' + users.length + ' profils analysés — matching à venir');
             loadAdmin();
         } catch (e) {
             showToast('Erreur lors du matching');
@@ -1635,48 +1609,5 @@
 
     updateUserCount();
     </script>
-
-    <!-- README intégré -->
-    <!--
-    === SETUP SUPABASE ===
-    Créez ces deux tables dans Supabase > SQL Editor :
-
-    CREATE TABLE users (
-      id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
-      prenom text,
-      email text UNIQUE,
-      age integer,
-      genre text,
-      recherche_genre text,
-      reponses boolean[],
-      statut_match text DEFAULT 'en_attente',
-      created_at timestamptz DEFAULT now()
-    );
-
-    CREATE TABLE matches (
-      id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
-      user_a uuid REFERENCES users(id),
-      user_b uuid REFERENCES users(id),
-      score integer,
-      lieu text,
-      adresse text,
-      date_rdv timestamptz,
-      statut text DEFAULT 'propose',
-      created_at timestamptz DEFAULT now()
-    );
-
-    ALTER TABLE users ENABLE ROW LEVEL SECURITY;
-    ALTER TABLE matches ENABLE ROW LEVEL SECURITY;
-    CREATE POLICY "public insert users" ON users FOR INSERT WITH CHECK (true);
-    CREATE POLICY "public select users" ON users FOR SELECT USING (true);
-    CREATE POLICY "public update users" ON users FOR UPDATE USING (true);
-    CREATE POLICY "public insert matches" ON matches FOR INSERT WITH CHECK (true);
-    CREATE POLICY "public select matches" ON matches FOR SELECT USING (true);
-    CREATE POLICY "public update matches" ON matches FOR UPDATE USING (true);
-
-    === MOT DE PASSE ADMIN ===
-    Par défaut : mysterydateparis2024
-    Changez la constante ADMIN_PASSWORD dans le code.
-    -->
 </body>
 </html>
