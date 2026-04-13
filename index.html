@@ -4,45 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="theme-color" content="#f5f2ed">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0A0A0A">
     <title>Mystery Date</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,600&display=swap" rel="stylesheet">
     <style>
     *, *::before, *::after {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
-        -webkit-tap-highlight-color: transparent
+        -webkit-tap-highlight-color: transparent;
     }
 
     :root {
-        --cream: #f5f2ed;
-        --cream2: #ede9e2;
-        --cream3: #e3ddd5;
-        --sage: #7a9e87;
-        --sage-lt: #a8c4b0;
-        --sage-dk: #4f7460;
-        --sage-bg: #edf2ee;
-        --blush: #d4a5a0;
-        --ink: #1e1e1e;
-        --ink2: #5a5650;
-        --ink3: #9a958f;
-        --border: rgba(30, 30, 30, 0.08);
-        --border2: rgba(30, 30, 30, 0.15);
-        --font-serif: 'Cormorant Garamond', Georgia, serif;
-        --font-sans: 'Jost', sans-serif;
-        --radius: 18px;
-        --radius-sm: 10px;
+        --black:    #0A0A0A;
+        --white:    #F5F3EE;
+        --gray:     #8A8A8A;
+        --line:     #1E1E1E;
+        --line2:    #2A2A2A;
+        --accent:   #C8FF00;
+        --red:      #FF3C3C;
+        --blue:     #7878FF;
+        --ink:      #F5F3EE;
+        --ink2:     #B8B5AF;
+        --ink3:     #555555;
+        --border:   rgba(255,255,255,0.06);
+        --border2:  rgba(255,255,255,0.14);
+        --font-serif: 'Newsreader', Georgia, serif;
+        --font-sans:  'Syne', sans-serif;
+        --font-mono:  'DM Mono', monospace;
+        --radius:    4px;
+        --radius-sm: 2px;
     }
 
     html, body {
         height: 100%;
-        background: var(--cream);
+        background: var(--black);
         color: var(--ink);
-        font-family: var(--font-sans);
+        font-family: var(--font-serif);
         font-weight: 400;
-        overflow: hidden
+        overflow: hidden;
     }
 
     #app {
@@ -52,7 +53,7 @@
         margin: 0 auto;
         position: relative;
         overflow: hidden;
-        background: var(--cream)
+        background: var(--black);
     }
 
     .screen {
@@ -63,1551 +64,1579 @@
         opacity: 0;
         pointer-events: none;
         transform: translateX(28px);
-        transition: all .38s cubic-bezier(.4, 0, .2, 1);
-        overflow-y: auto
+        transition: all .38s cubic-bezier(.4,0,.2,1);
+        overflow-y: auto;
     }
-
     .screen.active {
         opacity: 1;
         pointer-events: all;
-        transform: translateX(0)
+        transform: translateX(0);
     }
-
     .screen.exit {
         opacity: 0;
-        transform: translateX(-28px)
+        transform: translateX(-28px);
     }
 
+    /* ── BUTTONS ── */
     .btn {
         width: 100%;
         padding: 15px 24px;
-        border-radius: 50px;
         border: none;
         font-family: var(--font-sans);
-        font-size: 14px;
-        font-weight: 500;
-        letter-spacing: .06em;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: .08em;
+        text-transform: uppercase;
         cursor: pointer;
-        transition: all .2s
+        transition: all .2s;
+        border-radius: 2px;
     }
-
-    .btn:active {
-        transform: scale(.97)
-    }
-
+    .btn:active { transform: scale(.97); }
     .btn-primary {
-        background: var(--ink);
-        color: var(--cream)
+        background: var(--accent);
+        color: var(--black);
     }
-
-    .btn-primary:hover {
-        background: var(--sage-dk)
-    }
-
-    .btn-sage {
-        background: var(--sage);
-        color: white
-    }
-
-    .btn-sage:hover {
-        background: var(--sage-dk)
-    }
-
+    .btn-primary:hover { background: var(--white); }
     .btn-outline {
         background: transparent;
-        color: var(--ink);
-        border: 1px solid var(--border2)
+        color: var(--ink3);
+        border: 1px solid var(--line2);
     }
+    .btn-outline:hover { border-color: var(--ink3); color: var(--ink); }
 
-    .btn-outline:hover {
-        background: var(--cream2)
-    }
-
+    /* ── INPUTS ── */
     .input {
         width: 100%;
-        padding: 14px 18px;
-        background: white;
-        border: 1px solid var(--border);
-        border-radius: var(--radius-sm);
+        padding: 14px 0;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid var(--line2);
         color: var(--ink);
-        font-family: var(--font-sans);
-        font-size: 15px;
+        font-family: var(--font-serif);
+        font-size: 16px;
+        font-style: italic;
         outline: none;
-        transition: border-color .2s
+        transition: border-color .2s;
     }
+    .input:focus { border-color: var(--accent); }
+    .input::placeholder { color: var(--ink3); }
 
-    .input:focus {
-        border-color: var(--sage)
-    }
-
-    .input::placeholder {
-        color: var(--ink3)
-    }
-
+    /* ── TOAST ── */
     .toast {
         position: absolute;
         bottom: 32px;
         left: 50%;
         transform: translateX(-50%);
-        background: var(--ink);
-        color: var(--cream);
+        background: var(--white);
+        color: var(--black);
         padding: 10px 20px;
-        border-radius: 30px;
-        font-size: 13px;
+        border-radius: 2px;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        letter-spacing: .04em;
         white-space: nowrap;
         z-index: 200;
         opacity: 0;
         transition: opacity .3s;
-        pointer-events: none
+        pointer-events: none;
     }
+    .toast.show { opacity: 1; }
 
-    .toast.show {
-        opacity: 1
-    }
-
-    .spinner-wrap {
+    /* ── LABELS ── */
+    .eyebrow {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 10px;
         display: flex;
         align-items: center;
-        justify-content: center;
-        gap: 10px;
-        margin: 12px 0
+        gap: 8px;
     }
-
-    .spinner {
+    .eyebrow::before {
+        content: '';
+        display: block;
         width: 20px;
-        height: 20px;
-        border: 2px solid var(--border2);
-        border-top-color: var(--sage);
-        border-radius: 50%;
-        animation: spin .8s linear infinite
+        height: 1px;
+        background: var(--accent);
     }
 
-    @keyframes spin {
-        to {
-            transform: rotate(360deg)
-        }
-    }
-
+    /* ════════════════════════════
+       HOME
+    ════════════════════════════ */
     #s-home {
-        background: var(--cream);
-        overflow: hidden
-    }
-
-    .home-img {
-        height: 52vh;
-        position: relative;
+        background: var(--black);
         overflow: hidden;
-        background: var(--sage-bg);
-        flex-shrink: 0
+        justify-content: space-between;
     }
-
-    .home-grid {
-        position: absolute;
-        inset: 0;
-        background-image: repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(122, 158, 135, .12) 39px, rgba(122, 158, 135, .12) 40px), repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(122, 158, 135, .12) 39px, rgba(122, 158, 135, .12) 40px)
+    .home-top {
+        padding: 52px 28px 0;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
-
-    .home-letter {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-family: var(--font-serif);
-        font-size: 200px;
-        font-weight: 300;
+    .home-logo {
+        font-family: var(--font-sans);
+        font-weight: 800;
+        font-size: 13px;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        color: var(--ink3);
+        margin-bottom: 40px;
+    }
+    .home-logo span { color: var(--accent); }
+    .h-title {
+        font-family: var(--font-sans);
+        font-weight: 800;
+        font-size: clamp(3.2rem, 16vw, 5rem);
+        line-height: .92;
+        letter-spacing: -.03em;
+        text-transform: uppercase;
+        color: var(--ink);
+        margin-bottom: 20px;
+    }
+    .h-title em {
         font-style: italic;
-        color: var(--sage);
-        opacity: .25;
-        user-select: none;
-        line-height: 1
+        font-family: var(--font-serif);
+        font-weight: 400;
+        color: var(--ink3);
     }
-
+    .h-sub {
+        font-size: 1rem;
+        color: var(--ink2);
+        line-height: 1.65;
+        font-style: italic;
+        max-width: 300px;
+        margin-bottom: 32px;
+    }
     .home-pill {
-        position: absolute;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        padding: 8px 18px;
-        background: white;
-        border-radius: 30px;
-        border: 1px solid var(--border2);
-        white-space: nowrap
+        border: 1px solid var(--line2);
+        padding: 7px 14px;
+        border-radius: 2px;
+        margin-bottom: 36px;
     }
-
     .pulse {
         width: 7px;
         height: 7px;
         border-radius: 50%;
-        background: var(--sage);
-        animation: pulse 2s infinite
+        background: var(--accent);
+        animation: pulse 2s infinite;
     }
-
     @keyframes pulse {
-        0%, 100% {
-            opacity: 1;
-            transform:scale(1)
-        }
-
-        50% {
-            opacity: .5;
-            transform: scale(.75)
-        }
+        0%,100% { opacity:1; transform:scale(1); }
+        50%      { opacity:.4; transform:scale(.7); }
     }
-
-    .home-bot {
-        padding: 24px 28px 40px;
-        flex: 1
-    }
-
-    .eyebrow {
+    .pill-txt {
+        font-family: var(--font-mono);
         font-size: 11px;
-        font-weight: 500;
-        letter-spacing: .12em;
+        letter-spacing: .06em;
         text-transform: uppercase;
-        color: var(--sage-dk);
-        margin-bottom: 8px
+        color: var(--ink3);
     }
-
-    .h-title {
-        font-family: var(--font-serif);
-        font-size: 42px;
-        font-weight: 300;
-        line-height: 1.05;
-        color: var(--ink);
-        margin-bottom: 12px
-    }
-
-    .h-title em {
-        font-style: italic;
-        color: var(--sage-dk)
-    }
-
-    .h-sub {
-        font-size: 14px;
-        color: var(--ink2);
-        line-height: 1.6;
-        margin-bottom: 24px
-    }
-
-    .h-btns {
+    .home-bot {
+        padding: 0 28px 44px;
         display: flex;
         flex-direction: column;
-        gap: 10px
+        gap: 10px;
+        border-top: 1px solid var(--line);
+        padding-top: 20px;
     }
 
+    /* ════════════════════════════
+       PAGES GÉNÉRIQUES
+    ════════════════════════════ */
     .pg-head {
-        padding: 52px 28px 20px;
-        flex-shrink: 0
+        padding: 52px 28px 24px;
+        flex-shrink: 0;
     }
-
-    .segs {
-        display: flex;
-        gap: 5px;
-        margin-bottom: 20px
-    }
-
-    .seg {
-        height: 2px;
-        border-radius: 1px;
-        flex: 1;
-        background: var(--border2);
-        transition: background .3s
-    }
-
-    .seg.on {
-        background: var(--sage)
-    }
-
     .pg-eye {
+        font-family: var(--font-mono);
         font-size: 11px;
-        font-weight: 500;
         letter-spacing: .1em;
         text-transform: uppercase;
         color: var(--ink3);
-        margin-bottom: 8px
+        margin-bottom: 12px;
     }
-
     .pg-title {
-        font-family: var(--font-serif);
-        font-size: 30px;
-        font-weight: 300;
-        line-height: 1.2;
-        color: var(--ink)
+        font-family: var(--font-sans);
+        font-weight: 800;
+        font-size: 2.2rem;
+        line-height: .95;
+        letter-spacing: -.02em;
+        text-transform: uppercase;
+        color: var(--ink);
     }
-
     .pg-title em {
         font-style: italic;
-        color: var(--sage-dk)
+        font-family: var(--font-serif);
+        font-weight: 400;
+        color: var(--ink3);
     }
-
     .pg-sub {
         font-size: 14px;
         color: var(--ink2);
-        margin-top: 6px
+        font-style: italic;
+        margin-top: 8px;
+        line-height: 1.6;
     }
-
+    .segs {
+        display: flex;
+        gap: 4px;
+        margin-bottom: 20px;
+    }
+    .seg {
+        height: 1px;
+        flex: 1;
+        background: var(--line2);
+        transition: background .3s;
+    }
+    .seg.on { background: var(--accent); }
     .form-body {
         padding: 8px 28px 16px;
         display: flex;
         flex-direction: column;
-        gap: 16px
+        gap: 24px;
     }
-
     .flbl {
-        font-size: 11px;
-        font-weight: 500;
-        letter-spacing: .08em;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        letter-spacing: .1em;
         text-transform: uppercase;
         color: var(--ink3);
-        margin-bottom: 7px
+        margin-bottom: 4px;
     }
-
-    .g-grid {
-        display: flex;
-        gap: 8px
-    }
-
-    .g-opt {
-        flex: 1;
-        padding: 12px 6px;
-        text-align: center;
-        background: white;
-        border: 1px solid var(--border);
-        border-radius: var(--radius-sm);
-        font-family: var(--font-sans);
-        font-size: 13px;
-        color: var(--ink2);
-        cursor: pointer;
-        transition: all .2s
-    }
-
-    .g-opt.sel {
-        background: var(--sage-bg);
-        border-color: var(--sage);
-        color: var(--sage-dk);
-        font-weight: 500
-    }
-
     .pg-foot {
         padding: 8px 28px 44px;
         display: flex;
         flex-direction: column;
         gap: 10px;
-        flex-shrink: 0
+        flex-shrink: 0;
     }
 
+    /* ── GENRE OPTIONS ── */
+    .g-grid { display: flex; gap: 8px; }
+    .g-opt {
+        flex: 1;
+        padding: 12px 6px;
+        text-align: center;
+        background: transparent;
+        border: 1px solid var(--line2);
+        border-radius: 2px;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+        color: var(--ink3);
+        cursor: pointer;
+        transition: all .2s;
+    }
+    .g-opt.sel {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: rgba(200,255,0,.06);
+    }
+
+    /* ── RECHERCHE LIST ── */
     .rech-list {
         padding: 8px 28px 16px;
         display: flex;
         flex-direction: column;
-        gap: 10px
+        gap: 8px;
     }
-
     .rech-item {
         display: flex;
         align-items: center;
         gap: 14px;
         padding: 16px 18px;
-        background: white;
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
+        background: transparent;
+        border: 1px solid var(--line2);
+        border-radius: 2px;
         cursor: pointer;
-        transition: all .2s
+        transition: all .2s;
+        text-align: left;
     }
-
     .rech-item:hover, .rech-item.sel {
-        background: var(--sage-bg);
-        border-color: var(--sage)
+        border-color: var(--accent);
+        background: rgba(200,255,0,.04);
     }
-
     .rech-ico {
-        width: 44px;
-        height: 44px;
-        border-radius: 50%;
-        background: var(--cream2);
+        width: 40px;
+        height: 40px;
+        border-radius: 2px;
+        background: var(--line);
         display: flex;
         align-items: center;
         justify-content: center;
         font-family: var(--font-serif);
         font-size: 18px;
-        color: var(--sage-dk);
-        flex-shrink: 0
-    }
-
-    .rech-lbl {
-        font-size: 15px;
-        font-weight: 500;
-        color: var(--ink)
-    }
-
-    .rech-sub {
-        font-size: 13px;
         color: var(--ink3);
-        margin-top: 2px
+        flex-shrink: 0;
     }
-
+    .rech-lbl {
+        font-family: var(--font-sans);
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--ink);
+        text-transform: uppercase;
+        letter-spacing: .04em;
+    }
+    .rech-sub {
+        font-family: var(--font-serif);
+        font-size: 12px;
+        font-style: italic;
+        color: var(--ink3);
+        margin-top: 2px;
+    }
     .rech-chk {
         margin-left: auto;
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        border: 1.5px solid var(--border2);
+        width: 22px;
+        height: 22px;
+        border: 1px solid var(--line2);
+        border-radius: 2px;
         flex-shrink: 0;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 12px;
+        font-size: 11px;
         color: transparent;
-        transition: all .2s
+        transition: all .2s;
+        font-family: var(--font-mono);
     }
-
     .rech-item.sel .rech-chk {
-        background: var(--sage);
-        border-color: var(--sage);
-        color: white
+        background: var(--accent);
+        border-color: var(--accent);
+        color: var(--black);
     }
 
-    #s-questions {
-        overflow: hidden
-    }
+    /* ════════════════════════════
+       FLASH CARDS
+    ════════════════════════════ */
+    #s-questions { overflow: hidden; }
 
     .q-wrap {
-        padding: 52px 24px 36px;
+        padding: 52px 20px 32px;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        height: 100%
+        height: 100%;
+        gap: 0;
     }
-
+    .q-header {
+        flex-shrink: 0;
+        margin-bottom: 16px;
+    }
     .qbars {
         display: flex;
-        gap: 4px;
-        margin-bottom: 8px
+        gap: 3px;
+        margin-bottom: 10px;
     }
-
     .qb {
-        height: 2px;
-        border-radius: 1px;
+        height: 1px;
         flex: 1;
-        background: var(--border2);
-        transition: background .4s
+        background: var(--line2);
+        transition: background .4s;
     }
-
-    .qb.done {
-        background: var(--sage)
-    }
-
-    .qb.now {
-        background: var(--sage-lt)
-    }
-
+    .qb.done { background: var(--accent); }
+    .qb.now  { background: var(--ink3); }
     .qmeta {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 16px
+    }
+    .qmeta-left {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        color: var(--ink3);
+    }
+    .qmeta-right {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--ink3);
     }
 
-    .qcard {
+    /* card stack */
+    .card-stack {
         flex: 1;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .flash-card {
+        position: absolute;
+        width: 100%;
+        max-width: 340px;
+        height: 280px;
+        background: #111;
+        border: 1px solid var(--line2);
+        border-radius: 4px;
+        padding: 1.8rem 1.6rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        cursor: grab;
+        user-select: none;
+        transition: transform .08s ease;
+        will-change: transform;
+    }
+    .flash-card:active { cursor: grabbing; }
+    .flash-card.behind-1 {
+        transform: translateY(10px) scale(0.96);
+        z-index: 1;
+        pointer-events: none;
+    }
+    .flash-card.behind-2 {
+        transform: translateY(20px) scale(0.92);
+        z-index: 0;
+        pointer-events: none;
+    }
+    .flash-card.top { z-index: 10; }
+
+    /* vote overlays */
+    .vote-overlay {
+        position: absolute;
+        inset: 0;
+        border-radius: 4px;
+        opacity: 0;
+        pointer-events: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity .1s;
+    }
+    .vote-yes   { background: rgba(200,255,0,.08);  border: 2px solid var(--accent); }
+    .vote-no    { background: rgba(255,60,60,.08);  border: 2px solid var(--red); }
+    .vote-maybe { background: rgba(120,120,255,.08); border: 2px solid var(--blue); }
+    .vote-label {
+        font-family: var(--font-sans);
+        font-weight: 800;
+        font-size: 1.6rem;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+    }
+    .vote-yes   .vote-label { color: var(--accent); }
+    .vote-no    .vote-label { color: var(--red); }
+    .vote-maybe .vote-label { color: var(--blue); }
+
+    /* card content */
+    .card-num {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        color: var(--ink3);
+    }
+    .card-body {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        padding: .8rem 0;
+    }
+    .card-text {
+        font-family: var(--font-serif);
+        font-size: 1.25rem;
+        font-style: italic;
+        line-height: 1.5;
+        color: var(--ink);
+    }
+    .card-theme {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        color: var(--line2);
+    }
+
+    /* fly animations */
+    .fly-right { animation: flyRight .38s cubic-bezier(.4,0,.2,1) forwards; }
+    .fly-left  { animation: flyLeft  .38s cubic-bezier(.4,0,.2,1) forwards; }
+    .fly-up    { animation: flyUp    .38s cubic-bezier(.4,0,.2,1) forwards; }
+    @keyframes flyRight { to { transform: translateX(150%) rotate(22deg); opacity:0; } }
+    @keyframes flyLeft  { to { transform: translateX(-150%) rotate(-22deg); opacity:0; } }
+    @keyframes flyUp    { to { transform: translateY(-110%) scale(.85); opacity:0; } }
+
+    /* action buttons */
+    .q-actions {
+        flex-shrink: 0;
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        padding: 16px 0 6px;
+    }
+    .action-btn {
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 32px 24px;
-        background: white;
-        border: 1px solid var(--border);
-        border-radius: 28px;
-        margin-bottom: 24px;
-        transition: transform .25s, opacity .25s
-    }
-
-    .qcard.left {
-        transform: translateX(-110%) rotate(-8deg);
-        opacity: 0
-    }
-
-    .qcard.right {
-        transform: translateX(110%) rotate(8deg);
-        opacity: 0
-    }
-
-    .qico {
-        font-size: 48px;
-        margin-bottom: 20px
-    }
-
-    .qtxt {
-        font-family: var(--font-serif);
-        font-size: 21px;
-        font-weight: 300;
-        line-height: 1.45;
-        color: var(--ink)
-    }
-
-    .qrow {
-        display: flex;
-        gap: 18px;
-        justify-content: center;
-        align-items: center
-    }
-
-    .qno, .qyes {
-        border-radius: 50%;
-        border: 1px solid var(--border2);
-        background: white;
+        gap: 5px;
+        background: transparent;
+        border: 1px solid var(--line2);
+        padding: .7rem 1.4rem;
         cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all .18s
+        transition: all .2s;
+        border-radius: 2px;
+        min-width: 80px;
     }
-
-    .qno {
-        width: 64px;
-        height: 64px;
-        font-size: 22px;
-        color: var(--blush)
+    .action-icon { font-size: 1.1rem; }
+    .action-label {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+        color: var(--ink3);
     }
-
-    .qyes {
-        width: 72px;
-        height: 72px;
-        font-size: 22px;
-        color: var(--sage)
-    }
-
-    .qno:active {
-        transform: scale(.88);
-        background: #fdf0ef
-    }
-
-    .qyes:active {
-        transform: scale(.88);
-        background: var(--sage-bg)
-    }
+    .btn-no:hover    { border-color: var(--red);    }
+    .btn-no:hover .action-label    { color: var(--red); }
+    .btn-maybe:hover { border-color: var(--blue);   }
+    .btn-maybe:hover .action-label { color: var(--blue); }
+    .btn-yes:hover   { border-color: var(--accent); }
+    .btn-yes:hover .action-label   { color: var(--accent); }
 
     .qhint {
         text-align: center;
-        font-size: 12px;
-        color: var(--ink3);
-        letter-spacing: .04em;
-        margin-top: 10px
+        font-family: var(--font-mono);
+        font-size: 10px;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+        color: var(--line2);
+        padding-bottom: 4px;
     }
 
+    /* ════════════════════════════
+       WAITING
+    ════════════════════════════ */
     #s-waiting {
         align-items: center;
         justify-content: center;
-        padding: 48px 32px;
+        padding: 48px 28px;
         text-align: center;
-        overflow: hidden
+        overflow: hidden;
     }
-
     .wring {
-        width: 100px;
-        height: 100px;
+        width: 90px;
+        height: 90px;
         border-radius: 50%;
-        border: 1px solid var(--sage-lt);
+        border: 1px solid var(--line2);
         display: flex;
         align-items: center;
         justify-content: center;
         margin: 0 auto 28px;
-        animation: ringP 3s ease-in-out infinite;
-        position: relative
+        position: relative;
     }
-
     .wring::before {
         content: '';
         position: absolute;
-        inset: 8px;
+        inset: 10px;
         border-radius: 50%;
-        border: 1px solid var(--sage-lt);
-        opacity: .5
+        border: 1px solid var(--line2);
+        opacity: .4;
     }
-
-    @keyframes ringP {
-        0%, 100% {
-            transform:scale(1)
-        }
-
-        50% {
-            transform: scale(1.04);
-            box-shadow: 0 0 30px 8px rgba(122, 158, 135, .12)
-        }
-    }
-
     .wletter {
-        font-family: var(--font-serif);
-        font-size: 40px;
-        font-style: italic;
-        font-weight: 300;
-        color: var(--sage-dk)
+        font-family: var(--font-sans);
+        font-weight: 800;
+        font-size: 2rem;
+        color: var(--accent);
     }
-
     .wtitle {
-        font-family: var(--font-serif);
-        font-size: 28px;
-        font-weight: 300;
-        line-height: 1.25;
-        margin-bottom: 10px
+        font-family: var(--font-sans);
+        font-weight: 800;
+        font-size: 1.8rem;
+        line-height: .95;
+        letter-spacing: -.02em;
+        text-transform: uppercase;
+        margin-bottom: 10px;
     }
-
     .wtitle em {
         font-style: italic;
-        color: var(--sage-dk)
+        font-family: var(--font-serif);
+        font-weight: 400;
+        color: var(--ink3);
     }
-
     .wdots {
         display: flex;
         gap: 8px;
         justify-content: center;
-        margin: 16px 0
+        margin: 20px 0;
     }
-
     .wdot {
-        width: 5px;
-        height: 5px;
+        width: 4px;
+        height: 4px;
         border-radius: 50%;
-        background: var(--sage);
-        animation: dotB 1.4s ease-in-out infinite
+        background: var(--accent);
+        animation: dotB 1.4s ease-in-out infinite;
     }
-
-    .wdot:nth-child(2) {
-        animation-delay: .2s
-    }
-
-    .wdot:nth-child(3) {
-        animation-delay: .4s
-    }
-
+    .wdot:nth-child(2) { animation-delay: .2s; }
+    .wdot:nth-child(3) { animation-delay: .4s; }
     @keyframes dotB {
-        0%, 80%, 100% {
-            transform: scale(.6);
-            opacity:.3
-        }
-
-        40% {
-            transform: scale(1);
-            opacity: 1
-        }
+        0%,80%,100% { transform:scale(.6); opacity:.3; }
+        40%          { transform:scale(1);  opacity:1; }
     }
-
     .wbox {
         width: 100%;
-        background: white;
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
+        background: #111;
+        border: 1px solid var(--line2);
+        border-radius: 2px;
         padding: 18px;
-        margin-top: 20px;
-        text-align: left
+        margin-top: 16px;
+        text-align: left;
     }
-
     .wtimer {
-        font-family: var(--font-serif);
-        font-size: 36px;
-        font-weight: 300;
-        color: var(--sage-dk);
-        margin-bottom: 3px
+        font-family: var(--font-sans);
+        font-weight: 800;
+        font-size: 2.2rem;
+        letter-spacing: -.02em;
+        color: var(--accent);
+        margin-bottom: 4px;
     }
-
     .wtlbl {
-        font-size: 11px;
+        font-family: var(--font-mono);
+        font-size: 10px;
         color: var(--ink3);
-        letter-spacing: .06em;
-        text-transform: uppercase
+        letter-spacing: .08em;
+        text-transform: uppercase;
     }
-
     .wnote {
         font-size: 13px;
+        font-style: italic;
         color: var(--ink2);
         line-height: 1.6;
-        margin-top: 10px
+        margin-top: 12px;
     }
 
+    /* ════════════════════════════
+       MATCH
+    ════════════════════════════ */
     .mtop {
-        padding: 48px 28px 24px;
-        background: var(--sage-bg);
+        padding: 52px 28px 24px;
+        background: #111;
         text-align: center;
-        border-bottom: 1px solid rgba(122, 158, 135, .2);
-        flex-shrink: 0
+        border-bottom: 1px solid var(--line);
+        flex-shrink: 0;
     }
-
     .mbadge {
         display: inline-flex;
         align-items: center;
-        gap: 7px;
-        padding: 6px 16px;
-        background: white;
-        border: 1px solid rgba(122, 158, 135, .3);
-        border-radius: 30px;
-        font-size: 12px;
-        font-weight: 500;
-        letter-spacing: .05em;
-        color: var(--sage-dk);
-        margin-bottom: 20px
+        gap: 6px;
+        padding: 5px 14px;
+        background: transparent;
+        border: 1px solid var(--accent);
+        border-radius: 2px;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 20px;
     }
-
     .mavs {
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 16px
+        margin-bottom: 20px;
     }
-
     .av {
-        width: 64px;
-        height: 64px;
-        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        border-radius: 2px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-family: var(--font-serif);
-        font-size: 24px;
-        font-weight: 600;
-        border: 3px solid var(--sage-bg)
+        font-family: var(--font-sans);
+        font-size: 20px;
+        font-weight: 800;
     }
-
     .av-a {
-        background: white;
-        color: var(--sage-dk);
+        background: var(--accent);
+        color: var(--black);
         z-index: 2;
-        position: relative
+        position: relative;
     }
-
     .av-b {
-        background: var(--cream3);
+        background: var(--line2);
         color: var(--ink3);
-        margin-left: -10px
+        margin-left: -8px;
     }
-
-    .hrt {
-        position: absolute;
-        bottom: -3px;
-        right: -3px;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        background: white;
-        border: 1.5px solid var(--blush);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 10px;
-        color: var(--blush)
-    }
-
     .mscore {
-        font-family: var(--font-serif);
-        font-size: 48px;
-        font-weight: 300;
-        color: var(--sage-dk);
-        line-height: 1
+        font-family: var(--font-sans);
+        font-weight: 800;
+        font-size: 3.5rem;
+        letter-spacing: -.03em;
+        color: var(--accent);
+        line-height: 1;
     }
-
     .mscore sup {
-        font-size: 18px;
-        color: var(--ink3)
-    }
-
-    .mscorelbl {
-        font-size: 11px;
+        font-size: 1.2rem;
         color: var(--ink3);
-        letter-spacing: .08em;
-        text-transform: uppercase;
-        margin-top: 3px
+        font-weight: 400;
     }
-
+    .mscorelbl {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--ink3);
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        margin-top: 4px;
+    }
     .mbody {
         padding: 20px 28px 12px;
         display: flex;
         flex-direction: column;
-        gap: 12px
+        gap: 10px;
     }
-
     .mc {
-        background: white;
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        padding: 18px
+        background: #111;
+        border: 1px solid var(--line2);
+        border-radius: 2px;
+        padding: 18px;
     }
-
     .mclbl {
-        font-size: 11px;
-        font-weight: 500;
-        color: var(--ink3);
-        letter-spacing: .08em;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        letter-spacing: .1em;
         text-transform: uppercase;
-        margin-bottom: 12px
+        color: var(--ink3);
+        margin-bottom: 10px;
     }
-
     .mname {
-        font-family: var(--font-serif);
-        font-size: 32px;
-        font-weight: 300;
-        color: var(--ink)
+        font-family: var(--font-sans);
+        font-weight: 800;
+        font-size: 1.8rem;
+        letter-spacing: -.02em;
+        text-transform: uppercase;
+        color: var(--ink);
     }
-
     .mmyst {
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        padding: 4px 12px;
-        background: var(--cream2);
-        border-radius: 20px;
-        font-size: 12px;
+        padding: 4px 10px;
+        border: 1px solid var(--line2);
+        border-radius: 2px;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        letter-spacing: .06em;
         color: var(--ink3);
-        margin-top: 8px
+        margin-top: 8px;
     }
-
     .mdesc {
         font-size: 13px;
+        font-style: italic;
         color: var(--ink2);
         line-height: 1.6;
-        margin-top: 10px
+        margin-top: 10px;
     }
-
     .drow {
         display: flex;
         align-items: center;
         gap: 12px;
         padding: 10px 0;
-        border-bottom: 1px solid var(--border)
+        border-bottom: 1px solid var(--line);
     }
-
-    .drow:last-child {
-        border-bottom: none;
-        padding-bottom: 0
-    }
-
+    .drow:last-child { border-bottom: none; padding-bottom: 0; }
     .dico {
-        width: 36px;
-        height: 36px;
-        border-radius: var(--radius-sm);
-        background: var(--cream2);
+        width: 32px;
+        height: 32px;
+        border-radius: 2px;
+        background: var(--line);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 14px;
-        flex-shrink: 0
+        font-size: 13px;
+        flex-shrink: 0;
     }
-
     .dlbl {
-        font-size: 14px;
-        font-weight: 500;
-        color: var(--ink)
+        font-family: var(--font-sans);
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: .02em;
+        color: var(--ink);
     }
-
     .dsub {
         font-size: 12px;
+        font-style: italic;
         color: var(--ink3);
-        margin-top: 2px
+        margin-top: 2px;
     }
-
     .mfoot {
         padding: 8px 28px 44px;
         display: flex;
         flex-direction: column;
         gap: 10px;
-        flex-shrink: 0
+        flex-shrink: 0;
     }
 
-    #s-admin {
-        background: var(--cream)
-    }
-
+    /* ════════════════════════════
+       ADMIN
+    ════════════════════════════ */
+    #s-admin { background: var(--black); }
     .admin-head {
         padding: 52px 24px 20px;
-        border-bottom: 1px solid var(--border);
-        flex-shrink: 0
+        border-bottom: 1px solid var(--line);
+        flex-shrink: 0;
     }
-
     .admin-body {
         padding: 16px 24px;
         flex: 1;
-        overflow-y: auto
+        overflow-y: auto;
     }
-
     .admin-stat-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 10px;
-        margin-bottom: 20px
+        gap: 8px;
+        margin-bottom: 20px;
     }
-
     .astat {
-        background: white;
-        border: 1px solid var(--border);
-        border-radius: var(--radius-sm);
-        padding: 14px
+        background: #111;
+        border: 1px solid var(--line2);
+        border-radius: 2px;
+        padding: 14px;
     }
-
     .astat-num {
-        font-family: var(--font-serif);
-        font-size: 28px;
-        font-weight: 300;
-        color: var(--sage-dk)
+        font-family: var(--font-sans);
+        font-weight: 800;
+        font-size: 1.8rem;
+        letter-spacing: -.02em;
+        color: var(--accent);
     }
-
     .astat-lbl {
-        font-size: 11px;
+        font-family: var(--font-mono);
+        font-size: 10px;
         color: var(--ink3);
         text-transform: uppercase;
-        letter-spacing: .06em;
-        margin-top: 2px
+        letter-spacing: .07em;
+        margin-top: 2px;
     }
-
+    .section-lbl {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        font-weight: 500;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        color: var(--ink3);
+        margin-bottom: 10px;
+    }
     .user-row {
         display: flex;
         align-items: center;
         gap: 12px;
         padding: 12px 0;
-        border-bottom: 1px solid var(--border)
+        border-bottom: 1px solid var(--line);
     }
-
-    .user-row:last-child {
-        border-bottom: none
-    }
-
+    .user-row:last-child { border-bottom: none; }
     .user-av {
-        width: 38px;
-        height: 38px;
-        border-radius: 50%;
-        background: var(--sage-bg);
+        width: 36px;
+        height: 36px;
+        border-radius: 2px;
+        background: var(--line2);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-family: var(--font-serif);
-        font-size: 16px;
-        color: var(--sage-dk);
-        flex-shrink: 0
-    }
-
-    .user-name {
+        font-family: var(--font-sans);
+        font-weight: 800;
         font-size: 14px;
-        font-weight: 500;
-        color: var(--ink)
+        color: var(--accent);
+        flex-shrink: 0;
     }
-
+    .user-name {
+        font-family: var(--font-sans);
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--ink);
+        letter-spacing: .02em;
+    }
     .user-info {
+        font-family: var(--font-serif);
         font-size: 12px;
+        font-style: italic;
         color: var(--ink3);
-        margin-top: 1px
+        margin-top: 1px;
     }
-
     .user-badge {
         margin-left: auto;
-        font-size: 11px;
-        padding: 3px 9px;
-        border-radius: 20px;
-        flex-shrink: 0
-    }
-
-    .badge-wait {
-        background: var(--cream2);
-        color: var(--ink3)
-    }
-
-    .badge-match {
-        background: var(--sage-bg);
-        color: var(--sage-dk)
-    }
-
-    .section-lbl {
-        font-size: 11px;
-        font-weight: 500;
-        letter-spacing: .08em;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        padding: 3px 8px;
+        border-radius: 2px;
+        flex-shrink: 0;
+        letter-spacing: .05em;
         text-transform: uppercase;
-        color: var(--ink3);
-        margin-bottom: 12px
     }
+    .badge-wait  { background: var(--line2); color: var(--ink3); }
+    .badge-match { border: 1px solid var(--accent); color: var(--accent); }
+
+    /* spinner */
+    .spinner-wrap { display:flex; align-items:center; justify-content:center; gap:10px; margin:12px 0; }
+    .spinner {
+        width: 18px; height: 18px;
+        border: 1.5px solid var(--line2);
+        border-top-color: var(--accent);
+        border-radius: 50%;
+        animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
-    <div id="app">
-        <div class="toast" id="toast"></div>
+<div id="app">
+    <div class="toast" id="toast"></div>
 
-        <!-- HOME -->
-        <div class="screen active" id="s-home">
-            <div class="home-img">
-                <div class="home-grid"></div>
-                <div class="home-letter">M</div>
-                <div class="home-pill">
-                    <div class="pulse"></div>
-                    <span style="font-size:12px;font-weight:500;color:var(--ink2);letter-spacing:.05em" id="user-count">Paris · Beta ouvert</span>
-                </div>
-            </div>
-            <div class="home-bot">
-                <div class="eyebrow">Dating · Paris</div>
-                <div class="h-title">
-                    Mystery
-                    <br>
-                    <em>Date</em>
-                </div>
-                <p class="h-sub">Des rencontres vraies. Des lieux surprenants. Sans filtre, sans photo.</p>
-                <div class="h-btns">
-                    <button class="btn btn-primary" onclick="goTo('s-signup')">Commencer l'aventure</button>
-                    <button class="btn btn-outline" onclick="goTo('s-admin-login')">Accès admin</button>
-                </div>
+    <!-- ══════════════ HOME ══════════════ -->
+    <div class="screen active" id="s-home">
+        <div class="home-top">
+            <div class="home-logo">Mystery<span>.</span></div>
+            <div class="h-title">Pas de<br>photo.<br><em>Que toi.</em></div>
+            <p class="h-sub">Les vraies connexions commencent par ce que tu penses — pas par comment tu te présentes.</p>
+            <div class="home-pill">
+                <div class="pulse"></div>
+                <span class="pill-txt" id="user-count">Paris · Bêta ouvert</span>
             </div>
         </div>
-
-        <!-- SIGNUP -->
-        <div class="screen" id="s-signup">
-            <div class="pg-head">
-                <div class="segs">
-                    <div class="seg on"></div>
-                    <div class="seg"></div>
-                    <div class="seg"></div>
-                </div>
-                <div class="pg-eye">Étape 1 · Profil</div>
-                <div class="pg-title">
-                    On fait
-                    <br>
-                    <em>connaissance</em>
-                </div>
-                <p class="pg-sub">Juste l'essentiel. Pas de photo.</p>
-            </div>
-            <div class="form-body">
-                <div>
-                    <div class="flbl">Prénom</div>
-                    <input class="input" id="ip" type="text" placeholder="Ton prénom"/>
-                </div>
-                <div>
-                    <div class="flbl">Âge</div>
-                    <input class="input" id="ia" type="number" placeholder="Ton âge" min="18" max="99"/>
-                </div>
-                <div>
-                    <div class="flbl">Email</div>
-                    <input class="input" id="ie" type="email" placeholder="ton@email.com"/>
-                </div>
-                <div>
-                    <div class="flbl">Tu es</div>
-                    <div class="g-grid">
-                        <button class="g-opt" onclick="sg(this,'femme')">Femme</button>
-                        <button class="g-opt" onclick="sg(this,'homme')">Homme</button>
-                        <button class="g-opt" onclick="sg(this,'autre')">Autre</button>
-                    </div>
-                </div>
-            </div>
-            <div class="pg-foot">
-                <button class="btn btn-primary" onclick="vsignup()">Continuer</button>
-                <button class="btn btn-outline" onclick="goTo('s-home')">Retour</button>
-            </div>
+        <div class="home-bot">
+            <button class="btn btn-primary" onclick="goTo('s-signup')">Créer mon profil</button>
+            <button class="btn btn-outline" onclick="goTo('s-admin-login')">Accès admin</button>
         </div>
-
-        <!-- RECHERCHE -->
-        <div class="screen" id="s-recherche">
-            <div class="pg-head">
-                <div class="segs">
-                    <div class="seg on"></div>
-                    <div class="seg on" style="opacity:.5"></div>
-                    <div class="seg"></div>
-                </div>
-                <div class="pg-eye">Étape 2 · Préférence</div>
-                <div class="pg-title">
-                    Qui
-                    <br>
-                    <em>recherches-tu ?</em>
-                </div>
-                <p class="pg-sub">Filtre absolu — jamais de profil incompatible.</p>
-            </div>
-            <div class="rech-list">
-                <button class="rech-item" onclick="sr(this,'homme')">
-                    <div class="rech-ico">♂</div>
-                    <div>
-                        <div class="rech-lbl">Un homme</div>
-                        <div class="rech-sub">Je recherche un homme</div>
-                    </div>
-                    <div class="rech-chk">✓</div>
-                </button>
-                <button class="rech-item" onclick="sr(this,'femme')">
-                    <div class="rech-ico">♀</div>
-                    <div>
-                        <div class="rech-lbl">Une femme</div>
-                        <div class="rech-sub">Je recherche une femme</div>
-                    </div>
-                    <div class="rech-chk">✓</div>
-                </button>
-                <button class="rech-item" onclick="sr(this,'les deux')">
-                    <div class="rech-ico" style="font-size:14px">♂♀</div>
-                    <div>
-                        <div class="rech-lbl">Peu importe</div>
-                        <div class="rech-sub">Ouvert(e) à tout</div>
-                    </div>
-                    <div class="rech-chk">✓</div>
-                </button>
-            </div>
-            <div class="pg-foot">
-                <button class="btn btn-primary" onclick="startQ()">Continuer</button>
-                <button class="btn btn-outline" onclick="goTo('s-signup')">Retour</button>
-            </div>
-        </div>
-
-        <!-- QUESTIONS -->
-        <div class="screen" id="s-questions">
-            <div class="q-wrap">
-                <div>
-                    <div class="qbars" id="qbars"></div>
-                    <div class="qmeta">
-                        <span style="font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3)">Étape 3 · Intérêts</span>
-                        <span style="font-size:12px;color:var(--ink3)" id="qcount">1 / 10</span>
-                    </div>
-                </div>
-                <div class="qcard" id="qcard">
-                    <div class="qico" id="qico">🎨</div>
-                    <div class="qtxt" id="qtxt">Tu passes des heures dans les musées et les expos ?</div>
-                </div>
-                <div>
-                    <div class="qrow">
-                        <button class="qno" onclick="ans(false)">✕</button>
-                        <button class="qyes" onclick="ans(true)">♥</button>
-                    </div>
-                    <p class="qhint">✕ pas vraiment &nbsp;·&nbsp; ♥ j'adore</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- WAITING -->
-        <div class="screen" id="s-waiting">
-            <div class="wring">
-                <span class="wletter">?</span>
-            </div>
-            <div class="wtitle">
-                L'IA cherche
-                <br>
-                <em>ton match…</em>
-            </div>
-            <p style="font-size:14px;color:var(--ink2);line-height:1.6;max-width:270px;margin:0 auto">On analyse tes réponses pour trouver quelqu'un qui te ressemble vraiment.</p>
-            <div class="wdots">
-                <div class="wdot"></div>
-                <div class="wdot"></div>
-                <div class="wdot"></div>
-            </div>
-            <div class="wbox">
-                <div class="wtimer" id="cd">23:59:59</div>
-                <div class="wtlbl">Révélation dans moins de 24h</div>
-                <p class="wnote">Tu recevras un email dès que ton match est trouvé. L'adresse sera révélée 1h avant le rendez-vous.</p>
-            </div>
-            <button class="btn btn-outline" onclick="goTo('s-home')" style="margin-top:20px;width:100%">Retour à l'accueil</button>
-        </div>
-
-        <!-- MATCH -->
-        <div class="screen" id="s-match">
-            <div class="mtop">
-                <div class="mbadge">✦ C'est un match</div>
-                <div class="mavs">
-                    <div class="av av-a" id="ava">
-                        S
-                        <div class="hrt">♥</div>
-                    </div>
-                    <div class="av av-b">?</div>
-                </div>
-                <div class="mscore">
-                    94
-                    <sup>%</sup>
-                </div>
-                <div class="mscorelbl">compatibilité</div>
-                <p style="font-size:13px;color:var(--ink3);margin-top:4px">Trouvé en 18 heures</p>
-            </div>
-            <div class="mbody">
-                <div class="mc">
-                    <div class="mclbl">Ton match</div>
-                    <div class="mname" id="mname">Thomas</div>
-                    <div>
-                        <span class="mmyst">◈ Aucune photo révélée</span>
-                    </div>
-                    <p class="mdesc">Vos centres d'intérêt sont très alignés. La rencontre fera le reste.</p>
-                </div>
-                <div class="mc">
-                    <div class="mclbl">Ton date mystère</div>
-                    <div class="drow">
-                        <div class="dico">📅</div>
-                        <div>
-                            <div class="dlbl">Samedi 19 avril</div>
-                            <div class="dsub">19h30</div>
-                        </div>
-                    </div>
-                    <div class="drow">
-                        <div class="dico">📍</div>
-                        <div>
-                            <div class="dlbl">Paris, 11e arrondissement</div>
-                            <div class="dsub">Adresse révélée 1h avant</div>
-                        </div>
-                    </div>
-                    <div class="drow">
-                        <div class="dico">✦</div>
-                        <div>
-                            <div class="dlbl">Lieu surprise</div>
-                            <div class="dsub">Selon vos goûts communs</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="mfoot">
-                <button class="btn btn-sage" onclick="acceptMatch()">J'accepte le date !</button>
-                <button class="btn btn-outline" onclick="goTo('s-home')">Retour à l'accueil</button>
-            </div>
-        </div>
-
-        <!-- ADMIN LOGIN -->
-        <div class="screen" id="s-admin-login">
-            <div class="pg-head" style="flex:1;justify-content:center;display:flex;flex-direction:column">
-                <div class="pg-eye">Accès réservé</div>
-                <div class="pg-title">
-                    Dashboard
-                    <br>
-                    <em>admin</em>
-                </div>
-                <p class="pg-sub" style="margin-bottom:24px">Gérez vos utilisateurs et vos matchs.</p>
-                <input class="input" id="admin-pw" type="password" placeholder="Mot de passe admin"/>
-            </div>
-            <div class="pg-foot">
-                <button class="btn btn-primary" onclick="adminLogin()">Accéder</button>
-                <button class="btn btn-outline" onclick="goTo('s-home')">Retour</button>
-            </div>
-        </div>
-
-        <!-- ADMIN -->
-        <div class="screen" id="s-admin">
-            <div class="admin-head">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start">
-                    <div>
-                        <div class="eyebrow">Mystery Date</div>
-                        <div style="font-family:var(--font-serif);font-size:26px;font-weight:300">Dashboard admin</div>
-                    </div>
-                    <button onclick="loadAdmin()" style="background:var(--sage-bg);border:none;border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:16px">↻</button>
-                </div>
-            </div>
-            <div class="admin-body">
-                <div class="admin-stat-grid">
-                    <div class="astat">
-                        <div class="astat-num" id="stat-users">–</div>
-                        <div class="astat-lbl">Inscrits</div>
-                    </div>
-                    <div class="astat">
-                        <div class="astat-num" id="stat-matches">–</div>
-                        <div class="astat-lbl">Matchs</div>
-                    </div>
-                    <div class="astat">
-                        <div class="astat-num" id="stat-waiting">–</div>
-                        <div class="astat-lbl">En attente</div>
-                    </div>
-                    <div class="astat">
-                        <div class="astat-num" id="stat-accepted">–</div>
-                        <div class="astat-lbl">Dates acceptés</div>
-                    </div>
-                </div>
-                <div class="section-lbl">Utilisateurs récents</div>
-                <div id="admin-users">
-                    <p style="font-size:13px;color:var(--ink3)">Chargement…</p>
-                </div>
-                <div style="margin-top:20px" class="section-lbl">Actions</div>
-                <button class="btn btn-sage" onclick="runMatching()" style="margin-bottom:10px">Lancer le matching IA</button>
-                <button class="btn btn-outline" onclick="goTo('s-home')">Retour à l'app</button>
-            </div>
-        </div>
-
     </div>
-    <script>
-    const SUPA_URL = 'https://kbekoqwcvacwcrzwftir.supabase.co';
-    const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtiZWtvcXdjdmFjd2NyendmdGlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYwODYzNzUsImV4cCI6MjA5MTY2MjM3NX0.gYrzVsno2UZeT_9P6moFMUbubqxXNagG5yXIaACejvg';
 
-    // ⚠️ CHANGEZ CE MOT DE PASSE — cherchez cette ligne dans GitHub pour le modifier
-    const ADMIN_PASSWORD = '@@Loris002@@';
+    <!-- ══════════════ SIGNUP ══════════════ -->
+    <div class="screen" id="s-signup">
+        <div class="pg-head">
+            <div class="segs">
+                <div class="seg on"></div>
+                <div class="seg"></div>
+                <div class="seg"></div>
+            </div>
+            <div class="pg-eye">Étape 1 · Profil</div>
+            <div class="pg-title">On fait<br><em>connaissance</em></div>
+            <p class="pg-sub">Juste l'essentiel. Pas de photo.</p>
+        </div>
+        <div class="form-body">
+            <div>
+                <div class="flbl">Prénom</div>
+                <input class="input" id="ip" type="text" placeholder="Ton prénom…"/>
+            </div>
+            <div>
+                <div class="flbl">Âge</div>
+                <input class="input" id="ia" type="number" placeholder="Ton âge" min="18" max="99"/>
+            </div>
+            <div>
+                <div class="flbl">Email</div>
+                <input class="input" id="ie" type="email" placeholder="ton@email.com"/>
+            </div>
+            <div>
+                <div class="flbl">Tu es</div>
+                <div class="g-grid">
+                    <button class="g-opt" onclick="sg(this,'homme')">Homme</button>
+                    <button class="g-opt" onclick="sg(this,'non-binaire')">Non-binaire</button>
+                    <button class="g-opt" onclick="sg(this,'autre')">Autre</button>
+                </div>
+            </div>
+        </div>
+        <div class="pg-foot">
+            <button class="btn btn-primary" onclick="vsignup()">Continuer</button>
+            <button class="btn btn-outline" onclick="goTo('s-home')">Retour</button>
+        </div>
+    </div>
 
-    const st = {
-        genre: null,
-        recherche: null,
-        reponses: [],
-        prenom: '',
-        email: '',
-        age: 0,
-        userId: null
-    };
-    const qs = [
-    {
-        e: '🎨',
-        t: 'Tu passes des heures dans les musées et les expos ?'
-    },
-    {
-        e: '🍜',
-        t: 'Tu aimes explorer des restos inconnus dans Paris ?'
-    },
-    {
-        e: '🌿',
-        t: 'Les balades en pleine nature, c\'est ton truc ?'
-    },
-    {
-        e: '🎸',
-        t: 'Tu vas régulièrement voir des concerts ou des shows ?'
-    },
-    {
-        e: '📚',
-        t: 'Tu lis souvent — romans, essais, peu importe ?'
-    },
-    {
-        e: '🎬',
-        t: 'Le cinéma d\'auteur et les films indépendants te parlent ?'
-    },
-    {
-        e: '🌙',
-        t: 'Tu es plutôt du soir — soirées tardives et nuits parisiennes ?'
-    },
-    {
-        e: '✈️',
-        t: 'Tu pars souvent à l\'aventure, même en week-end spontané ?'
-    },
-    {
-        e: '🍷',
-        t: 'Tu aimes prendre le temps d\'un bon repas, bien choisi ?'
-    },
-    {
-        e: '🎭',
-        t: 'Le théâtre, le stand-up, la scène — tu y vas parfois ?'
-    },
-    ];
-    let qi = 0;
+    <!-- ══════════════ RECHERCHE ══════════════ -->
+    <div class="screen" id="s-recherche">
+        <div class="pg-head">
+            <div class="segs">
+                <div class="seg on"></div>
+                <div class="seg on" style="opacity:.5"></div>
+                <div class="seg"></div>
+            </div>
+            <div class="pg-eye">Étape 2 · Préférence</div>
+            <div class="pg-title">Qui<br><em>recherches-tu ?</em></div>
+            <p class="pg-sub">Filtre absolu — jamais de profil incompatible.</p>
+        </div>
+        <div class="rech-list">
+            <button class="rech-item" onclick="sr(this,'homme')">
+                <div class="rech-ico">♂</div>
+                <div>
+                    <div class="rech-lbl">Un homme</div>
+                    <div class="rech-sub">Gay, bi, queer</div>
+                </div>
+                <div class="rech-chk">✓</div>
+            </button>
+            <button class="rech-item" onclick="sr(this,'non-binaire')">
+                <div class="rech-ico" style="font-size:14px">⊕</div>
+                <div>
+                    <div class="rech-lbl">Non-binaire</div>
+                    <div class="rech-sub">En dehors des cases</div>
+                </div>
+                <div class="rech-chk">✓</div>
+            </button>
+            <button class="rech-item" onclick="sr(this,'les deux')">
+                <div class="rech-ico" style="font-size:13px">∞</div>
+                <div>
+                    <div class="rech-lbl">Peu importe</div>
+                    <div class="rech-sub">Ouvert à tout</div>
+                </div>
+                <div class="rech-chk">✓</div>
+            </button>
+        </div>
+        <div class="pg-foot">
+            <button class="btn btn-primary" onclick="startQ()">Continuer</button>
+            <button class="btn btn-outline" onclick="goTo('s-signup')">Retour</button>
+        </div>
+    </div>
 
-    async function supa(path, method='GET', body=null) {
-        const opts = {
-            method,
-            headers: {
-                'apikey': SUPA_KEY,
-                'Authorization': 'Bearer ' + SUPA_KEY,
-                'Content-Type': 'application/json',
-                'Prefer': method === 'POST' ? 'return=representation' : ''
-            }
-        };
-        if (body)
-            opts.body = JSON.stringify(body);
-        const r = await fetch(SUPA_URL + '/rest/v1/' + path, opts);
-        if (!r.ok) {
-            const e = await r.text();
-            throw new Error(e);
-        }
-        return r.status === 204 ? null : r.json();
-    }
+    <!-- ══════════════ FLASH CARDS ══════════════ -->
+    <div class="screen" id="s-questions">
+        <div class="q-wrap">
+            <div class="q-header">
+                <div class="qbars" id="qbars"></div>
+                <div class="qmeta">
+                    <span class="qmeta-left">Étape 3 · Flash cards</span>
+                    <span class="qmeta-right" id="qcount">1 / 15</span>
+                </div>
+            </div>
+            <div class="card-stack" id="card-stack"></div>
+            <div class="q-actions">
+                <button class="action-btn btn-no"    onclick="vote('no')">
+                    <span class="action-icon">✕</span>
+                    <span class="action-label">Non</span>
+                </button>
+                <button class="action-btn btn-maybe" onclick="vote('maybe')">
+                    <span class="action-icon">〜</span>
+                    <span class="action-label">Peut-être</span>
+                </button>
+                <button class="action-btn btn-yes"   onclick="vote('yes')">
+                    <span class="action-icon">✓</span>
+                    <span class="action-label">Oui</span>
+                </button>
+            </div>
+            <div class="qhint">← glisse ou utilise les boutons →</div>
+        </div>
+    </div>
 
-    function goTo(id) {
-        document.querySelectorAll('.screen').forEach(s => {
-            if (s.classList.contains('active')) {
-                s.classList.add('exit');
-                setTimeout(() => s.classList.remove('active', 'exit'), 400);
-            }
-        });
-        setTimeout(() => document.getElementById(id).classList.add('active'), 50);
-    }
+    <!-- ══════════════ WAITING ══════════════ -->
+    <div class="screen" id="s-waiting">
+        <div class="wring"><span class="wletter">?</span></div>
+        <div class="wtitle">On cherche<br><em>ton match…</em></div>
+        <p style="font-size:14px;font-style:italic;color:var(--ink2);line-height:1.6;max-width:260px;margin:0 auto">
+            On analyse tes réponses pour trouver quelqu'un qui pense vraiment comme toi.
+        </p>
+        <div class="wdots">
+            <div class="wdot"></div>
+            <div class="wdot"></div>
+            <div class="wdot"></div>
+        </div>
+        <div class="wbox">
+            <div class="wtimer" id="cd">23:59:59</div>
+            <div class="wtlbl">Révélation dans moins de 24h</div>
+            <p class="wnote">Tu recevras un email dès que ton match est trouvé. L'adresse du lieu sera révélée 1h avant.</p>
+        </div>
+        <button class="btn btn-outline" onclick="goTo('s-home')" style="margin-top:20px;width:calc(100% - 56px)">Retour à l'accueil</button>
+    </div>
 
-    function showToast(msg, duration=3000) {
-        const t = document.getElementById('toast');
-        t.textContent = msg;
-        t.classList.add('show');
-        setTimeout(() => t.classList.remove('show'), duration);
-    }
-
-    function sg(b, v) {
-        st.genre = v;
-        document.querySelectorAll('.g-opt').forEach(x => x.classList.remove('sel'));
-        b.classList.add('sel');
-    }
-    function sr(b, v) {
-        st.recherche = v;
-        document.querySelectorAll('.rech-item').forEach(x => x.classList.remove('sel'));
-        b.classList.add('sel');
-    }
-
-    function vsignup() {
-        const p = document.getElementById('ip').value.trim();
-        const a = document.getElementById('ia').value;
-        const e = document.getElementById('ie').value.trim();
-        if (!p || !a || !e || !st.genre) {
-            showToast('Remplis tous les champs');
-            return;
-        }
-        if (parseInt(a) < 18) {
-            showToast('Tu dois avoir 18 ans minimum');
-            return;
-        }
-        if (!e.includes('@')) {
-            showToast('Email invalide');
-            return;
-        }
-        st.prenom = p;
-        st.email = e;
-        st.age = parseInt(a);
-        document.getElementById('ava').innerHTML = p.charAt(0).toUpperCase() + '<div class="hrt">♥</div>';
-        goTo('s-recherche');
-    }
-
-    function startQ() {
-        if (!st.recherche) {
-            showToast('Indique ce que tu recherches');
-            return;
-        }
-        qi = 0;
-        st.reponses = [];
-        renderBars();
-        renderQ();
-        goTo('s-questions');
-    }
-
-    function renderBars() {
-        const c = document.getElementById('qbars');
-        c.innerHTML = '';
-        qs.forEach((_, i) => {
-            const b = document.createElement('div');
-            b.className = 'qb' + (i < qi ? ' done' : i === qi ? ' now' : '');
-            c.appendChild(b);
-        });
-    }
-
-    function renderQ() {
-        document.getElementById('qico').textContent = qs[qi].e;
-        document.getElementById('qtxt').textContent = qs[qi].t;
-        document.getElementById('qcount').textContent = (qi + 1) + ' / ' + qs.length;
-        renderBars();
-    }
-
-    function ans(yes) {
-        const c = document.getElementById('qcard');
-        c.classList.add(yes ? 'right' : 'left');
-        st.reponses.push(yes);
-        setTimeout(async () => {
-            c.classList.remove('right', 'left');
-            qi++;
-            if (qi >= qs.length) {
-                // ✅ FIX : on sauvegarde ICI après la dernière question
-                goTo('s-waiting');
-                startTimer();
-                await saveUser();
-            } else
-                renderQ();
-        }, 270);
-    }
-
-    async function saveUser() {
-        try {
-            const data = await supa('users', 'POST', {
-                prenom: st.prenom,
-                email: st.email,
-                age: st.age,
-                genre: st.genre,
-                recherche_genre: st.recherche,
-                reponses: st.reponses,
-                statut_match: 'en_attente',
-                created_at: new Date().toISOString()
-            });
-            if (data && data[0]) {
-                st.userId = data[0].id;
-                showToast('✓ Inscription enregistrée !');
-                updateUserCount();
-            }
-        } catch (e) {
-            // Email déjà utilisé ?
-            if (e.message.includes('unique') || e.message.includes('duplicate')) {
-                showToast('Cet email est déjà inscrit');
-            } else {
-                showToast('Erreur — réessaie dans un instant');
-            }
-            console.error(e);
-        }
-    }
-
-    function startTimer() {
-        let t = 23 * 3600 + 59 * 60 + 59;
-        const el = document.getElementById('cd');
-        const id = setInterval(() => {
-            if (t <= 0) {
-                clearInterval(id);
-                return;
-            }
-            t--;
-            el.textContent = String(Math.floor(t / 3600)).padStart(2, '0') + ':' + String(Math.floor((t % 3600) / 60)).padStart(2, '0') + ':' + String(t % 60).padStart(2, '0');
-        }, 1000);
-    }
-
-    async function updateUserCount() {
-        try {
-            const data = await supa('users?select=id');
-            if (data && data.length > 0)
-                document.getElementById('user-count').textContent = 'Paris · ' + data.length + ' inscrits';
-        } catch (e) {}
-    }
-
-    async function acceptMatch() {
-        if (st.userId) {
-            try {
-                await supa('users?id=eq.' + st.userId, 'PATCH', {
-                    statut_match: 'accepte'
-                });
-            } catch (e) {}
-        }
-        showToast('🎉 Date confirmé !');
-        setTimeout(() => goTo('s-home'), 1500);
-    }
-
-    function adminLogin() {
-        const pw = document.getElementById('admin-pw').value;
-        if (pw === ADMIN_PASSWORD) {
-            goTo('s-admin');
-            loadAdmin();
-        }
-        else
-            showToast('Mot de passe incorrect');
-    }
-
-    async function loadAdmin() {
-        document.getElementById('admin-users').innerHTML = '<p style="font-size:13px;color:var(--ink3)">Chargement…</p>';
-        try {
-            const users = await supa('users?order=created_at.desc&limit=50');
-            const matches = await supa('matches?select=id,statut');
-            const total = users ? users.length : 0;
-            const matchCount = matches ? matches.length : 0;
-            const waiting = users ? users.filter(u => u.statut_match === 'en_attente').length : 0;
-            const accepted = matches ? matches.filter(m => m.statut === 'accepte').length : 0;
-            document.getElementById('stat-users').textContent = total;
-            document.getElementById('stat-matches').textContent = matchCount;
-            document.getElementById('stat-waiting').textContent = waiting;
-            document.getElementById('stat-accepted').textContent = accepted;
-            if (!users || users.length === 0) {
-                document.getElementById('admin-users').innerHTML = '<p style="font-size:13px;color:var(--ink3)">Aucun utilisateur encore.</p>';
-                return;
-            }
-            document.getElementById('admin-users').innerHTML = users.slice(0, 15).map(u => `
-                  <div class="user-row">
-                    <div class="user-av">${u.prenom ? u.prenom.charAt(0).toUpperCase() : '?'}</div>
-                    <div style="flex:1;min-width:0">
-                      <div class="user-name">${u.prenom || '–'}, ${u.age || '–'} ans</div>
-                      <div class="user-info">${u.genre || '–'} · cherche ${u.recherche_genre || '–'}</div>
-                      <div class="user-info">${u.email || ''}</div>
+    <!-- ══════════════ MATCH ══════════════ -->
+    <div class="screen" id="s-match">
+        <div class="mtop">
+            <div class="mbadge">✦ C'est un match</div>
+            <div class="mavs">
+                <div class="av av-a" id="ava">S</div>
+                <div class="av av-b">?</div>
+            </div>
+            <div class="mscore" id="mscore-num">94<sup>%</sup></div>
+            <div class="mscorelbl">compatibilité</div>
+            <p style="font-family:var(--font-mono);font-size:10px;color:var(--ink3);margin-top:6px;letter-spacing:.06em;text-transform:uppercase">Trouvé en 18 heures</p>
+        </div>
+        <div class="mbody">
+            <div class="mc">
+                <div class="mclbl">Ton match</div>
+                <div class="mname" id="mname">Thomas</div>
+                <div><span class="mmyst">◈ Aucune photo révélée</span></div>
+                <p class="mdesc">Vos réponses sont très alignées. La rencontre fera le reste.</p>
+            </div>
+            <div class="mc">
+                <div class="mclbl">Ton date mystère</div>
+                <div class="drow">
+                    <div class="dico">📅</div>
+                    <div>
+                        <div class="dlbl">Samedi 19 avril</div>
+                        <div class="dsub">19h30</div>
                     </div>
-                    <span class="user-badge ${u.statut_match === 'en_attente' ? 'badge-wait' : 'badge-match'}">${u.statut_match === 'en_attente' ? 'Attente' : 'Matché'}</span>
-                  </div>`).join('');
-        } catch (e) {
-            document.getElementById('admin-users').innerHTML = '<p style="font-size:13px;color:#e05555">Erreur de connexion Supabase.</p>';
-        }
-    }
+                </div>
+                <div class="drow">
+                    <div class="dico">📍</div>
+                    <div>
+                        <div class="dlbl">Paris, 11e arrondissement</div>
+                        <div class="dsub">Adresse révélée 1h avant</div>
+                    </div>
+                </div>
+                <div class="drow">
+                    <div class="dico">✦</div>
+                    <div>
+                        <div class="dlbl">Lieu surprise</div>
+                        <div class="dsub">Choisi selon vos réponses communes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mfoot">
+            <button class="btn btn-primary" onclick="acceptMatch()">J'accepte le date !</button>
+            <button class="btn btn-outline" onclick="goTo('s-home')">Retour à l'accueil</button>
+        </div>
+    </div>
 
-    async function runMatching() {
-        showToast('Analyse en cours…', 5000);
+    <!-- ══════════════ ADMIN LOGIN ══════════════ -->
+    <div class="screen" id="s-admin-login">
+        <div class="pg-head" style="flex:1;justify-content:center;display:flex;flex-direction:column">
+            <div class="pg-eye">Accès réservé</div>
+            <div class="pg-title">Dashboard<br><em>admin</em></div>
+            <p class="pg-sub" style="margin-bottom:28px">Gérez vos utilisateurs et vos matchs.</p>
+            <input class="input" id="admin-pw" type="password" placeholder="Mot de passe admin"/>
+        </div>
+        <div class="pg-foot">
+            <button class="btn btn-primary" onclick="adminLogin()">Accéder</button>
+            <button class="btn btn-outline" onclick="goTo('s-home')">Retour</button>
+        </div>
+    </div>
+
+    <!-- ══════════════ ADMIN ══════════════ -->
+    <div class="screen" id="s-admin">
+        <div class="admin-head">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                <div>
+                    <div class="eyebrow" style="margin-bottom:6px">Mystery Date</div>
+                    <div style="font-family:var(--font-sans);font-weight:800;font-size:1.6rem;letter-spacing:-.02em;text-transform:uppercase">Dashboard admin</div>
+                </div>
+                <button onclick="loadAdmin()" style="background:var(--line2);border:none;border-radius:2px;width:36px;height:36px;cursor:pointer;font-size:16px;color:var(--ink)">↻</button>
+            </div>
+        </div>
+        <div class="admin-body">
+            <div class="admin-stat-grid">
+                <div class="astat"><div class="astat-num" id="stat-users">–</div><div class="astat-lbl">Inscrits</div></div>
+                <div class="astat"><div class="astat-num" id="stat-matches">–</div><div class="astat-lbl">Matchs</div></div>
+                <div class="astat"><div class="astat-num" id="stat-waiting">–</div><div class="astat-lbl">En attente</div></div>
+                <div class="astat"><div class="astat-num" id="stat-accepted">–</div><div class="astat-lbl">Dates acceptés</div></div>
+            </div>
+            <div class="section-lbl">Utilisateurs récents</div>
+            <div id="admin-users"><p style="font-size:13px;font-style:italic;color:var(--ink3)">Chargement…</p></div>
+            <div style="margin-top:20px" class="section-lbl">Actions</div>
+            <button class="btn btn-primary" onclick="runMatching()" style="margin-bottom:10px">Lancer le matching IA</button>
+            <button class="btn btn-outline" onclick="goTo('s-home')">Retour à l'app</button>
+        </div>
+    </div>
+
+</div><!-- #app -->
+
+<script>
+/* ══════════════════════════════
+   CONFIG
+══════════════════════════════ */
+const SUPA_URL = 'https://kbekoqwcvacwcrzwftir.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtiZWtvcXdjdmFjd2NyendmdGlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYwODYzNzUsImV4cCI6MjA5MTY2MjM3NX0.gYrzVsno2UZeT_9P6moFMUbubqxXNagG5yXIaACejvg';
+const ADMIN_PASSWORD = '@@Loris002@@';
+
+/* ══════════════════════════════
+   FLASH CARDS DATA
+══════════════════════════════ */
+const CARDS = [
+    { t: "Je préfère une soirée calme à la maison plutôt qu'une sortie en boîte.",        theme: "Mode de vie" },
+    { t: "J'ai besoin de temps seul pour me ressourcer après avoir vu du monde.",          theme: "Énergie" },
+    { t: "Je peux parler pendant des heures d'un sujet qui me passionne.",                theme: "Communication" },
+    { t: "Je suis plutôt matinal qu'oiseau de nuit.",                                      theme: "Rythme" },
+    { t: "La fidélité, c'est non-négociable pour moi.",                                    theme: "Valeurs" },
+    { t: "Je préfère voyager hors des sentiers battus plutôt que dans les resorts.",       theme: "Voyages" },
+    { t: "Je préfère un vrai repas cuisiné à un restaurant fancy.",                        theme: "Quotidien" },
+    { t: "J'assume facilement mes émotions face à quelqu'un de proche.",                  theme: "Émotions" },
+    { t: "Je lis — livres, articles, peu importe, mais je lis.",                           theme: "Culture" },
+    { t: "L'humour est indispensable dans une relation.",                                  theme: "Relation" },
+    { t: "J'ai une ambition professionnelle clairement définie.",                          theme: "Vie pro" },
+    { t: "Je veux construire quelque chose de durable avec quelqu'un.",                   theme: "Projet" },
+    { t: "Je suis à l'aise avec le silence quand on est ensemble.",                       theme: "Intimité" },
+    { t: "Je préfère parler en face à face plutôt que par messages.",                     theme: "Communication" },
+    { t: "Je fais attention à ce que je mange — par choix, pas par obsession.",           theme: "Corps" },
+];
+
+/* ══════════════════════════════
+   STATE
+══════════════════════════════ */
+const st = {
+    genre: null,
+    recherche: null,
+    reponses: [],   // [{card_index, vote}]
+    prenom: '',
+    email: '',
+    age: 0,
+    userId: null,
+};
+
+let cardIndex = 0;
+let dragX = 0, dragStartX = 0, isDragging = false;
+
+/* ══════════════════════════════
+   SUPABASE HELPER
+══════════════════════════════ */
+async function supa(path, method='GET', body=null) {
+    const opts = {
+        method,
+        headers: {
+            'apikey': SUPA_KEY,
+            'Authorization': 'Bearer ' + SUPA_KEY,
+            'Content-Type': 'application/json',
+            'Prefer': method === 'POST' ? 'return=representation' : '',
+        }
+    };
+    if (body) opts.body = JSON.stringify(body);
+    const r = await fetch(SUPA_URL + '/rest/v1/' + path, opts);
+    if (!r.ok) { const e = await r.text(); throw new Error(e); }
+    return r.status === 204 ? null : r.json();
+}
+
+/* ══════════════════════════════
+   NAVIGATION
+══════════════════════════════ */
+function goTo(id) {
+    document.querySelectorAll('.screen').forEach(s => {
+        if (s.classList.contains('active')) {
+            s.classList.add('exit');
+            setTimeout(() => s.classList.remove('active','exit'), 400);
+        }
+    });
+    setTimeout(() => document.getElementById(id).classList.add('active'), 50);
+}
+
+function showToast(msg, dur=3000) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), dur);
+}
+
+/* ══════════════════════════════
+   SIGNUP
+══════════════════════════════ */
+function sg(b, v) {
+    st.genre = v;
+    document.querySelectorAll('.g-opt').forEach(x => x.classList.remove('sel'));
+    b.classList.add('sel');
+}
+function sr(b, v) {
+    st.recherche = v;
+    document.querySelectorAll('.rech-item').forEach(x => x.classList.remove('sel'));
+    b.classList.add('sel');
+}
+function vsignup() {
+    const p = document.getElementById('ip').value.trim();
+    const a = document.getElementById('ia').value;
+    const e = document.getElementById('ie').value.trim();
+    if (!p || !a || !e || !st.genre) { showToast('Remplis tous les champs'); return; }
+    if (parseInt(a) < 18)            { showToast('Tu dois avoir 18 ans minimum'); return; }
+    if (!e.includes('@'))            { showToast('Email invalide'); return; }
+    st.prenom = p;
+    st.email  = e;
+    st.age    = parseInt(a);
+    document.getElementById('ava').textContent = p.charAt(0).toUpperCase();
+    goTo('s-recherche');
+}
+
+/* ══════════════════════════════
+   FLASH CARDS ENGINE
+══════════════════════════════ */
+function startQ() {
+    if (!st.recherche) { showToast('Indique ce que tu recherches'); return; }
+    cardIndex   = 0;
+    st.reponses = [];
+    renderStack();
+    goTo('s-questions');
+}
+
+function renderStack() {
+    const stack = document.getElementById('card-stack');
+    stack.innerHTML = '';
+
+    // update progress bar
+    const bars = document.getElementById('qbars');
+    bars.innerHTML = '';
+    CARDS.forEach((_, i) => {
+        const b = document.createElement('div');
+        b.className = 'qb' + (i < cardIndex ? ' done' : i === cardIndex ? ' now' : '');
+        bars.appendChild(b);
+    });
+    document.getElementById('qcount').textContent = (cardIndex + 1) + ' / ' + CARDS.length;
+
+    // render 3 cards (depth effect)
+    for (let i = Math.min(cardIndex + 2, CARDS.length - 1); i >= cardIndex; i--) {
+        if (i >= CARDS.length) continue;
+        const layer = i - cardIndex;
+        const el = document.createElement('div');
+        el.className = 'flash-card ' + (layer === 0 ? 'top' : layer === 1 ? 'behind-1' : 'behind-2');
+        el.dataset.index = i;
+        el.innerHTML = `
+            <div class="vote-overlay vote-yes"><div class="vote-label">Oui</div></div>
+            <div class="vote-overlay vote-no"><div class="vote-label">Non</div></div>
+            <div class="vote-overlay vote-maybe"><div class="vote-label">Peut-être</div></div>
+            <div class="card-num">Carte ${String(i+1).padStart(2,'0')} — ${CARDS[i].theme}</div>
+            <div class="card-body"><div class="card-text">«\u00a0${CARDS[i].t}\u00a0»</div></div>
+            <div class="card-theme">${CARDS[i].theme.toLowerCase()}</div>`;
+        if (layer === 0) attachDrag(el);
+        stack.appendChild(el);
+    }
+}
+
+function attachDrag(el) {
+    // Mouse
+    el.addEventListener('mousedown', e => {
+        isDragging = true;
+        dragStartX = e.clientX;
+        el.style.transition = 'none';
+    });
+    document.addEventListener('mousemove', e => {
+        if (!isDragging) return;
+        dragX = e.clientX - dragStartX;
+        applyDrag(el, dragX);
+    });
+    document.addEventListener('mouseup', () => {
+        if (!isDragging) return;
+        isDragging = false;
+        el.style.transition = '';
+        commitDrag(el, dragX);
+        dragX = 0;
+    });
+    // Touch
+    el.addEventListener('touchstart', e => {
+        dragStartX = e.touches[0].clientX;
+        el.style.transition = 'none';
+    }, { passive: true });
+    el.addEventListener('touchmove', e => {
+        dragX = e.touches[0].clientX - dragStartX;
+        applyDrag(el, dragX);
+    }, { passive: true });
+    el.addEventListener('touchend', () => {
+        el.style.transition = '';
+        commitDrag(el, dragX);
+        dragX = 0;
+    });
+}
+
+function applyDrag(el, dx) {
+    const rot = dx * 0.06;
+    el.style.transform = `translateX(${dx}px) rotate(${rot}deg)`;
+    const [yes, no] = [el.querySelector('.vote-yes'), el.querySelector('.vote-no')];
+    yes.style.opacity = Math.max(0, dx / 80);
+    no.style.opacity  = Math.max(0, -dx / 80);
+}
+
+function commitDrag(el, dx) {
+    if      (dx >  80) vote('yes');
+    else if (dx < -80) vote('no');
+    else {
+        el.style.transform = '';
+        el.querySelectorAll('.vote-overlay').forEach(o => o.style.opacity = 0);
+    }
+}
+
+function vote(v) {
+    if (cardIndex >= CARDS.length) return;
+    const top = document.querySelector('.flash-card.top');
+    if (!top) return;
+
+    st.reponses.push({ card_index: cardIndex, vote: v });
+
+    // show overlay
+    const overlays = top.querySelectorAll('.vote-overlay');
+    overlays[0].style.opacity = v === 'yes'   ? 1 : 0;
+    overlays[1].style.opacity = v === 'no'    ? 1 : 0;
+    overlays[2].style.opacity = v === 'maybe' ? 1 : 0;
+
+    top.classList.add(v === 'yes' ? 'fly-right' : v === 'no' ? 'fly-left' : 'fly-up');
+
+    cardIndex++;
+    setTimeout(async () => {
+        if (cardIndex >= CARDS.length) {
+            goTo('s-waiting');
+            startTimer();
+            await saveUser();
+        } else {
+            renderStack();
+        }
+    }, 380);
+}
+
+/* ══════════════════════════════
+   SAVE USER
+══════════════════════════════ */
+async function saveUser() {
+    try {
+        const data = await supa('users', 'POST', {
+            prenom:          st.prenom,
+            email:           st.email,
+            age:             st.age,
+            genre:           st.genre,
+            recherche_genre: st.recherche,
+            reponses:        st.reponses,
+            statut_match:    'en_attente',
+            created_at:      new Date().toISOString(),
+        });
+        if (data && data[0]) {
+            st.userId = data[0].id;
+            showToast('✓ Profil enregistré !');
+            updateUserCount();
+        }
+    } catch (e) {
+        if (e.message.includes('unique') || e.message.includes('duplicate')) {
+            showToast('Cet email est déjà inscrit');
+        } else {
+            showToast('Erreur — réessaie dans un instant');
+        }
+        console.error(e);
+    }
+}
+
+/* ══════════════════════════════
+   TIMER
+══════════════════════════════ */
+function startTimer() {
+    let t = 23 * 3600 + 59 * 60 + 59;
+    const el = document.getElementById('cd');
+    const id = setInterval(() => {
+        if (t <= 0) { clearInterval(id); return; }
+        t--;
+        el.textContent =
+            String(Math.floor(t / 3600)).padStart(2,'0') + ':' +
+            String(Math.floor((t % 3600) / 60)).padStart(2,'0') + ':' +
+            String(t % 60).padStart(2,'0');
+    }, 1000);
+}
+
+/* ══════════════════════════════
+   USER COUNT
+══════════════════════════════ */
+async function updateUserCount() {
+    try {
+        const data = await supa('users?select=id');
+        if (data && data.length > 0)
+            document.getElementById('user-count').textContent = 'Paris · ' + data.length + ' inscrits';
+    } catch(e) {}
+}
+
+/* ══════════════════════════════
+   ACCEPT MATCH
+══════════════════════════════ */
+async function acceptMatch() {
+    if (st.userId) {
         try {
-            const users = await supa('users?statut_match=eq.en_attente&order=created_at.asc');
-            if (!users || users.length < 2) {
-                showToast('Pas assez de profils en attente');
-                return;
-            }
-            showToast('✓ ' + users.length + ' profils analysés — matching à venir');
-            loadAdmin();
-        } catch (e) {
-            showToast('Erreur lors du matching');
-        }
+            await supa('users?id=eq.' + st.userId, 'PATCH', { statut_match: 'accepte' });
+        } catch(e) {}
     }
+    showToast('🎉 Date confirmé !');
+    setTimeout(() => goTo('s-home'), 1500);
+}
 
-    updateUserCount();
-    </script>
+/* ══════════════════════════════
+   ADMIN
+══════════════════════════════ */
+function adminLogin() {
+    const pw = document.getElementById('admin-pw').value;
+    if (pw === ADMIN_PASSWORD) { goTo('s-admin'); loadAdmin(); }
+    else showToast('Mot de passe incorrect');
+}
+
+async function loadAdmin() {
+    document.getElementById('admin-users').innerHTML =
+        '<p style="font-size:13px;font-style:italic;color:var(--ink3)">Chargement…</p>';
+    try {
+        const users   = await supa('users?order=created_at.desc&limit=50');
+        const matches = await supa('matches?select=id,statut');
+        const total      = users   ? users.length   : 0;
+        const matchCount = matches ? matches.length  : 0;
+        const waiting    = users   ? users.filter(u => u.statut_match === 'en_attente').length : 0;
+        const accepted   = matches ? matches.filter(m => m.statut === 'accepte').length : 0;
+        document.getElementById('stat-users').textContent    = total;
+        document.getElementById('stat-matches').textContent  = matchCount;
+        document.getElementById('stat-waiting').textContent  = waiting;
+        document.getElementById('stat-accepted').textContent = accepted;
+        if (!users || users.length === 0) {
+            document.getElementById('admin-users').innerHTML =
+                '<p style="font-size:13px;font-style:italic;color:var(--ink3)">Aucun utilisateur encore.</p>';
+            return;
+        }
+        document.getElementById('admin-users').innerHTML = users.slice(0, 15).map(u => `
+            <div class="user-row">
+                <div class="user-av">${u.prenom ? u.prenom.charAt(0).toUpperCase() : '?'}</div>
+                <div style="flex:1;min-width:0">
+                    <div class="user-name">${u.prenom || '–'}, ${u.age || '–'} ans</div>
+                    <div class="user-info">${u.genre || '–'} · cherche ${u.recherche_genre || '–'}</div>
+                    <div class="user-info">${u.email || ''}</div>
+                </div>
+                <span class="user-badge ${u.statut_match === 'en_attente' ? 'badge-wait' : 'badge-match'}">
+                    ${u.statut_match === 'en_attente' ? 'Attente' : 'Matché'}
+                </span>
+            </div>`).join('');
+    } catch(e) {
+        document.getElementById('admin-users').innerHTML =
+            '<p style="font-size:13px;color:#FF3C3C">Erreur de connexion Supabase.</p>';
+    }
+}
+
+/* ══════════════════════════════
+   MATCHING ENGINE
+   Algo : similarité sur les réponses aux cartes
+   Match si score >= 70%
+══════════════════════════════ */
+function compatibilityScore(repA, repB) {
+    if (!repA || !repB || repA.length === 0) return 0;
+    const common = repA.filter(a => {
+        const b = repB.find(r => r.card_index === a.card_index);
+        return b && b.vote === a.vote;
+    });
+    return Math.round((common.length / repA.length) * 100);
+}
+
+async function runMatching() {
+    showToast('Analyse en cours…', 5000);
+    try {
+        const users = await supa('users?statut_match=eq.en_attente&order=created_at.asc');
+        if (!users || users.length < 2) {
+            showToast('Pas assez de profils en attente');
+            return;
+        }
+        let matched = 0;
+        const used = new Set();
+        for (let i = 0; i < users.length; i++) {
+            if (used.has(users[i].id)) continue;
+            for (let j = i + 1; j < users.length; j++) {
+                if (used.has(users[j].id)) continue;
+                const score = compatibilityScore(users[i].reponses, users[j].reponses);
+                if (score >= 70) {
+                    // save match
+                    await supa('matches', 'POST', {
+                        user_a_id: users[i].id,
+                        user_b_id: users[j].id,
+                        score,
+                        statut: 'pending',
+                        created_at: new Date().toISOString(),
+                    });
+                    // mark both matched
+                    await supa('users?id=eq.' + users[i].id, 'PATCH', { statut_match: 'matche' });
+                    await supa('users?id=eq.' + users[j].id, 'PATCH', { statut_match: 'matche' });
+                    used.add(users[i].id);
+                    used.add(users[j].id);
+                    matched++;
+                    break;
+                }
+            }
+        }
+        showToast('✓ ' + matched + ' match(s) créé(s) sur ' + users.length + ' profils');
+        loadAdmin();
+    } catch(e) {
+        showToast('Erreur lors du matching');
+        console.error(e);
+    }
+}
+
+/* ══════════════════════════════
+   INIT
+══════════════════════════════ */
+updateUserCount();
+</script>
 </body>
 </html>
