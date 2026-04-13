@@ -255,14 +255,14 @@
 
     .otp-wrap {
         display: flex;
-        gap: 10px;
+        gap: 6px;
         justify-content: center;
         margin: 28px 0;
     }
 
     .otp-digit {
-        width: 44px;
-        height: 56px;
+        width: 36px;
+        height: 52px;
         background: var(--line);
         border: 1px solid var(--line2);
         border-radius: 2px;
@@ -1628,6 +1628,8 @@
                     <input class="otp-digit" maxlength="1" type="tel" inputmode="numeric"/>
                     <input class="otp-digit" maxlength="1" type="tel" inputmode="numeric"/>
                     <input class="otp-digit" maxlength="1" type="tel" inputmode="numeric"/>
+                    <input class="otp-digit" maxlength="1" type="tel" inputmode="numeric"/>
+                    <input class="otp-digit" maxlength="1" type="tel" inputmode="numeric"/>
                 </div>
             </div>
             <div class="pg-foot">
@@ -2177,8 +2179,8 @@
     async function verifyOTP() {
         const digits = document.querySelectorAll('.otp-digit');
         const token = Array.from(digits).map(d => d.value).join('');
-        if (token.length < 6) {
-            showToast('Entre les 6 chiffres');
+        if (token.length < 8) {
+            showToast('Entre les 8 chiffres');
             return;
         }
         showToast('Vérification…', 3000);
