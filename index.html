@@ -212,6 +212,26 @@
         color: #1C1410;
     }
 
+    .pref-chip {
+        background: transparent;
+        border: 1px solid #E8C8B4;
+        border-radius: 20px;
+        padding: 6px 14px;
+        font-family: 'DM Mono', monospace;
+        font-size: 10px;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+        color: #7A5A48;
+        cursor: pointer;
+        transition: all .2s;
+    }
+
+    .pref-chip.active {
+        background: #E8622A;
+        border-color: #E8622A;
+        color: #FDF8F4;
+    }
+
     .btn-danger {
         background: transparent;
         border: 1px solid #F0C0B0;
@@ -1965,11 +1985,50 @@
                     <span class="profil-row-left">Je suis</span>
                     <span class="profil-row-right" id="profil-row-genre">—</span>
                 </div>
-                <div class="profil-row">
-                    <span class="profil-row-left">Je recherche</span>
-                    <span class="profil-row-right" id="profil-row-recherche">—</span>
+
+                <div class="profil-section-lbl" style="margin-top:16px;">Je cherche</div>
+
+                <!-- Genre recherché -->
+                <div style="background:#FAE8DA;border:1px solid #E8C8B4;border-radius:2px;padding:14px 16px;">
+                    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#A08878;margin-bottom:10px;">Genre</div>
+                    <div style="display:flex;flex-wrap:wrap;gap:6px;" id="genre-chips">
+                        <button onclick="toggleGenreChip(this,'homme')" class="pref-chip">Homme</button>
+                        <button onclick="toggleGenreChip(this,'non-binaire')" class="pref-chip">Non-binaire</button>
+                        <button onclick="toggleGenreChip(this,'trans')" class="pref-chip">Trans</button>
+                        <button onclick="toggleGenreChip(this,'tous')" class="pref-chip">Tous</button>
+                    </div>
                 </div>
-                <div class="profil-section-lbl">Compte</div>
+
+                <!-- Tranche d'âge -->
+                <div style="background:#FAE8DA;border:1px solid #E8C8B4;border-radius:2px;padding:14px 16px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#A08878;">Tranche d'âge</div>
+                        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:#E8622A;" id="age-range-label">18 – 45 ans</div>
+                    </div>
+                    <div style="margin-bottom:8px;">
+                        <input type="range" id="age-min" min="18" max="99" value="18" step="1" oninput="updateAgeRange()" style="width:100%;accent-color:#E8622A;margin-bottom:6px;">
+                        <input type="range" id="age-max" min="18" max="99" value="45" step="1" oninput="updateAgeRange()" style="width:100%;accent-color:#E8622A;">
+                    </div>
+                    <div style="display:flex;justify-content:space-between;">
+                        <span style="font-family:'DM Mono',monospace;font-size:9px;color:#C8A890;letter-spacing:.06em;">18 ans</span>
+                        <span style="font-family:'DM Mono',monospace;font-size:9px;color:#C8A890;letter-spacing:.06em;">99 ans</span>
+                    </div>
+                </div>
+
+                <!-- Rôle -->
+                <div style="background:#FAE8DA;border:1px solid #E8C8B4;border-radius:2px;padding:14px 16px;">
+                    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#A08878;margin-bottom:10px;">Je cherche quelqu'un de</div>
+                    <div style="display:flex;gap:6px;flex-wrap:wrap;" id="role-chips">
+                        <button onclick="toggleRoleChip(this,'actif')" class="pref-chip">Actif</button>
+                        <button onclick="toggleRoleChip(this,'passif')" class="pref-chip">Passif</button>
+                        <button onclick="toggleRoleChip(this,'versatile')" class="pref-chip">Versatile</button>
+                        <button onclick="toggleRoleChip(this,'peu importe')" class="pref-chip">Peu importe</button>
+                    </div>
+                </div>
+
+                <button onclick="savePreferences()" style="background:#E8622A;border:none;border-radius:2px;padding:13px;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#FDF8F4;cursor:pointer;width:100%;margin-top:4px;">Sauvegarder mes préférences</button>
+
+                <div class="profil-section-lbl" style="margin-top:16px;">Compte</div>
                 <div class="profil-row" onclick="goTo('s-admin-login')">
                     <span class="profil-row-left">Accès admin</span>
                     <span class="profil-row-right">→</span>
@@ -2061,782 +2120,563 @@
     /* ══ SUPABASE ══ */
     const {createClient} = supabase;
     const sb = createClient(
-    'https://kbekoqwcvacwcrzwftir.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtiZWtvcXdjdmFjd2NyendmdGlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYwODYzNzUsImV4cCI6MjA5MTY2MjM3NX0.gYrzVsno2UZeT_9P6moFMUbubqxXNagG5yXIaACejvg'
+        'https://kbekoqwcvacwcrzwftir.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtiZWtvcXdjdmFjd2NyendmdGlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYwODYzNzUsImV4cCI6MjA5MTY2MjM3NX0.gYrzVsno2UZeT_9P6moFMUbubqxXNagG5yXIaACejvg'
     );
     const ADMIN_PASSWORD = '@@Loris002@@';
 
     /* ══ CARDS DATA ══ */
     const CARDS = [
-    {
-        t: "Je préfère une soirée calme à la maison plutôt qu'une sortie en boîte.",
-        theme: "Mode de vie"
-    },
-    {
-        t: "J'ai besoin de temps seul pour me ressourcer après avoir vu du monde.",
-        theme: "Énergie"
-    },
-    {
-        t: "Je peux parler pendant des heures d'un sujet qui me passionne.",
-        theme: "Communication"
-    },
-    {
-        t: "Je suis plutôt matinal qu'oiseau de nuit.",
-        theme: "Rythme"
-    },
-    {
-        t: "La fidélité, c'est non-négociable pour moi.",
-        theme: "Valeurs"
-    },
-    {
-        t: "Je préfère voyager hors des sentiers battus plutôt que dans les resorts.",
-        theme: "Voyages"
-    },
-    {
-        t: "Je préfère un vrai repas cuisiné à un restaurant fancy.",
-        theme: "Quotidien"
-    },
-    {
-        t: "J'assume facilement mes émotions face à quelqu'un de proche.",
-        theme: "Émotions"
-    },
-    {
-        t: "Je lis — livres, articles, peu importe, mais je lis.",
-        theme: "Culture"
-    },
-    {
-        t: "L'humour est indispensable dans une relation.",
-        theme: "Relation"
-    },
-    {
-        t: "J'ai une ambition professionnelle clairement définie.",
-        theme: "Vie pro"
-    },
-    {
-        t: "Je veux construire quelque chose de durable avec quelqu'un.",
-        theme: "Projet"
-    },
-    {
-        t: "Je suis à l'aise avec le silence quand on est ensemble.",
-        theme: "Intimité"
-    },
-    {
-        t: "Je préfère parler en face à face plutôt que par messages.",
-        theme: "Communication"
-    },
-    {
-        t: "Je fais attention à ce que je mange — par choix, pas par obsession.",
-        theme: "Corps"
-    },
+        {t:"Je préfère une soirée calme à la maison plutôt qu'une sortie en boîte.",theme:"Mode de vie"},
+        {t:"J'ai besoin de temps seul pour me ressourcer après avoir vu du monde.",theme:"Énergie"},
+        {t:"Je peux parler pendant des heures d'un sujet qui me passionne.",theme:"Communication"},
+        {t:"Je suis plutôt matinal qu'oiseau de nuit.",theme:"Rythme"},
+        {t:"La fidélité, c'est non-négociable pour moi.",theme:"Valeurs"},
+        {t:"Je préfère voyager hors des sentiers battus plutôt que dans les resorts.",theme:"Voyages"},
+        {t:"Je préfère un vrai repas cuisiné à un restaurant fancy.",theme:"Quotidien"},
+        {t:"J'assume facilement mes émotions face à quelqu'un de proche.",theme:"Émotions"},
+        {t:"Je lis — livres, articles, peu importe, mais je lis.",theme:"Culture"},
+        {t:"L'humour est indispensable dans une relation.",theme:"Relation"},
+        {t:"J'ai une ambition professionnelle clairement définie.",theme:"Vie pro"},
+        {t:"Je veux construire quelque chose de durable avec quelqu'un.",theme:"Projet"},
+        {t:"Je suis à l'aise avec le silence quand on est ensemble.",theme:"Intimité"},
+        {t:"Je préfère parler en face à face plutôt que par messages.",theme:"Communication"},
+        {t:"Je fais attention à ce que je mange — par choix, pas par obsession.",theme:"Corps"},
     ];
 
     /* ══ STATE ══ */
-    const st = {
-        genre: null,
-        recherche: null,
-        reponses: [],
-        prenom: '',
-        email: '',
-        age: 0,
-        userId: null,
-        authUser: null,
-        otpContext: null
-    };
-    let cardIdx = 0,
-        tabCardIdx = 0,
-        dragX = 0,
-        dragStartX = 0,
-        isDragging = false,
-        selectedSlot = null;
+    const st = {genre:null,recherche:null,reponses:[],prenom:'',email:'',age:0,userId:null,authUser:null,otpContext:null};
+    let cardIdx=0, tabCardIdx=0, dragX=0, dragStartX=0, isDragging=false, selectedSlot=null;
 
     const SLOTS = [
-    {
-        day: 'Samedi 19 avril',
-        time: '19h00',
-        sub: 'Soirée'
-    },
-    {
-        day: 'Samedi 19 avril',
-        time: '20h30',
-        sub: 'Soirée tardive'
-    },
-    {
-        day: 'Dimanche 20 avril',
-        time: '12h00',
-        sub: 'Déjeuner'
-    },
-    {
-        day: 'Dimanche 20 avril',
-        time: '17h00',
-        sub: 'Après-midi'
-    },
+        {day:'Samedi 19 avril',time:'19h00',sub:'Soirée'},
+        {day:'Samedi 19 avril',time:'20h30',sub:'Soirée tardive'},
+        {day:'Dimanche 20 avril',time:'12h00',sub:'Déjeuner'},
+        {day:'Dimanche 20 avril',time:'17h00',sub:'Après-midi'},
     ];
 
     /* ══ NAV ══ */
-    function goTo(id) {
-        document.querySelectorAll('.screen').forEach(s => {
-            if (s.classList.contains('active')) {
-                s.classList.add('exit');
-                setTimeout(() => s.classList.remove('active', 'exit'), 400);
-            }
+    function goTo(id){
+        document.querySelectorAll('.screen').forEach(s=>{
+            if(s.classList.contains('active')){s.classList.add('exit');setTimeout(()=>s.classList.remove('active','exit'),400);}
         });
-        setTimeout(() => document.getElementById(id).classList.add('active'), 50);
+        setTimeout(()=>document.getElementById(id).classList.add('active'),50);
     }
-    function showApp() {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    function showApp(){
+        document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
         document.getElementById('bottom-nav').classList.add('visible');
         switchTab('accueil');
         loadProfileData();
         loadMatchs();
         renderTabCards();
     }
-    function switchTab(tab) {
-        document.querySelectorAll('.tab-screen').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('tab-' + tab).classList.add('active');
-        document.getElementById('nav-' + tab).classList.add('active');
+    function switchTab(tab){
+        document.querySelectorAll('.tab-screen').forEach(s=>s.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+        document.getElementById('tab-'+tab).classList.add('active');
+        document.getElementById('nav-'+tab).classList.add('active');
     }
-    function showToast(msg, dur=3000) {
-        const t = document.getElementById('toast');
-        t.textContent = msg;
-        t.classList.add('show');
-        setTimeout(() => t.classList.remove('show'), dur);
+    function showToast(msg,dur=3000){
+        const t=document.getElementById('toast');
+        t.textContent=msg;t.classList.add('show');
+        setTimeout(()=>t.classList.remove('show'),dur);
     }
 
     /* ══ OTP AUTH ══ */
-    async function sendOTP(context) {
-        const email = (context === 'login' ? document.getElementById('login-email') : document.getElementById('ie')).value.trim();
-        if (!email || !email.includes('@')) {
-            showToast('Email invalide');
+    async function sendOTP(context){
+        const email=(context==='login'?document.getElementById('login-email'):document.getElementById('ie')).value.trim();
+        if(!email||!email.includes('@')){showToast('Email invalide');return;}
+        st.otpContext=context; st.email=email;
+
+        // Vérifier si l'email existe déjà
+        const {data:existing}=await sb.from('users').select('id').eq('email',email).limit(1);
+        const hasAccount=existing&&existing.length>0;
+
+        if(context==='signup'&&hasAccount){
+            showToast('Tu as déjà un compte Kino !',3000);
+            setTimeout(()=>{
+                document.getElementById('login-email').value=email;
+                goTo('s-login');
+                showToast('Entre ton email pour te connecter.');
+            },1600);
             return;
         }
-        st.otpContext = context;
-        st.email = email;
-        showToast('Envoi du code…', 4000);
-        const {error} = await sb.auth.signInWithOtp({
-            email,
-            options: {
-                shouldCreateUser: true
-            }
-        });
-        if (error) {
-            showToast('Erreur : ' + error.message);
+
+        if(context==='login'&&!hasAccount){
+            showToast('Pas encore de compte.',3000);
+            setTimeout(()=>{
+                document.getElementById('ie').value=email;
+                goTo('s-signup');
+                showToast('Crée ton profil pour commencer.');
+            },1600);
             return;
         }
-        document.getElementById('otp-email-display').textContent = email;
+
+        showToast('Envoi du code…',4000);
+        const {error}=await sb.auth.signInWithOtp({email,options:{shouldCreateUser:true}});
+        if(error){showToast('Erreur : '+error.message);return;}
+        document.getElementById('otp-email-display').textContent=email;
         goTo('s-otp');
         setupOTPInputs();
-        showToast('Code envoyé. Ici, on rencontre vraiment.');
+        showToast('Code envoyé ! Vérifie tes emails.');
     }
-
-    function setupOTPInputs() {
-        const digits = document.querySelectorAll('.otp-digit');
-        digits.forEach((d, i) => {
-            d.value = '';
-            d.oninput = () => {
-                if (d.value.length === 1 && i < digits.length - 1)
-                    digits[i + 1].focus();
-            };
-            d.onkeydown = (e) => {
-                if (e.key === 'Backspace' && !d.value && i > 0)
-                    digits[i - 1].focus();
-            };
+    function setupOTPInputs(){
+        const digits=document.querySelectorAll('.otp-digit');
+        digits.forEach((d,i)=>{
+            d.value='';
+            d.oninput=()=>{if(d.value.length===1&&i<digits.length-1)digits[i+1].focus();};
+            d.onkeydown=(e)=>{if(e.key==='Backspace'&&!d.value&&i>0)digits[i-1].focus();};
         });
-        setTimeout(() => digits[0].focus(), 300);
+        setTimeout(()=>digits[0].focus(),300);
     }
 
-    async function verifyOTP() {
-        const digits = document.querySelectorAll('.otp-digit');
-        const token = Array.from(digits).map(d => d.value).join('');
-        if (token.length < 8) {
-            showToast('Entre les 8 chiffres');
-            return;
-        }
-        showToast('Vérification…', 3000);
-        const {data, error} = await sb.auth.verifyOtp({
-            email: st.email,
-            token,
-            type: 'email'
-        });
-        if (error) {
-            showToast('Code incorrect ou expiré');
-            return;
-        }
-        st.authUser = data.user;
-        if (st.otpContext === 'login') {
-            await loadExistingProfile();
-        }
-        else {
-            goTo('s-recherche');
-        }
+    async function verifyOTP(){
+        const digits=document.querySelectorAll('.otp-digit');
+        const token=Array.from(digits).map(d=>d.value).join('');
+        if(token.length<8){showToast('Entre les 8 chiffres');return;}
+        showToast('Vérification…',3000);
+        const {data,error}=await sb.auth.verifyOtp({email:st.email,token,type:'email'});
+        if(error){showToast('Code incorrect ou expiré');return;}
+        st.authUser=data.user;
+        if(st.otpContext==='login'){await loadExistingProfile();}
+        else{goTo('s-recherche');}
     }
 
-    async function loadExistingProfile() {
-        const {data} = await sb.from('users').select('*').eq('auth_id', st.authUser.id).single();
-        if (data) {
-            st.userId = data.id;
-            st.prenom = data.prenom;
-            st.age = data.age;
-            st.genre = data.genre;
-            st.recherche = data.recherche_genre;
-            st.reponses = data.reponses || [];
+    async function loadExistingProfile(){
+        const {data}=await sb.from('users').select('*').eq('auth_id',st.authUser.id).single();
+        if(data){
+            st.userId=data.id;st.prenom=data.prenom;st.age=data.age;
+            st.genre=data.genre;st.recherche=data.recherche_genre;
+            st.reponses=data.reponses||[];
             showApp();
         } else {
-            goTo('s-signup');
-            showToast('Complète ton profil pour continuer');
+            // Chercher par email aussi
+            const {data:byEmail}=await sb.from('users').select('*').eq('email',st.email).single();
+            if(byEmail){
+                st.userId=byEmail.id;st.prenom=byEmail.prenom;st.age=byEmail.age;
+                st.genre=byEmail.genre;st.recherche=byEmail.recherche_genre;
+                st.reponses=byEmail.reponses||[];
+                // Mettre à jour auth_id
+                await sb.from('users').update({auth_id:st.authUser.id}).eq('id',byEmail.id);
+                showApp();
+            } else {
+                goTo('s-signup');
+                showToast('Complète ton profil pour continuer');
+            }
         }
     }
 
     /* ══ SIGNUP ══ */
-    function sg(b, v) {
-        st.genre = v;
-        document.querySelectorAll('.g-opt').forEach(x => x.classList.remove('sel'));
-        b.classList.add('sel');
-    }
-    function sr(b, v) {
-        st.recherche = v;
-        document.querySelectorAll('.rech-item').forEach(x => x.classList.remove('sel'));
-        b.classList.add('sel');
-    }
-    function vsignup() {
-        const p = document.getElementById('ip').value.trim();
-        const a = document.getElementById('ia').value;
-        const e = document.getElementById('ie').value.trim();
-        if (!p || !a || !e || !st.genre) {
-            showToast('Remplis tous les champs');
-            return;
-        }
-        if (parseInt(a) < 18) {
-            showToast('Tu dois avoir 18 ans minimum');
-            return;
-        }
-        if (!e.includes('@')) {
-            showToast('Email invalide');
-            return;
-        }
-        st.prenom = p;
-        st.email = e;
-        st.age = parseInt(a);
+    function sg(b,v){st.genre=v;document.querySelectorAll('.g-opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');}
+    function sr(b,v){st.recherche=v;document.querySelectorAll('.rech-item').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');}
+    function vsignup(){
+        const p=document.getElementById('ip').value.trim();
+        const a=document.getElementById('ia').value;
+        const e=document.getElementById('ie').value.trim();
+        if(!p||!a||!e||!st.genre){showToast('Remplis tous les champs');return;}
+        if(parseInt(a)<18){showToast('Tu dois avoir 18 ans minimum');return;}
+        if(!e.includes('@')){showToast('Email invalide');return;}
+        st.prenom=p;st.email=e;st.age=parseInt(a);
         sendOTP('signup');
     }
-    function startQ() {
-        if (!st.recherche) {
-            showToast('Indique ce que tu recherches');
-            return;
-        }
-        cardIdx = 0;
-        st.reponses = [];
-        renderStack('card-stack', 'qbars', 'qcount', cardIdx);
+    function startQ(){
+        if(!st.recherche){showToast('Indique ce que tu recherches');return;}
+        cardIdx=0;st.reponses=[];
+        renderStack('card-stack','qbars','qcount',cardIdx);
         goTo('s-questions');
     }
 
     /* ══ CARDS ENGINE ══ */
-    function renderStack(stackId, barsId, countId, idx) {
-        const stack = document.getElementById(stackId);
-        stack.innerHTML = '';
-        const bars = document.getElementById(barsId);
-        bars.innerHTML = '';
-        CARDS.forEach((_, i) => {
-            const b = document.createElement('div');
-            b.className = 'qb' + (i < idx ? ' done' : i === idx ? ' now' : '');
+    function renderStack(stackId,barsId,countId,idx){
+        const stack=document.getElementById(stackId);
+        stack.innerHTML='';
+        const bars=document.getElementById(barsId);
+        bars.innerHTML='';
+        CARDS.forEach((_,i)=>{
+            const b=document.createElement('div');
+            b.className='qb'+(i<idx?' done':i===idx?' now':'');
             bars.appendChild(b);
         });
-        document.getElementById(countId).textContent = (idx + 1) + ' / ' + CARDS.length;
-        for (let i = Math.min(idx + 2, CARDS.length - 1); i >= idx; i--) {
-            if (i >= CARDS.length)
-                continue;
-            const layer = i - idx;
-            const el = document.createElement('div');
-            el.className = 'flash-card ' + (layer === 0 ? 'top' : layer === 1 ? 'behind-1' : 'behind-2');
-            el.innerHTML = `
-                        <div class="vote-overlay vote-yes"><div class="vote-label">Oui</div></div>
-                        <div class="vote-overlay vote-no"><div class="vote-label">Non</div></div>
-                        <div class="vote-overlay vote-maybe"><div class="vote-label">Peut-être</div></div>
-                        <div class="card-num">Carte ${String(i + 1).padStart(2, '0')} — ${CARDS[i].theme}</div>
-                        <div class="card-body"><div class="card-text">«\u00a0${CARDS[i].t}\u00a0»</div></div>
-                        <div class="card-theme">${CARDS[i].theme.toLowerCase()}</div>`;
-            if (layer === 0)
-                attachDrag(el, stackId === 'card-stack' ? 'signup' : 'tab');
+        document.getElementById(countId).textContent=(idx+1)+' / '+CARDS.length;
+        for(let i=Math.min(idx+2,CARDS.length-1);i>=idx;i--){
+            if(i>=CARDS.length)continue;
+            const layer=i-idx;
+            const el=document.createElement('div');
+            el.className='flash-card '+(layer===0?'top':layer===1?'behind-1':'behind-2');
+            el.innerHTML=`
+                <div class="vote-overlay vote-yes"><div class="vote-label">Oui</div></div>
+                <div class="vote-overlay vote-no"><div class="vote-label">Non</div></div>
+                <div class="vote-overlay vote-maybe"><div class="vote-label">Peut-être</div></div>
+                <div class="card-num">Carte ${String(i+1).padStart(2,'0')} — ${CARDS[i].theme}</div>
+                <div class="card-body"><div class="card-text">« ${CARDS[i].t} »</div></div>
+                <div class="card-theme">${CARDS[i].theme.toLowerCase()}</div>`;
+            if(layer===0)attachDrag(el,stackId==='card-stack'?'signup':'tab');
             stack.appendChild(el);
         }
     }
 
-    function attachDrag(el, ctx) {
-        const move = (dx) => {
-            el.style.transform = `translateX(${dx}px) rotate(${dx * 0.06}deg)`;
-            el.querySelector('.vote-yes').style.opacity = Math.max(0, dx / 80);
-            el.querySelector('.vote-no').style.opacity = Math.max(0, -dx / 80);
+    function attachDrag(el,ctx){
+        const move=(dx)=>{
+            el.style.transform=`translateX(${dx}px) rotate(${dx*0.06}deg)`;
+            el.querySelector('.vote-yes').style.opacity=Math.max(0,dx/80);
+            el.querySelector('.vote-no').style.opacity=Math.max(0,-dx/80);
         };
-        const end = (dx) => {
-            el.style.transition = '';
-            if (dx > 80)
-                ctx === 'signup' ? vote('yes') : tabVote('yes');
-            else if (dx < -80)
-                ctx === 'signup' ? vote('no') : tabVote('no');
-            else {
-                el.style.transform = '';
-                el.querySelectorAll('.vote-overlay').forEach(o => o.style.opacity = 0);
-            }
+        const end=(dx)=>{
+            el.style.transition='';
+            if(dx>80)ctx==='signup'?vote('yes'):tabVote('yes');
+            else if(dx<-80)ctx==='signup'?vote('no'):tabVote('no');
+            else{el.style.transform='';el.querySelectorAll('.vote-overlay').forEach(o=>o.style.opacity=0);}
         };
-        el.addEventListener('mousedown', e => {
-            isDragging = true;
-            dragStartX = e.clientX;
-            el.style.transition = 'none';
-        });
-        document.addEventListener('mousemove', e => {
-            if (!isDragging)
-                return;
-            dragX = e.clientX - dragStartX;
-            move(dragX);
-        });
-        document.addEventListener('mouseup', () => {
-            if (!isDragging)
-                return;
-            isDragging = false;
-            end(dragX);
-            dragX = 0;
-        });
-        el.addEventListener('touchstart', e => {
-            dragStartX = e.touches[0].clientX;
-            el.style.transition = 'none';
-        }, {
-            passive: true
-        });
-        el.addEventListener('touchmove', e => {
-            dragX = e.touches[0].clientX - dragStartX;
-            move(dragX);
-        }, {
-            passive: true
-        });
-        el.addEventListener('touchend', () => {
-            end(dragX);
-            dragX = 0;
-        });
+        el.addEventListener('mousedown',e=>{isDragging=true;dragStartX=e.clientX;el.style.transition='none';});
+        document.addEventListener('mousemove',e=>{if(!isDragging)return;dragX=e.clientX-dragStartX;move(dragX);});
+        document.addEventListener('mouseup',()=>{if(!isDragging)return;isDragging=false;end(dragX);dragX=0;});
+        el.addEventListener('touchstart',e=>{dragStartX=e.touches[0].clientX;el.style.transition='none';},{passive:true});
+        el.addEventListener('touchmove',e=>{dragX=e.touches[0].clientX-dragStartX;move(dragX);},{passive:true});
+        el.addEventListener('touchend',()=>{end(dragX);dragX=0;});
     }
 
-    function vote(v) {
-        if (cardIdx >= CARDS.length)
-            return;
-        const top = document.querySelector('#card-stack .top');
-        if (!top)
-            return;
-        st.reponses.push({
-            card_index: cardIdx,
-            vote: v
-        });
-        top.querySelector('.vote-yes').style.opacity = v === 'yes' ? 1 : 0;
-        top.querySelector('.vote-no').style.opacity = v === 'no' ? 1 : 0;
-        top.querySelector('.vote-maybe').style.opacity = v === 'maybe' ? 1 : 0;
-        top.classList.add(v === 'yes' ? 'fly-right' : v === 'no' ? 'fly-left' : 'fly-up');
+    function vote(v){
+        if(cardIdx>=CARDS.length)return;
+        const top=document.querySelector('#card-stack .top');if(!top)return;
+        st.reponses.push({card_index:cardIdx,vote:v});
+        top.querySelector('.vote-yes').style.opacity=v==='yes'?1:0;
+        top.querySelector('.vote-no').style.opacity=v==='no'?1:0;
+        top.querySelector('.vote-maybe').style.opacity=v==='maybe'?1:0;
+        top.classList.add(v==='yes'?'fly-right':v==='no'?'fly-left':'fly-up');
         cardIdx++;
-        setTimeout(async () => {
-            if (cardIdx >= CARDS.length) {
-                await saveUser();
-                showApp();
-            }
-            else
-                renderStack('card-stack', 'qbars', 'qcount', cardIdx);
-        }, 380);
+        setTimeout(async()=>{
+            if(cardIdx>=CARDS.length){await saveUser();showApp();}
+            else renderStack('card-stack','qbars','qcount',cardIdx);
+        },380);
     }
 
-    function tabVote(v) {
-        if (tabCardIdx >= CARDS.length)
-            return;
-        const top = document.querySelector('#tab-card-stack .top');
-        if (!top)
-            return;
-        st.reponses.push({
-            card_index: tabCardIdx,
-            vote: v
-        });
-        top.querySelector('.vote-yes').style.opacity = v === 'yes' ? 1 : 0;
-        top.querySelector('.vote-no').style.opacity = v === 'no' ? 1 : 0;
-        top.querySelector('.vote-maybe').style.opacity = v === 'maybe' ? 1 : 0;
-        top.classList.add(v === 'yes' ? 'fly-right' : v === 'no' ? 'fly-left' : 'fly-up');
+    function tabVote(v){
+        if(tabCardIdx>=CARDS.length)return;
+        const top=document.querySelector('#tab-card-stack .top');if(!top)return;
+        st.reponses.push({card_index:tabCardIdx,vote:v});
+        top.querySelector('.vote-yes').style.opacity=v==='yes'?1:0;
+        top.querySelector('.vote-no').style.opacity=v==='no'?1:0;
+        top.querySelector('.vote-maybe').style.opacity=v==='maybe'?1:0;
+        top.classList.add(v==='yes'?'fly-right':v==='no'?'fly-left':'fly-up');
         tabCardIdx++;
-        setTimeout(async () => {
-            if (tabCardIdx >= CARDS.length) {
-                document.getElementById('tab-card-area').style.display = 'none';
-                document.getElementById('tab-done').style.display = 'block';
+        setTimeout(async()=>{
+            if(tabCardIdx>=CARDS.length){
+                document.getElementById('tab-card-area').style.display='none';
+                document.getElementById('tab-done').style.display='block';
                 await updateResponses();
-            } else
-                renderStack('tab-card-stack', 'tab-qbars', 'tab-qcount', tabCardIdx);
-        }, 380);
+            } else renderStack('tab-card-stack','tab-qbars','tab-qcount',tabCardIdx);
+        },380);
     }
 
-    function renderTabCards() {
-        const done = st.reponses.length >= CARDS.length;
-        document.getElementById('tab-card-area').style.display = done ? 'none' : 'block';
-        document.getElementById('tab-done').style.display = done ? 'block' : 'none';
-        if (!done) {
-            tabCardIdx = st.reponses.length;
-            renderStack('tab-card-stack', 'tab-qbars', 'tab-qcount', tabCardIdx);
-        }
+    function renderTabCards(){
+        const done=st.reponses.length>=CARDS.length;
+        document.getElementById('tab-card-area').style.display=done?'none':'block';
+        document.getElementById('tab-done').style.display=done?'block':'none';
+        if(!done){tabCardIdx=st.reponses.length;renderStack('tab-card-stack','tab-qbars','tab-qcount',tabCardIdx);}
     }
 
     /* ══ SAVE USER ══ */
-    async function saveUser() {
-        try {
-            const {data, error} = await sb.from('users').insert({
-                prenom: st.prenom,
-                email: st.email,
-                age: st.age,
-                genre: st.genre,
-                recherche_genre: st.recherche,
-                reponses: st.reponses,
-                statut_match: 'en_attente',
-                auth_id: st.authUser ? st.authUser.id : null,
-                created_at: new Date().toISOString(),
+    async function saveUser(){
+        try{
+            const {data,error}=await sb.from('users').insert({
+                prenom:st.prenom,email:st.email,age:st.age,genre:st.genre,
+                recherche_genre:st.recherche,reponses:st.reponses,
+                statut_match:'en_attente',auth_id:st.authUser?st.authUser.id:null,
+                created_at:new Date().toISOString(),
             }).select();
-            if (error)
-                throw error;
-            if (data && data[0]) {
-                st.userId = data[0].id;
-                showToast('✓ Profil créé !');
-            }
-        } catch (e) {
-            showToast(e.message && (e.message.includes('unique') || e.message.includes('duplicate')) ? 'Email déjà inscrit' : 'Erreur — réessaie');
+            if(error)throw error;
+            if(data&&data[0]){st.userId=data[0].id;showToast('✓ Profil créé !');}
+        }catch(e){
+            showToast(e.message&&(e.message.includes('unique')||e.message.includes('duplicate'))?'Email déjà inscrit':'Erreur — réessaie');
             console.error(e);
         }
     }
-    async function updateResponses() {
-        if (!st.userId)
-            return;
-        await sb.from('users').update({
-            reponses: st.reponses
-        }).eq('id', st.userId);
+    async function updateResponses(){
+        if(!st.userId)return;
+        await sb.from('users').update({reponses:st.reponses}).eq('id',st.userId);
     }
 
     /* ══ PROFILE ══ */
-    async function loadProfileData() {
-        document.getElementById('profil-av').textContent = st.prenom ? st.prenom.charAt(0).toUpperCase() : '?';
-        document.getElementById('profil-name').textContent = st.prenom || '—';
-        document.getElementById('profil-email').textContent = st.email || '—';
-        document.getElementById('profil-row-prenom').textContent = st.prenom || '—';
-        document.getElementById('profil-row-age').textContent = st.age || '—';
-        document.getElementById('profil-row-genre').textContent = st.genre || '—';
-        document.getElementById('profil-row-recherche').textContent = st.recherche || '—';
-        document.getElementById('profil-stat-cards').textContent = st.reponses.length;
-        if (st.userId) {
-            const {data} = await sb.from('matches').select('id').or(`user_a.eq.${st.userId},user_b.eq.${st.userId}`);
-            document.getElementById('profil-stat-matchs').textContent = data ? data.length : 0;
+    async function loadProfileData(){
+        document.getElementById('profil-av').textContent=st.prenom?st.prenom.charAt(0).toUpperCase():'?';
+        document.getElementById('profil-name').textContent=st.prenom||'—';
+        document.getElementById('profil-email').textContent=st.email||'—';
+        document.getElementById('profil-row-prenom').textContent=st.prenom||'—';
+        document.getElementById('profil-row-age').textContent=st.age||'—';
+        document.getElementById('profil-row-genre').textContent=st.genre||'—';
+        document.getElementById('profil-stat-cards').textContent=st.reponses.length;
+        if(st.userId){
+            const {data}=await sb.from('matches').select('id').or(`user_a.eq.${st.userId},user_b.eq.${st.userId}`);
+            document.getElementById('profil-stat-matchs').textContent=data?data.length:0;
+            await loadPreferences();
         }
-    }
-
-    /* ══ MATCHS ══ */
-    async function loadMatchs() {
-        const el = document.getElementById('matchs-content');
-        if (!st.userId) {
-            renderNoMatch(el);
-            return;
-        }
-
-        const {data: matches} = await sb.from('matches')
-        .select('*')
-        .or(`user_a.eq.${st.userId},user_b.eq.${st.userId}`)
-        .in('statut', ['pending', 'accepte'])
-        .order('created_at', {
-            ascending: false
-        })
-        .limit(1);
-
-        if (!matches || matches.length === 0) {
-            renderNoMatch(el);
-            return;
-        }
-        el.innerHTML = '';
-
-        for (const m of matches) {
-            const isUserA = m.user_a === st.userId;
-            const otherId = isUserA ? m.user_b : m.user_a;
-            const myReponse = isUserA ? m.reponse_a : m.reponse_b;
-            const {data: other} = await sb.from('users').select('prenom,age').eq('id', otherId).single();
-            const name = other ? other.prenom : '?';
-            const score = m.score || 0;
-
-            let actionHTML = '';
-            if (m.statut === 'accepte') {
-                actionHTML = `<div style="display:flex;align-items:center;gap:8px;padding:10px 0 0;border-top:1px solid #F0DDD0;margin-top:10px;">
-                                <div style="width:8px;height:8px;border-radius:50%;background:#4A9B6F;flex-shrink:0;"></div>
-                                <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:#4A9B6F;">Date confirmé — un café vous attend</span>
-                            </div>`;
-            } else if (myReponse === 'accepte') {
-                actionHTML = `<div style="padding:10px 0 0;border-top:1px solid #F0DDD0;margin-top:10px;">
-                                <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:#A08878;">En attente de sa réponse…</span>
-                            </div>`;
-            } else if (myReponse === 'refuse') {
-                actionHTML = `<div style="padding:10px 0 0;border-top:1px solid #F0DDD0;margin-top:10px;">
-                                <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:#C0392B;">Match refusé</span>
-                            </div>`;
-            } else {
-                actionHTML = `<div style="display:flex;gap:8px;padding-top:12px;border-top:1px solid #F0DDD0;margin-top:10px;">
-                                <button onclick="respondMatch('${m.id}','refuse',${isUserA})" style="flex:1;padding:10px;background:transparent;border:1px solid #E8C8B4;border-radius:2px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#A08878;cursor:pointer;">Refuser</button>
-                                <button onclick="respondMatch('${m.id}','accepte',${isUserA})" style="flex:2;padding:10px;background:#E8622A;border:none;border-radius:2px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#FDF8F4;cursor:pointer;">Accepter le date !</button>
-                            </div>`;
-            }
-
-            const card = document.createElement('div');
-            card.className = 'match-card';
-            card.style.cursor = 'default';
-            card.innerHTML = `
-                        <div class="match-card-top">
-                            <div class="match-av">${name.charAt(0).toUpperCase()}</div>
-                            <div style="flex:1">
-                                <div class="match-name">${name}</div>
-                                <div style="font-family:'Newsreader',serif;font-size:12px;font-style:italic;color:#A08878;margin-top:2px;">${other ? other.age + ' ans' : ''}</div>
-                            </div>
-                            <div class="match-score">${score}<span>%</span></div>
-                        </div>
-                        <div class="match-bar"><div class="match-bar-fill" style="width:${score}%"></div></div>
-                        <div style="font-family:'Newsreader',serif;font-size:13px;font-style:italic;color:#7A5A48;line-height:1.5;margin:8px 0 0;">
-                            Vos réponses sont alignées à <strong style="color:#1C1410;">${score}%</strong>. Ici, on rencontre vraiment.
-                        </div>
-                        ${actionHTML}`;
-            el.appendChild(card);
-        }
-    }
-
-    async function respondMatch(matchId, reponse, isUserA) {
-        const col = isUserA ? 'reponse_a' : 'reponse_b';
-        const update = {
-            [col]: reponse
-        };
-
-        if (reponse === 'refuse')
-            update.statut = 'refuse';
-
-        const {data: match} = await sb.from('matches').update(update).eq('id', matchId).select().single();
-
-        if (reponse === 'accepte' && match) {
-            const autreReponse = isUserA ? match.reponse_b : match.reponse_a;
-            if (autreReponse === 'accepte') {
-                await sb.from('matches').update({
-                    statut: 'accepte'
-                }).eq('id', matchId);
-                showToast('🎉 Match accepté des deux côtés ! Un café vous attend.');
-                setTimeout(() => loadMatchs(), 500);
-                return;
-            }
-        }
-
-        if (reponse === 'refuse') {
-            const {data: m} = await sb.from('matches').select('user_a,user_b').eq('id', matchId).single();
-            if (m) {
-                await sb.from('users').update({
-                    statut_match: 'en_attente'
-                }).eq('id', m.user_a);
-                await sb.from('users').update({
-                    statut_match: 'en_attente'
-                }).eq('id', m.user_b);
-            }
-            showToast('Match refusé — tu seras remis en matching bientôt.');
-        } else {
-            showToast('Super ! On attend sa réponse.');
-        }
-
-        setTimeout(() => loadMatchs(), 500);
-    }
-    function renderNoMatch(el) {
-        el.innerHTML = `<div class="match-empty"><div class="match-empty-title">Pas encore de match</div><p class="match-empty-sub">Ici, on rencontre vraiment. On cherche quelqu'un qui pense comme toi.</p></div>`;
     }
 
     /* ══ DETAIL ══ */
-    function openDetail(match, name, score) {
-        document.getElementById('detail-av-a').textContent = st.prenom ? st.prenom.charAt(0).toUpperCase() : '?';
-        document.getElementById('detail-name').textContent = name;
-        document.getElementById('detail-score').innerHTML = score + '<sup>%</sup>';
-        const slotsEl = document.getElementById('detail-slots');
-        slotsEl.innerHTML = '';
-        selectedSlot = null;
-        SLOTS.forEach((s, i) => {
-            const el = document.createElement('div');
-            el.className = 'slot';
-            el.innerHTML = `<div><div class="slot-info">${s.day} · ${s.time}</div><div class="slot-sub">${s.sub}</div></div><div class="slot-chk">✓</div>`;
-            el.onclick = () => {
-                document.querySelectorAll('.slot').forEach(x => x.classList.remove('sel'));
-                el.classList.add('sel');
-                selectedSlot = i;
-            };
+    function openDetail(match,name,score){
+        document.getElementById('detail-av-a').textContent=st.prenom?st.prenom.charAt(0).toUpperCase():'?';
+        document.getElementById('detail-name').textContent=name;
+        document.getElementById('detail-score').innerHTML=score+'<sup>%</sup>';
+        const slotsEl=document.getElementById('detail-slots');
+        slotsEl.innerHTML='';selectedSlot=null;
+        SLOTS.forEach((s,i)=>{
+            const el=document.createElement('div');
+            el.className='slot';
+            el.innerHTML=`<div><div class="slot-info">${s.day} · ${s.time}</div><div class="slot-sub">${s.sub}</div></div><div class="slot-chk">✓</div>`;
+            el.onclick=()=>{document.querySelectorAll('.slot').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');selectedSlot=i;};
             slotsEl.appendChild(el);
         });
-        const detail = document.getElementById('match-detail');
-        detail.style.display = 'flex';
-        setTimeout(() => detail.classList.add('open'), 10);
-        detail.dataset.matchId = match.id;
+        const detail=document.getElementById('match-detail');
+        detail.style.display='flex';
+        setTimeout(()=>detail.classList.add('open'),10);
+        detail.dataset.matchId=match.id;
     }
-    function closeDetail() {
-        const d = document.getElementById('match-detail');
+    function closeDetail(){
+        const d=document.getElementById('match-detail');
         d.classList.remove('open');
-        setTimeout(() => d.style.display = 'none', 350);
+        setTimeout(()=>d.style.display='none',350);
     }
-    async function acceptDate() {
-        if (selectedSlot === null) {
-            showToast('Choisis un créneau');
-            return;
-        }
-        const matchId = document.getElementById('match-detail').dataset.matchId;
-        const slot = SLOTS[selectedSlot];
-        await sb.from('matches').update({
-            statut: 'accepte',
-            slot_jour: slot.day,
-            slot_heure: slot.time
-        }).eq('id', matchId);
+    async function acceptDate(){
+        if(selectedSlot===null){showToast('Choisis un créneau');return;}
+        const matchId=document.getElementById('match-detail').dataset.matchId;
+        const slot=SLOTS[selectedSlot];
+        await sb.from('matches').update({statut:'accepte',slot_jour:slot.day,slot_heure:slot.time}).eq('id',matchId);
         showToast('🎉 Date confirmé !');
         closeDetail();
-        setTimeout(() => loadMatchs(), 400);
+        setTimeout(()=>loadMatchs(),400);
     }
 
     /* ══ LOGOUT ══ */
-    async function logout() {
+    async function logout(){
         await sb.auth.signOut();
-        Object.assign(st, {
-            authUser: null,
-            userId: null,
-            prenom: '',
-            email: '',
-            reponses: [],
-            genre: null,
-            recherche: null
-        });
+        Object.assign(st,{authUser:null,userId:null,prenom:'',email:'',reponses:[],genre:null,recherche:null});
         document.getElementById('bottom-nav').classList.remove('visible');
-        document.querySelectorAll('.tab-screen').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.tab-screen').forEach(s=>s.classList.remove('active'));
         goTo('s-home');
     }
 
     /* ══ ADMIN ══ */
-    function adminLogin() {
-        if (document.getElementById('admin-pw').value === ADMIN_PASSWORD) {
-            goTo('s-admin');
-            loadAdmin();
-        }
-        else
-            showToast('Mot de passe incorrect');
+    function adminLogin(){
+        if(document.getElementById('admin-pw').value===ADMIN_PASSWORD){goTo('s-admin');loadAdmin();}
+        else showToast('Mot de passe incorrect');
     }
-    async function loadAdmin() {
-        document.getElementById('admin-users').innerHTML = '<div class="spinner"></div>';
-        try {
-            const {data: users} = await sb.from('users').select('*').order('created_at', {
-                ascending: false
-            }).limit(50);
-            const {data: matches} = await sb.from('matches').select('id,statut');
-            document.getElementById('stat-users').textContent = users ? users.length : 0;
-            document.getElementById('stat-matches').textContent = matches ? matches.length : 0;
-            document.getElementById('stat-waiting').textContent = users ? users.filter(u => u.statut_match === 'en_attente').length : 0;
-            document.getElementById('stat-accepted').textContent = matches ? matches.filter(m => m.statut === 'accepte').length : 0;
-            if (!users || users.length === 0) {
-                document.getElementById('admin-users').innerHTML = '<p style="font-size:13px;font-style:italic;color:#A08878">Aucun utilisateur.</p>';
-                return;
-            }
-            document.getElementById('admin-users').innerHTML = users.slice(0, 15).map(u => `
-                        <div class="user-row">
-                            <div class="user-av">${u.prenom ? u.prenom.charAt(0).toUpperCase() : '?'}</div>
-                            <div style="flex:1;min-width:0">
-                                <div class="user-name">${u.prenom || '–'}, ${u.age || '–'} ans</div>
-                                <div class="user-info">${u.genre || '–'} · cherche ${u.recherche_genre || '–'}</div>
-                                <div class="user-info">${u.email || ''}</div>
-                            </div>
-                            <span class="user-badge ${u.statut_match === 'en_attente' ? 'badge-wait' : 'badge-match'}">${u.statut_match === 'en_attente' ? 'Attente' : 'Matché'}</span>
-                        </div>`).join('');
-        } catch (e) {
-            document.getElementById('admin-users').innerHTML = '<p style="font-size:13px;color:var(--red)">Erreur Supabase.</p>';
-        }
+    async function loadAdmin(){
+        document.getElementById('admin-users').innerHTML='<div class="spinner"></div>';
+        try{
+            const {data:users}=await sb.from('users').select('*').order('created_at',{ascending:false}).limit(50);
+            const {data:matches}=await sb.from('matches').select('id,statut');
+            document.getElementById('stat-users').textContent=users?users.length:0;
+            document.getElementById('stat-matches').textContent=matches?matches.length:0;
+            document.getElementById('stat-waiting').textContent=users?users.filter(u=>u.statut_match==='en_attente').length:0;
+            document.getElementById('stat-accepted').textContent=matches?matches.filter(m=>m.statut==='accepte').length:0;
+            if(!users||users.length===0){document.getElementById('admin-users').innerHTML='<p style="font-size:13px;font-style:italic;color:#A08878">Aucun utilisateur.</p>';return;}
+            document.getElementById('admin-users').innerHTML=users.slice(0,15).map(u=>`
+                <div class="user-row">
+                    <div class="user-av">${u.prenom?u.prenom.charAt(0).toUpperCase():'?'}</div>
+                    <div style="flex:1;min-width:0">
+                        <div class="user-name">${u.prenom||'–'}, ${u.age||'–'} ans</div>
+                        <div class="user-info">${u.genre||'–'} · cherche ${u.recherche_genre||'–'}</div>
+                        <div class="user-info">${u.email||''}</div>
+                    </div>
+                    <span class="user-badge ${u.statut_match==='en_attente'?'badge-wait':'badge-match'}">${u.statut_match==='en_attente'?'Attente':'Matché'}</span>
+                </div>`).join('');
+        }catch(e){document.getElementById('admin-users').innerHTML='<p style="font-size:13px;color:#C0392B">Erreur Supabase.</p>';}
     }
 
-    function compatibilityScore(repA, repB) {
-        if (!repA || !repB || repA.length === 0)
-            return 0;
-        const common = repA.filter(a => {
-            const b = repB.find(r => r.card_index === a.card_index);
-            return b && b.vote === a.vote;
-        });
-        return Math.round((common.length / repA.length) * 100);
+    function compatibilityScore(repA,repB){
+        if(!repA||!repB||repA.length===0)return 0;
+        const common=repA.filter(a=>{const b=repB.find(r=>r.card_index===a.card_index);return b&&b.vote===a.vote;});
+        return Math.round((common.length/repA.length)*100);
     }
-    async function runMatching() {
-        showToast('Analyse en cours…', 5000);
-        try {
-            const {data: users} = await sb.from('users').select('*').eq('statut_match', 'en_attente').order('created_at');
-            if (!users || users.length < 2) {
-                showToast('Pas assez de profils');
-                return;
-            }
-            let matched = 0;
-            const used = new Set();
-            for (let i = 0; i < users.length; i++) {
-                if (used.has(users[i].id))
-                    continue;
-                // Vérifier qu'il n'a pas déjà un match actif
-                const {data: existingA} = await sb.from('matches')
-                .select('id').or(`user_a.eq.${users[i].id},user_b.eq.${users[i].id}`)
-                .in('statut', ['pending', 'accepte']).limit(1);
-                if (existingA && existingA.length > 0) {
-                    used.add(users[i].id);
-                    continue;
-                }
 
-                for (let j = i + 1; j < users.length; j++) {
-                    if (used.has(users[j].id))
-                        continue;
-                    // Vérifier que l'autre n'a pas déjà un match actif
-                    const {data: existingB} = await sb.from('matches')
-                    .select('id').or(`user_a.eq.${users[j].id},user_b.eq.${users[j].id}`)
-                    .in('statut', ['pending', 'accepte']).limit(1);
-                    if (existingB && existingB.length > 0) {
-                        used.add(users[j].id);
-                        continue;
-                    }
+    function hardFiltersPass(userA, userB){
+        // -- Genre --
+        const genresA=userA.pref_genres||['tous'];
+        const genresB=userB.pref_genres||['tous'];
+        const genreOK=(genres,genre)=>genres.includes('tous')||genres.includes(genre);
+        if(!genreOK(genresA, userB.genre))return false;
+        if(!genreOK(genresB, userA.genre))return false;
 
-                    const score = compatibilityScore(users[i].reponses, users[j].reponses);
-                    if (score >= 70) {
-                        await sb.from('matches').insert({
-                            user_a: users[i].id,
-                            user_b: users[j].id,
-                            score,
-                            statut: 'pending',
-                            created_at: new Date().toISOString()
-                        });
-                        await sb.from('users').update({
-                            statut_match: 'matche'
-                        }).eq('id', users[i].id);
-                        await sb.from('users').update({
-                            statut_match: 'matche'
-                        }).eq('id', users[j].id);
-                        used.add(users[i].id);
-                        used.add(users[j].id);
-                        matched++;
-                        break;
+        // -- Âge --
+        const minA=userA.pref_age_min||18, maxA=userA.pref_age_max||99;
+        const minB=userB.pref_age_min||18, maxB=userB.pref_age_max||99;
+        if(userB.age<minA||userB.age>maxA)return false;
+        if(userA.age<minB||userA.age>maxB)return false;
+
+        // -- Rôle (compatibilité) --
+        const rolesA=userA.pref_roles||['peu importe'];
+        const rolesB=userB.pref_roles||['peu importe'];
+        const roleCompat=(rolesA,rolesB)=>{
+            if(rolesA.includes('peu importe')||rolesB.includes('peu importe'))return true;
+            // Actif + Passif = compatible, Versatile + tout = compatible
+            if(rolesA.includes('versatile')||rolesB.includes('versatile'))return true;
+            if(rolesA.includes('actif')&&rolesB.includes('passif'))return true;
+            if(rolesA.includes('passif')&&rolesB.includes('actif'))return true;
+            return false;
+        };
+        if(!roleCompat(rolesA,rolesB))return false;
+
+        return true;
+    }
+
+    async function runMatching(){
+        showToast('Analyse en cours…',5000);
+        try{
+            const {data:users}=await sb.from('users').select('*').eq('statut_match','en_attente').order('created_at');
+            if(!users||users.length<2){showToast('Pas assez de profils');return;}
+            let matched=0;const used=new Set();
+            for(let i=0;i<users.length;i++){
+                if(used.has(users[i].id))continue;
+                const {data:exA}=await sb.from('matches').select('id').or(`user_a.eq.${users[i].id},user_b.eq.${users[i].id}`).in('statut',['pending','accepte']).limit(1);
+                if(exA&&exA.length>0){used.add(users[i].id);continue;}
+                for(let j=i+1;j<users.length;j++){
+                    if(used.has(users[j].id))continue;
+                    const {data:exB}=await sb.from('matches').select('id').or(`user_a.eq.${users[j].id},user_b.eq.${users[j].id}`).in('statut',['pending','accepte']).limit(1);
+                    if(exB&&exB.length>0){used.add(users[j].id);continue;}
+                    // Filtres durs obligatoires
+                    if(!hardFiltersPass(users[i],users[j]))continue;
+                    const score=compatibilityScore(users[i].reponses,users[j].reponses);
+                    if(score>=70){
+                        await sb.from('matches').insert({user_a:users[i].id,user_b:users[j].id,score,statut:'pending',created_at:new Date().toISOString()});
+                        await sb.from('users').update({statut_match:'matche'}).eq('id',users[i].id);
+                        await sb.from('users').update({statut_match:'matche'}).eq('id',users[j].id);
+                        used.add(users[i].id);used.add(users[j].id);matched++;break;
                     }
                 }
             }
-            showToast('✓ ' + matched + ' match(s) créé(s)');
-            loadAdmin();
-        } catch (e) {
-            showToast('Erreur matching');
-            console.error(e);
+            showToast('✓ '+matched+' match(s) créé(s)');loadAdmin();
+        }catch(e){showToast('Erreur matching');console.error(e);}
+    }
+
+    /* ══ PREFERENCES ══ */
+    let selectedGenres=[];
+    let selectedRoles=[];
+
+    function toggleGenreChip(el,val){
+        if(val==='tous'){
+            // Si on sélectionne "tous", déselectionner les autres
+            selectedGenres=['tous'];
+            document.querySelectorAll('#genre-chips .pref-chip').forEach(c=>{
+                c.classList.toggle('active',c.textContent.toLowerCase()==='tous');
+            });
+            return;
+        }
+        // Déselectionner "tous" si on choisit autre chose
+        selectedGenres=selectedGenres.filter(g=>g!=='tous');
+        document.querySelector('#genre-chips .pref-chip:last-child').classList.remove('active');
+
+        if(selectedGenres.includes(val)){
+            selectedGenres=selectedGenres.filter(g=>g!==val);
+            el.classList.remove('active');
+        } else {
+            selectedGenres.push(val);
+            el.classList.add('active');
+        }
+    }
+
+    function toggleRoleChip(el,val){
+        // Un seul rôle à la fois
+        selectedRoles=[val];
+        document.querySelectorAll('#role-chips .pref-chip').forEach(c=>c.classList.remove('active'));
+        el.classList.add('active');
+    }
+
+    function updateAgeRange(){
+        let min=parseInt(document.getElementById('age-min').value);
+        let max=parseInt(document.getElementById('age-max').value);
+        if(min>max){
+            // Swap si min dépasse max
+            if(event.target.id==='age-min') min=max;
+            else max=min;
+            document.getElementById('age-min').value=min;
+            document.getElementById('age-max').value=max;
+        }
+        document.getElementById('age-range-label').textContent=min+' – '+max+' ans';
+    }
+
+    async function savePreferences(){
+        if(!st.userId){showToast('Connecte-toi d'abord');return;}
+        const min=parseInt(document.getElementById('age-min').value);
+        const max=parseInt(document.getElementById('age-max').value);
+        const prefs={
+            pref_genres:selectedGenres.length>0?selectedGenres:['tous'],
+            pref_age_min:min,
+            pref_age_max:max,
+            pref_roles:selectedRoles.length>0?selectedRoles:['peu importe'],
+        };
+        const {error}=await sb.from('users').update(prefs).eq('id',st.userId);
+        if(error){showToast('Erreur — réessaie');return;}
+        showToast('✓ Préférences sauvegardées !');
+    }
+
+    async function loadPreferences(){
+        if(!st.userId)return;
+        const {data}=await sb.from('users').select('pref_genres,pref_age_min,pref_age_max,pref_roles').eq('id',st.userId).single();
+        if(!data)return;
+
+        // Genres
+        if(data.pref_genres&&data.pref_genres.length>0){
+            selectedGenres=data.pref_genres;
+            document.querySelectorAll('#genre-chips .pref-chip').forEach(c=>{
+                if(selectedGenres.includes(c.textContent.toLowerCase()))c.classList.add('active');
+            });
+        }
+        // Age
+        if(data.pref_age_min){
+            document.getElementById('age-min').value=data.pref_age_min;
+            document.getElementById('age-max').value=data.pref_age_max||45;
+            updateAgeRange();
+        }
+        // Roles
+        if(data.pref_roles&&data.pref_roles.length>0){
+            selectedRoles=data.pref_roles;
+            document.querySelectorAll('#role-chips .pref-chip').forEach(c=>{
+                if(selectedRoles.includes(c.textContent.toLowerCase()))c.classList.add('active');
+            });
         }
     }
 
     /* ══ INIT ══ */
-    async function init() {
-        // Écouter les changements d'auth (retour magic link ou OTP)
-        sb.auth.onAuthStateChange(async (event, session) => {
-            if (event === 'SIGNED_IN' && session && !st.authUser) {
+    function hideLoading(){}
+
+    (async function init(){
+        // La home est déjà active par défaut
+        // On essaie de récupérer la session en arrière-plan
+        try {
+            const {data:{session}} = await Promise.race([
+                sb.auth.getSession(),
+                new Promise((_,reject) => setTimeout(()=>reject(new Error('timeout')), 4000))
+            ]);
+
+            if(session && session.user){
                 st.authUser = session.user;
-                st.email = session.user.email;
-                await loadExistingProfile();
+                st.email    = session.user.email;
+                try {
+                    await loadExistingProfile();
+                } catch(e){
+                    console.error('Profile load error:', e);
+                }
+            } else {
+                try {
+                    const {data} = await sb.from('users').select('id');
+                    if(data && data.length > 0)
+                        document.getElementById('user-count').textContent = 'Kino · ' + data.length + ' inscrits';
+                } catch(e){}
+            }
+        } catch(e){
+            console.error('Session error:', e);
+            // La home est déjà visible, rien à faire
+        }
+
+        // Écouter les retours OTP
+        sb.auth.onAuthStateChange(async(event, session)=>{
+            if(event==='SIGNED_IN' && session && !st.authUser){
+                st.authUser = session.user;
+                st.email    = session.user.email;
+                try { await loadExistingProfile(); } catch(e){ console.error(e); }
             }
         });
-        const {data: {session}} = await sb.auth.getSession();
-        if (session) {
-            st.authUser = session.user;
-            st.email = session.user.email;
-            await loadExistingProfile();
-        } else {
-            const {data} = await sb.from('users').select('id');
-            if (data && data.length > 0)
-                document.getElementById('user-count').textContent = 'Paris · ' + data.length + ' inscrits';
-        }
-    }
-    init();
+    })();
     </script>
 </body>
 </html>
