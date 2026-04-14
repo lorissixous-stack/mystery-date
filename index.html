@@ -70,6 +70,7 @@
         opacity: 1;
         pointer-events: all;
         transform: translateX(0);
+        z-index: 15;
     }
 
     .screen.exit {
@@ -1706,14 +1707,9 @@
         <div class="toast" id="toast"></div>
 
         <!-- PULL TO REFRESH -->
-        <div id="ptr" style="position:fixed;top:0;left:0;right:0;max-width:430px;margin:0 auto;z-index:999;display:flex;align-items:center;justify-content:center;height:0;overflow:hidden;background:#FDF8F4;transition:height .2s ease;border-bottom:1px solid #F0DDD0;">
-            <div style="display:flex;align-items:center;gap:10px;padding:12px 0;">
-                <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;letter-spacing:-.01em;color:#1C1410;">
-                    KIN
-                    <span id="ptr-o" style="display:inline-block;color:#E8622A;">O</span>
-                    <span style="color:#E8622A;">.</span>
-                </div>
-                <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#A08878;" id="ptr-label">Tire pour actualiser</div>
+        <div id="ptr" style="position:fixed;top:0;left:0;right:0;max-width:430px;margin:0 auto;z-index:999;display:flex;align-items:center;justify-content:center;height:0;overflow:hidden;background:#FDF8F4;transition:height .2s ease;">
+            <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.8rem;letter-spacing:-.02em;color:#E8622A;line-height:1;">
+                <span id="ptr-o" style="display:inline-block;">O</span>
             </div>
         </div>
 
@@ -1937,8 +1933,62 @@
                 </button>
             </div>
             <div class="pg-foot">
-                <button class="btn btn-primary" onclick="startQ()">Continuer</button>
+                <button class="btn btn-primary" onclick="goTo('s-preferences')">Continuer</button>
                 <button class="btn btn-outline" onclick="goTo('s-signup')">Retour</button>
+            </div>
+        </div>
+
+        <!-- ══ PRÉFÉRENCES (onboarding) ══ -->
+        <div class="screen" id="s-preferences">
+            <div class="pg-head">
+                <div class="segs">
+                    <div class="seg on"></div>
+                    <div class="seg on"></div>
+                    <div class="seg on" style="opacity:.5"></div>
+                </div>
+                <div class="pg-eye">Étape 3 · Préférences</div>
+                <div class="pg-title">
+                    Ce que
+                    <br>
+                    <em>tu cherches</em>
+                </div>
+                <p class="pg-sub">On affine ta recherche dès le départ.</p>
+            </div>
+            <div class="form-body" style="gap:20px;">
+                <div>
+                    <div class="flbl">Genre recherché</div>
+                    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;" id="onb-genre-chips">
+                        <button onclick="toggleOnbGenre(this,'homme')" class="pref-chip">Homme</button>
+                        <button onclick="toggleOnbGenre(this,'non-binaire')" class="pref-chip">Non-binaire</button>
+                        <button onclick="toggleOnbGenre(this,'trans')" class="pref-chip">Trans</button>
+                        <button onclick="toggleOnbGenre(this,'tous')" class="pref-chip active">Tous</button>
+                    </div>
+                </div>
+                <div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                        <div class="flbl" style="margin-bottom:0;">Tranche d&#39;âge</div>
+                        <div style="font-family:var(--font-sans);font-weight:700;font-size:13px;color:#E8622A;" id="onb-age-label">18 – 45 ans</div>
+                    </div>
+                    <input type="range" id="onb-age-min" min="18" max="99" value="18" step="1" oninput="updateOnbAge()" style="width:100%;accent-color:#E8622A;margin-bottom:8px;">
+                    <input type="range" id="onb-age-max" min="18" max="99" value="45" step="1" oninput="updateOnbAge()" style="width:100%;accent-color:#E8622A;">
+                    <div style="display:flex;justify-content:space-between;margin-top:4px;">
+                        <span style="font-family:var(--font-mono);font-size:9px;color:#C8A890;">18 ans</span>
+                        <span style="font-family:var(--font-mono);font-size:9px;color:#C8A890;">99 ans</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="flbl">Je cherche quelqu&#39;un de</div>
+                    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;" id="onb-role-chips">
+                        <button onclick="toggleOnbRole(this,'actif')" class="pref-chip">Actif</button>
+                        <button onclick="toggleOnbRole(this,'passif')" class="pref-chip">Passif</button>
+                        <button onclick="toggleOnbRole(this,'versatile')" class="pref-chip">Versatile</button>
+                        <button onclick="toggleOnbRole(this,'peu importe')" class="pref-chip active">Peu importe</button>
+                    </div>
+                </div>
+            </div>
+            <div class="pg-foot">
+                <button class="btn btn-primary" onclick="startQFromPrefs()">Continuer</button>
+                <button class="btn btn-outline" onclick="goTo('s-recherche')">Retour</button>
             </div>
         </div>
 
@@ -2221,25 +2271,26 @@
     const ADMIN_PASSWORD = '@@Loris002@@';
 
     /* ══ CARDS DATA ══ */
-    const CARDS = [
+    // 15 cartes socle obligatoires
+    const CARDS_CORE = [
     {
-        t: "Je préfère une soirée calme à la maison plutôt qu'une sortie en boîte.",
+        t: "Je préfère une soirée calme à la maison plutôt qu\'une sortie en boîte.",
         theme: "Mode de vie"
     },
     {
-        t: "J'ai besoin de temps seul pour me ressourcer après avoir vu du monde.",
+        t: "J\'ai besoin de temps seul pour me ressourcer après avoir vu du monde.",
         theme: "Énergie"
     },
     {
-        t: "Je peux parler pendant des heures d'un sujet qui me passionne.",
+        t: "Je peux parler pendant des heures d\'un sujet qui me passionne.",
         theme: "Communication"
     },
     {
-        t: "Je suis plutôt matinal qu'oiseau de nuit.",
+        t: "Je suis plutôt matinal qu\'oiseau de nuit.",
         theme: "Rythme"
     },
     {
-        t: "La fidélité, c'est non-négociable pour moi.",
+        t: "La fidélité, c\'est non-négociable pour moi.",
         theme: "Valeurs"
     },
     {
@@ -2251,7 +2302,7 @@
         theme: "Quotidien"
     },
     {
-        t: "J'assume facilement mes émotions face à quelqu'un de proche.",
+        t: "J\'assume facilement mes émotions face à quelqu\'un de proche.",
         theme: "Émotions"
     },
     {
@@ -2259,19 +2310,19 @@
         theme: "Culture"
     },
     {
-        t: "L'humour est indispensable dans une relation.",
+        t: "L\'humour est indispensable dans une relation.",
         theme: "Relation"
     },
     {
-        t: "J'ai une ambition professionnelle clairement définie.",
+        t: "J\'ai une ambition professionnelle clairement définie.",
         theme: "Vie pro"
     },
     {
-        t: "Je veux construire quelque chose de durable avec quelqu’un.",
+        t: "Je veux construire quelque chose de durable avec quelqu\'un.",
         theme: "Projet"
     },
     {
-        t: "Je suis à l'aise avec le silence quand on est ensemble.",
+        t: "Je suis à l\'aise avec le silence quand on est ensemble.",
         theme: "Intimité"
     },
     {
@@ -2283,6 +2334,421 @@
         theme: "Corps"
     },
     ];
+
+    // 100 cartes supplémentaires pour affiner
+    const CARDS_EXTRA = [
+    {
+        t: "Je crois aux coups de foudre.",
+        theme: "Relation"
+    },
+    {
+        t: "Je préfère une relation lente qui se construit plutôt qu\'une passion intense.",
+        theme: "Relation"
+    },
+    {
+        t: "La jalousie, ça m\'est déjà arrivé et je l\'assume.",
+        theme: "Relation"
+    },
+    {
+        t: "Je pense qu\'on peut aimer plusieurs personnes à la fois.",
+        theme: "Relation"
+    },
+    {
+        t: "Les disputes font partie d\'une relation saine.",
+        theme: "Relation"
+    },
+    {
+        t: "J\'ai besoin qu\'on me montre de l\'affection physiquement.",
+        theme: "Relation"
+    },
+    {
+        t: "Je préfère qu\'on se dise les choses franchement, même si ça fait mal.",
+        theme: "Relation"
+    },
+    {
+        t: "La distance dans un couple, ça peut fonctionner.",
+        theme: "Relation"
+    },
+    {
+        t: "Je fais confiance naturellement, sans avoir à y travailler.",
+        theme: "Relation"
+    },
+    {
+        t: "L\'indépendance dans un couple, c\'est aussi important que la complicité.",
+        theme: "Relation"
+    },
+    {
+        t: "J\'aime organiser des dîners chez moi.",
+        theme: "Social"
+    },
+    {
+        t: "Je préfère avoir peu d\'amis proches plutôt que beaucoup de connaissances.",
+        theme: "Social"
+    },
+    {
+        t: "Je suis à l\'aise pour aborder quelqu\'un que je ne connais pas.",
+        theme: "Social"
+    },
+    {
+        t: "Les réseaux sociaux me pèsent plus qu\'ils ne m\'apportent.",
+        theme: "Social"
+    },
+    {
+        t: "Je préfère les petites soirées intimes aux grandes fêtes.",
+        theme: "Social"
+    },
+    {
+        t: "Mon cercle social et ma relation amoureuse, je les garde bien séparés.",
+        theme: "Social"
+    },
+    {
+        t: "Je suis souvent celui qui fait le premier pas.",
+        theme: "Social"
+    },
+    {
+        t: "J\'ai besoin d\'être entouré régulièrement pour me sentir bien.",
+        theme: "Social"
+    },
+    {
+        t: "L\'argent ne me motive pas vraiment — c\'est le sens qui compte.",
+        theme: "Argent"
+    },
+    {
+        t: "Je dépense facilement pour des expériences plutôt que des objets.",
+        theme: "Argent"
+    },
+    {
+        t: "J\'ai un projet entrepreneurial en tête.",
+        theme: "Argent"
+    },
+    {
+        t: "Le succès professionnel est une priorité dans ma vie.",
+        theme: "Argent"
+    },
+    {
+        t: "Je préfère la stabilité financière à la prise de risque.",
+        theme: "Argent"
+    },
+    {
+        t: "Je pense souvent à mon futur financier.",
+        theme: "Argent"
+    },
+    {
+        t: "Je fais du sport régulièrement — au moins 3 fois par semaine.",
+        theme: "Corps"
+    },
+    {
+        t: "Le sommeil, c\'est sacré — je ne transige pas là-dessus.",
+        theme: "Corps"
+    },
+    {
+        t: "Je consomme de l\'alcool de manière occasionnelle seulement.",
+        theme: "Corps"
+    },
+    {
+        t: "Je fume ou j\'ai fumé.",
+        theme: "Corps"
+    },
+    {
+        t: "Mon apparence physique m\'importe — pas par vanité, par respect de moi.",
+        theme: "Corps"
+    },
+    {
+        t: "Le bien-être mental est aussi important que la santé physique.",
+        theme: "Corps"
+    },
+    {
+        t: "Je médite ou j\'ai des pratiques de mindfulness.",
+        theme: "Corps"
+    },
+    {
+        t: "Je vais au cinéma seul parfois — et j\'aime ça.",
+        theme: "Culture"
+    },
+    {
+        t: "La musique occupe une vraie place dans mon quotidien.",
+        theme: "Culture"
+    },
+    {
+        t: "Je joue à des jeux vidéo ou j\'en ai joué sérieusement.",
+        theme: "Culture"
+    },
+    {
+        t: "J\'aime les musées, mais pas tous — j\'ai des goûts précis.",
+        theme: "Culture"
+    },
+    {
+        t: "La politique m\'intéresse et j\'ai des convictions claires.",
+        theme: "Culture"
+    },
+    {
+        t: "Je regarde des séries en VO.",
+        theme: "Culture"
+    },
+    {
+        t: "J\'écoute des podcasts régulièrement.",
+        theme: "Culture"
+    },
+    {
+        t: "Je vais à des expos ou des événements culturels seul si besoin.",
+        theme: "Culture"
+    },
+    {
+        t: "La littérature classique m\'intéresse autant que la contemporaine.",
+        theme: "Culture"
+    },
+    {
+        t: "J\'ai un domaine de passion que peu de gens autour de moi partagent.",
+        theme: "Culture"
+    },
+    {
+        t: "Je voyage pour l\'expérience humaine, pas pour les paysages.",
+        theme: "Voyages"
+    },
+    {
+        t: "Je préfère rester longtemps dans un endroit plutôt que d\'en voir beaucoup.",
+        theme: "Voyages"
+    },
+    {
+        t: "J\'aime les destinations peu touristiques.",
+        theme: "Voyages"
+    },
+    {
+        t: "Je voyage léger — un sac à dos suffit.",
+        theme: "Voyages"
+    },
+    {
+        t: "J\'ai déjà voyagé seul et j\'ai adoré ça.",
+        theme: "Voyages"
+    },
+    {
+        t: "Je m\'adapte facilement à des conditions de vie différentes.",
+        theme: "Voyages"
+    },
+    {
+        t: "Les week-ends spontanés, j\'adore.",
+        theme: "Voyages"
+    },
+    {
+        t: "Je veux des enfants — c\'est clair dans ma tête.",
+        theme: "Famille"
+    },
+    {
+        t: "Je suis proche de ma famille.",
+        theme: "Famille"
+    },
+    {
+        t: "J\'ai une relation complexe avec ma famille, et je l\'assume.",
+        theme: "Famille"
+    },
+    {
+        t: "Je veux vivre à Paris encore longtemps.",
+        theme: "Famille"
+    },
+    {
+        t: "Je me vois vivre ailleurs qu\'en France dans le futur.",
+        theme: "Famille"
+    },
+    {
+        t: "La cohabitation en couple tôt, ça ne me fait pas peur.",
+        theme: "Famille"
+    },
+    {
+        t: "Le mariage, ça m\'intéresse — pas juste comme formalité.",
+        theme: "Famille"
+    },
+    {
+        t: "Je suis quelqu\'un de têtu — et j\'en suis conscient.",
+        theme: "Caractère"
+    },
+    {
+        t: "Je prends les décisions rapidement sans trop hésiter.",
+        theme: "Caractère"
+    },
+    {
+        t: "Je suis perfectionniste dans ce qui compte pour moi.",
+        theme: "Caractère"
+    },
+    {
+        t: "J\'ai tendance à trop analyser les situations.",
+        theme: "Caractère"
+    },
+    {
+        t: "Je m\'ennuie rarement — je trouve toujours quelque chose à faire.",
+        theme: "Caractère"
+    },
+    {
+        t: "Je suis quelqu\'un de généreux, parfois au détriment de moi-même.",
+        theme: "Caractère"
+    },
+    {
+        t: "J\'ai un humour qui ne plaît pas à tout le monde — et tant mieux.",
+        theme: "Caractère"
+    },
+    {
+        t: "Je suis à l\'aise pour parler de moi à quelqu\'un que je viens de rencontrer.",
+        theme: "Caractère"
+    },
+    {
+        t: "Je suis curieux de nature — presque tout m\'intéresse.",
+        theme: "Caractère"
+    },
+    {
+        t: "J\'ai du mal à demander de l\'aide.",
+        theme: "Caractère"
+    },
+    {
+        t: "J\'ai fait une thérapie ou j\'en fais une — sans honte.",
+        theme: "Émotions"
+    },
+    {
+        t: "Je sais reconnaître quand je ne vais pas bien.",
+        theme: "Émotions"
+    },
+    {
+        t: "J\'exprime facilement ma gratitude aux gens que j\'aime.",
+        theme: "Émotions"
+    },
+    {
+        t: "La solitude me ressource — elle ne me pèse pas.",
+        theme: "Émotions"
+    },
+    {
+        t: "J\'ai des peurs que je n\'ai pas encore tout à fait surmontées.",
+        theme: "Émotions"
+    },
+    {
+        t: "Je pleure facilement devant un film ou une chanson.",
+        theme: "Émotions"
+    },
+    {
+        t: "Je suis capable de m\'excuser sincèrement quand j\'ai tort.",
+        theme: "Émotions"
+    },
+    {
+        t: "Je fais confiance à mon instinct pour les décisions importantes.",
+        theme: "Émotions"
+    },
+    {
+        t: "Mon appartement reflète vraiment qui je suis.",
+        theme: "Quotidien"
+    },
+    {
+        t: "Je cuisine régulièrement — pas juste pour survivre.",
+        theme: "Quotidien"
+    },
+    {
+        t: "Je suis plutôt ordonné dans mon espace de vie.",
+        theme: "Quotidien"
+    },
+    {
+        t: "J\'aime les matinées calmes avant que la journée commence.",
+        theme: "Quotidien"
+    },
+    {
+        t: "J\'ai des rituels quotidiens auxquels je tiens.",
+        theme: "Quotidien"
+    },
+    {
+        t: "Je préfère les transports en commun à la voiture en ville.",
+        theme: "Quotidien"
+    },
+    {
+        t: "J\'achète peu mais je choisis bien.",
+        theme: "Quotidien"
+    },
+    {
+        t: "J\'aime prendre le temps de bien manger même seul.",
+        theme: "Quotidien"
+    },
+    {
+        t: "La séduction intellectuelle m\'attire autant que la séduction physique.",
+        theme: "Intimité"
+    },
+    {
+        t: "Je suis à l\'aise pour parler de sexualité avec quelqu\'un de confiance.",
+        theme: "Intimité"
+    },
+    {
+        t: "L\'intimité émotionnelle passe avant l\'intimité physique pour moi.",
+        theme: "Intimité"
+    },
+    {
+        t: "Je suis quelqu\'un d\'affectueux — câlins, tendresse, tout ça compte.",
+        theme: "Intimité"
+    },
+    {
+        t: "J\'ai des limites claires et je sais les exprimer.",
+        theme: "Intimité"
+    },
+    {
+        t: "L\'écologie influence mes choix du quotidien.",
+        theme: "Valeurs"
+    },
+    {
+        t: "Je m\'engage ou je me suis engagé pour une cause.",
+        theme: "Valeurs"
+    },
+    {
+        t: "Je vote et je pense que ça compte.",
+        theme: "Valeurs"
+    },
+    {
+        t: "La spiritualité a une place dans ma vie.",
+        theme: "Valeurs"
+    },
+    {
+        t: "Je crois que les gens peuvent changer profondément.",
+        theme: "Valeurs"
+    },
+    {
+        t: "L\'honnêteté prime sur la diplomatie pour moi.",
+        theme: "Valeurs"
+    },
+    {
+        t: "Je respecte les gens qui pensent différemment de moi.",
+        theme: "Valeurs"
+    },
+    {
+        t: "La loyauté envers mes amis est quelque chose que je prends très au sérieux.",
+        theme: "Valeurs"
+    },
+    {
+        t: "J\'aime débattre — pas pour gagner, pour comprendre.",
+        theme: "Communication"
+    },
+    {
+        t: "Je préfère écrire que parler pour exprimer des choses importantes.",
+        theme: "Communication"
+    },
+    {
+        t: "Je déteste les non-dits dans une relation.",
+        theme: "Communication"
+    },
+    {
+        t: "Je suis un bon auditeur — les gens viennent naturellement me parler.",
+        theme: "Communication"
+    },
+    ];
+
+    // CARDS = les 15 socle
+    const CARDS = CARDS_CORE;
+
+    // Cartes extra non encore répondues, mélangées (15 à la fois)
+    function getExtraCards(reponses) {
+        const answeredIndexes = new Set((reponses || []).map(r => r.card_index));
+        const available = CARDS_EXTRA
+        .map((c, i) => ({
+            ...c,
+            card_index: 1000 + i
+        }))
+        .filter(c => !answeredIndexes.has(c.card_index));
+        for (let i = available.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [available[i], available[j]] = [available[j], available[i]];
+        }
+        return available.slice(0, 15);
+    }
 
     /* ══ STATE ══ */
     const st = {
@@ -2327,14 +2793,25 @@
     ];
 
     /* ══ NAV ══ */
+    function goBack() {
+        // Retourner à l'écran précédent selon le contexte
+        if (st.otpContext === 'login')
+            goTo('s-login');
+        else
+            goTo('s-signup');
+    }
     function goTo(id) {
         document.querySelectorAll('.screen').forEach(s => {
             if (s.classList.contains('active')) {
                 s.classList.add('exit');
-                setTimeout(() => s.classList.remove('active', 'exit'), 400);
+                setTimeout(() => s.classList.remove('active', 'exit'), 380);
             }
         });
-        setTimeout(() => document.getElementById(id).classList.add('active'), 50);
+        setTimeout(() => {
+            const target = document.getElementById(id);
+            if (target)
+                target.classList.add('active');
+        }, 50);
     }
     function showApp() {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -2482,6 +2959,149 @@
                 showToast('Complète ton profil pour continuer');
             }
         }
+    }
+
+    /* ══ ONBOARDING PREFS ══ */
+    let onbGenres = ['tous'];
+    let onbRole = ['peu importe'];
+
+    function toggleOnbGenre(el, val) {
+        if (val === 'tous') {
+            onbGenres = ['tous'];
+            document.querySelectorAll('#onb-genre-chips .pref-chip').forEach(c => {
+                c.classList.toggle('active', c.textContent.toLowerCase() === 'tous');
+            });
+            return;
+        }
+        onbGenres = onbGenres.filter(g => g !== 'tous');
+        document.querySelector('#onb-genre-chips .pref-chip:last-child').classList.remove('active');
+        if (onbGenres.includes(val)) {
+            onbGenres = onbGenres.filter(g => g !== val);
+            el.classList.remove('active');
+        } else {
+            onbGenres.push(val);
+            el.classList.add('active');
+        }
+        if (onbGenres.length === 0) {
+            onbGenres = ['tous'];
+            document.querySelector('#onb-genre-chips .pref-chip:last-child').classList.add('active');
+        }
+    }
+
+    function toggleOnbRole(el, val) {
+        onbRole = [val];
+        document.querySelectorAll('#onb-role-chips .pref-chip').forEach(c => c.classList.remove('active'));
+        el.classList.add('active');
+    }
+
+    function updateOnbAge() {
+        let min = parseInt(document.getElementById('onb-age-min').value);
+        let max = parseInt(document.getElementById('onb-age-max').value);
+        if (min > max) {
+            if (event.target.id === 'onb-age-min')
+                min = max;
+            else
+                max = min;
+            document.getElementById('onb-age-min').value = min;
+            document.getElementById('onb-age-max').value = max;
+        }
+        document.getElementById('onb-age-label').textContent = min + ' – ' + max + ' ans';
+    }
+
+    function startQFromPrefs() {
+        // Sauvegarder les préférences dans st pour les enregistrer avec le profil
+        st.pref_genres = onbGenres;
+        st.pref_age_min = parseInt(document.getElementById('onb-age-min').value);
+        st.pref_age_max = parseInt(document.getElementById('onb-age-max').value);
+        st.pref_roles = onbRole;
+
+        // Pré-remplir la page profil "Je cherche"
+        setTimeout(() => {
+            // Sync avec les chips du profil
+            document.querySelectorAll('#genre-chips .pref-chip').forEach(c => {
+                c.classList.toggle('active', onbGenres.includes(c.textContent.toLowerCase()));
+            });
+            selectedGenres = [...onbGenres];
+            document.querySelectorAll('#role-chips .pref-chip').forEach(c => {
+                c.classList.toggle('active', onbRole.includes(c.textContent.toLowerCase()));
+            });
+            selectedRoles = [...onbRole];
+            document.getElementById('age-min').value = st.pref_age_min;
+            document.getElementById('age-max').value = st.pref_age_max;
+            updateAgeRange();
+        }, 100);
+
+        startQ();
+    }
+
+    /* ══ ONBOARDING PREFS ══ */
+
+    function toggleOnbGenre(el, val) {
+        if (val === 'tous') {
+            onbGenres = ['tous'];
+            document.querySelectorAll('#onb-genre-chips .pref-chip').forEach(c => {
+                c.classList.toggle('active', c.textContent.toLowerCase() === 'tous');
+            });
+            return;
+        }
+        onbGenres = onbGenres.filter(g => g !== 'tous');
+        document.querySelector('#onb-genre-chips .pref-chip:last-child').classList.remove('active');
+        if (onbGenres.includes(val)) {
+            onbGenres = onbGenres.filter(g => g !== val);
+            el.classList.remove('active');
+        }
+        else {
+            onbGenres.push(val);
+            el.classList.add('active');
+        }
+        if (onbGenres.length === 0) {
+            onbGenres = ['tous'];
+            document.querySelector('#onb-genre-chips .pref-chip:last-child').classList.add('active');
+        }
+    }
+
+    function toggleOnbRole(el, val) {
+        onbRole = [val];
+        document.querySelectorAll('#onb-role-chips .pref-chip').forEach(c => c.classList.remove('active'));
+        el.classList.add('active');
+    }
+
+    function updateOnbAge() {
+        let min = parseInt(document.getElementById('onb-age-min').value);
+        let max = parseInt(document.getElementById('onb-age-max').value);
+        if (min > max) {
+            if (event.target.id === 'onb-age-min')
+                min = max;
+            else
+                max = min;
+            document.getElementById('onb-age-min').value = min;
+            document.getElementById('onb-age-max').value = max;
+        }
+        document.getElementById('onb-age-label').textContent = min + ' – ' + max + ' ans';
+    }
+
+    function startQFromPrefs() {
+        st.pref_genres = onbGenres;
+        st.pref_age_min = parseInt(document.getElementById('onb-age-min').value);
+        st.pref_age_max = parseInt(document.getElementById('onb-age-max').value);
+        st.pref_roles = onbRole;
+        // Pré-remplir le profil
+        setTimeout(() => {
+            selectedGenres = [...onbGenres];
+            selectedRoles = [...onbRole];
+            document.querySelectorAll('#genre-chips .pref-chip').forEach(c => {
+                c.classList.toggle('active', onbGenres.includes(c.textContent.toLowerCase()));
+            });
+            document.querySelectorAll('#role-chips .pref-chip').forEach(c => {
+                c.classList.toggle('active', onbRole.includes(c.textContent.toLowerCase()));
+            });
+            if (document.getElementById('age-min')) {
+                document.getElementById('age-min').value = st.pref_age_min;
+                document.getElementById('age-max').value = st.pref_age_max;
+                updateAgeRange();
+            }
+        }, 200);
+        startQ();
     }
 
     /* ══ SIGNUP ══ */
@@ -2637,37 +3257,119 @@
     }
 
     function tabVote(v) {
-        if (tabCardIdx >= CARDS.length)
-            return;
         const top = document.querySelector('#tab-card-stack .top');
         if (!top)
             return;
-        st.reponses.push({
-            card_index: tabCardIdx,
-            vote: v
-        });
-        top.querySelector('.vote-yes').style.opacity = v === 'yes' ? 1 : 0;
-        top.querySelector('.vote-no').style.opacity = v === 'no' ? 1 : 0;
-        top.querySelector('.vote-maybe').style.opacity = v === 'maybe' ? 1 : 0;
-        top.classList.add(v === 'yes' ? 'fly-right' : v === 'no' ? 'fly-left' : 'fly-up');
-        tabCardIdx++;
-        setTimeout(async () => {
-            if (tabCardIdx >= CARDS.length) {
-                document.getElementById('tab-card-area').style.display = 'none';
-                document.getElementById('tab-done').style.display = 'block';
+        const coreDone = st.reponses.filter(r => r.card_index < 1000).length >= CARDS_CORE.length;
+
+        if (!coreDone) {
+            // Vote sur carte socle
+            st.reponses.push({
+                card_index: tabCardIdx,
+                vote: v
+            });
+            top.querySelector('.vote-yes').style.opacity = v === 'yes' ? 1 : 0;
+            top.querySelector('.vote-no').style.opacity = v === 'no' ? 1 : 0;
+            top.querySelector('.vote-maybe').style.opacity = v === 'maybe' ? 1 : 0;
+            top.classList.add(v === 'yes' ? 'fly-right' : v === 'no' ? 'fly-left' : 'fly-up');
+            tabCardIdx++;
+            setTimeout(async () => {
                 await updateResponses();
-            } else
-                renderStack('tab-card-stack', 'tab-qbars', 'tab-qcount', tabCardIdx);
-        }, 380);
+                renderTabCards();
+            }, 380);
+        } else {
+            // Vote sur carte extra
+            if (!extraCards || extraCards.length === 0)
+                return;
+            const card = extraCards[0];
+            st.reponses.push({
+                card_index: card.card_index,
+                vote: v
+            });
+            top.querySelector('.vote-yes').style.opacity = v === 'yes' ? 1 : 0;
+            top.querySelector('.vote-no').style.opacity = v === 'no' ? 1 : 0;
+            top.querySelector('.vote-maybe').style.opacity = v === 'maybe' ? 1 : 0;
+            top.classList.add(v === 'yes' ? 'fly-right' : v === 'no' ? 'fly-left' : 'fly-up');
+            extraCards.shift();
+            setTimeout(async () => {
+                await updateResponses();
+                if (extraCards.length === 0) {
+                    // Recharger un nouveau batch
+                    extraCards = getExtraCards(st.reponses);
+                }
+                renderTabCards();
+            }, 380);
+        }
     }
 
+    let extraCards = [];
+    let extraCardIdx = 0;
+
     function renderTabCards() {
-        const done = st.reponses.length >= CARDS.length;
-        document.getElementById('tab-card-area').style.display = done ? 'none' : 'block';
-        document.getElementById('tab-done').style.display = done ? 'block' : 'none';
-        if (!done) {
-            tabCardIdx = st.reponses.length;
+        const coreDone = st.reponses.filter(r => r.card_index < 1000).length >= CARDS_CORE.length;
+
+        if (!coreDone) {
+            // Pas encore terminé les 15 socle
+            document.getElementById('tab-card-area').style.display = 'flex';
+            document.getElementById('tab-done').style.display = 'none';
+            tabCardIdx = st.reponses.filter(r => r.card_index < 1000).length;
             renderStack('tab-card-stack', 'tab-qbars', 'tab-qcount', tabCardIdx);
+        } else {
+            // Socle terminé — afficher les extra
+            const extraAnswered = st.reponses.filter(r => r.card_index >= 1000).length;
+            extraCards = getExtraCards(st.reponses);
+
+            if (extraCards.length === 0) {
+                // Toutes les cartes répondues
+                document.getElementById('tab-card-area').style.display = 'none';
+                document.getElementById('tab-done').style.display = 'block';
+                document.getElementById('tab-done').innerHTML = `
+                                <div style="font-size:2.5rem;margin-bottom:20px">✓</div>
+                                <div style="font-family:var(--font-sans);font-weight:800;font-size:1.3rem;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:8px;color:#1C1410;">Toutes les cartes répondues !</div>
+                                <p style="font-size:14px;font-style:italic;color:#7A5A48;line-height:1.6;">Tu as répondu à ${st.reponses.length} cartes. Ton profil est très précis — on cherche quelqu’un pour toi.</p>`;
+            } else {
+                document.getElementById('tab-card-area').style.display = 'flex';
+                document.getElementById('tab-done').style.display = 'none';
+                // Mettre à jour le label
+                document.getElementById('accueil-sub').textContent = `${extraAnswered} cartes supplémentaires répondues — continue pour affiner`;
+                renderExtraStack();
+            }
+        }
+    }
+
+    function renderExtraStack() {
+        const stack = document.getElementById('tab-card-stack');
+        stack.innerHTML = '';
+        const bars = document.getElementById('tab-qbars');
+        bars.innerHTML = '';
+
+        // Barre de progression extra
+        const total = CARDS_EXTRA.length;
+        const done = st.reponses.filter(r => r.card_index >= 1000).length;
+        for (let i = 0; i < Math.min(extraCards.length, 15); i++) {
+            const b = document.createElement('div');
+            b.className = 'qb' + (i === 0 ? 'now' : '');
+            bars.appendChild(b);
+        }
+        document.getElementById('tab-qcount').textContent = '';
+
+        for (let i = Math.min(2, extraCards.length - 1); i >= 0; i--) {
+            if (i >= extraCards.length)
+                continue;
+            const card = extraCards[i];
+            const layer = i;
+            const el = document.createElement('div');
+            el.className = 'flash-card ' + (layer === 0 ? 'top' : layer === 1 ? 'behind-1' : 'behind-2');
+            el.innerHTML = `
+                        <div class="vote-overlay vote-yes"><div class="vote-label">Oui</div></div>
+                        <div class="vote-overlay vote-no"><div class="vote-label">Non</div></div>
+                        <div class="vote-overlay vote-maybe"><div class="vote-label">Peut-être</div></div>
+                        <div class="card-num">Extra — ${card.theme}</div>
+                        <div class="card-body"><div class="card-text">« ${card.t} »</div></div>
+                        <div class="card-theme">${card.theme.toLowerCase()}</div>`;
+            if (layer === 0)
+                attachDrag(el, 'tab');
+            stack.appendChild(el);
         }
     }
 
@@ -2684,6 +3386,10 @@
                 statut_match: 'en_attente',
                 auth_id: st.authUser ? st.authUser.id : null,
                 created_at: new Date().toISOString(),
+                pref_genres: st.pref_genres || ['tous'],
+                pref_age_min: st.pref_age_min || 18,
+                pref_age_max: st.pref_age_max || 99,
+                pref_roles: st.pref_roles || ['peu importe'],
             }).select();
             if (error)
                 throw error;
@@ -3670,7 +4376,6 @@
             triggered = false;
         const ptr = document.getElementById('ptr');
         const ptrO = document.getElementById('ptr-o');
-        const ptrLabel = document.getElementById('ptr-label');
         const THRESHOLD = 80;
 
         document.addEventListener('touchstart', e => {
@@ -3702,11 +4407,11 @@
 
             if (dy > THRESHOLD && !triggered) {
                 triggered = true;
-                ptrLabel.textContent = 'Relâche pour actualiser';
+
                 ptrO.classList.add('spinning');
             } else if (dy <= THRESHOLD && triggered) {
                 triggered = false;
-                ptrLabel.textContent = 'Tire pour actualiser';
+
                 ptrO.classList.remove('spinning');
             }
         }, {
@@ -3718,7 +4423,7 @@
                 return;
             pulling = false;
             if (triggered) {
-                ptrLabel.textContent = 'Actualisation…';
+
                 // Keep open during refresh
                 ptr.style.height = '60px';
                 setTimeout(() => {
@@ -3733,7 +4438,7 @@
                     setTimeout(() => {
                         ptr.style.height = '0';
                         ptrO.classList.remove('spinning');
-                        ptrLabel.textContent = 'Tire pour actualiser';
+
                     }, 800);
                 }, 400);
             } else {
