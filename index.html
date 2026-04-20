@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#FDF8F4">
+    <meta name="theme-color" content="#F4F0E6">
     <title>Kino. Ici, on rencontre vraiment.</title>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -36,8 +36,8 @@
 
     html, body {
         height: 100%;
-        background: #FDF8F4;
-        color: #1C1410;
+        background: #F4F0E6;
+        color: #1A1208;
         font-family: var(--font-serif);
         overflow: hidden;
     }
@@ -49,7 +49,7 @@
         margin: 0 auto;
         position: relative;
         overflow: hidden;
-        background: #FDF8F4;
+        background: #F4F0E6;
     }/* ── SCREENS ── */
 
     .screen {
@@ -101,9 +101,9 @@
         left: 0;
         right: 0;
         height: calc(var(--nav-h) + env(safe-area-inset-bottom));
-        background: #FDF8F4;
-        border-top: 1px solid #E8C8B4 !important;
-        border-top: 1px solid #F0DDD0;
+        background: #F4F0E6;
+        border-top: 1px solid #C8BEA8 !important;
+        border-top: 1px solid #D8D0BC;
         display: none;
         align-items: center;
         justify-content: space-around;
@@ -137,19 +137,19 @@
         font-size: 9px;
         letter-spacing: .08em;
         text-transform: uppercase;
-        color: #A08878;
+        color: #9A9080;
         transition: color .2s;
     }
 
     .nav-btn.active .nav-label {
-        color: #E8622A;
+        color: #1E3A2F;
     }
 
     .nav-dot {
         width: 4px;
         height: 4px;
         border-radius: 50%;
-        background: #E8622A;
+        background: #1E3A2F;
         margin-top: 2px;
         display: none;
     }
@@ -169,7 +169,7 @@
         text-transform: uppercase;
         cursor: pointer;
         transition: all .2s;
-        border-radius: 2px;
+        border-radius: 50px;
     }
 
     .btn:active {
@@ -177,23 +177,23 @@
     }
 
     .btn-primary {
-        background: #E8622A;
-        color: #FDF8F4;
+        background: #1E3A2F;
+        color: #F4F0E6;
     }
 
     .btn-primary:hover {
-        background: #C8501A;
+        background: #2D5A42;
     }
 
     .btn-outline {
         background: transparent;
-        color: #7A5A48;
-        border: 1px solid #E8C8B4;
+        color: #5A4E3A;
+        border: 1px solid #C8BEA8;
     }
 
     .btn-outline:hover {
-        border-color: #7A5A48;
-        color: #1C1410;
+        border-color: #5A4E3A;
+        color: #1A1208;
     }
 
     .btn-ghost {
@@ -204,7 +204,7 @@
         font-size: 11px;
         letter-spacing: .08em;
         text-transform: uppercase;
-        color: #A08878;
+        color: #9A9080;
         cursor: pointer;
         padding: 12px;
         text-decoration: underline;
@@ -212,33 +212,33 @@
     }
 
     .btn-ghost:hover {
-        color: #1C1410;
+        color: #1A1208;
     }
 
     .pref-chip {
         background: transparent;
-        border: 1px solid #E8C8B4;
-        border-radius: 20px;
+        border: 1px solid #C8BEA8;
+        border-radius: 50px;
         padding: 6px 14px;
         font-family: 'DM Mono', monospace;
         font-size: 10px;
         letter-spacing: .06em;
         text-transform: uppercase;
-        color: #7A5A48;
+        color: #5A4E3A;
         cursor: pointer;
         transition: all .2s;
     }
 
     .pref-chip.active {
-        background: #E8622A;
-        border-color: #E8622A;
+        background: #1E3A2F;
+        border-color: #1E3A2F;
         color: #FDF8F4;
     }
 
     .btn-danger {
         background: transparent;
-        border: 1px solid #F0C0B0;
-        color: #C0392B;
+        border: 1px solid #D8D0BC;
+        color: #8B2635;
         font-family: var(--font-mono);
         font-size: 11px;
         letter-spacing: .08em;
@@ -260,8 +260,8 @@
         padding: 14px 0;
         background: transparent;
         border: none;
-        border-bottom: 1px solid #E8C8B4;
-        color: #1C1410;
+        border-bottom: 1px solid #C8BEA8;
+        color: #1A1208;
         font-family: var(--font-serif);
         font-size: 16px;
         font-style: italic;
@@ -270,11 +270,11 @@
     }
 
     .input:focus {
-        border-color: #E8622A;
+        border-color: #1E3A2F;
     }
 
     .input::placeholder {
-        color: #C8A890;
+        color: #B0A890;
     }/* ── OTP ── */
 
     .otp-wrap {
@@ -287,10 +287,10 @@
     .otp-digit {
         width: 36px;
         height: 52px;
-        background: #FAE8DA;
-        border: 1px solid #E8C8B4;
-        border-radius: 2px;
-        color: #1C1410;
+        background: #EAE4D4;
+        border: 1px solid #C8BEA8;
+        border-radius: 12px;
+        color: #1A1208;
         font-family: var(--font-sans);
         font-weight: 800;
         font-size: 1.4rem;
@@ -301,7 +301,7 @@
     }
 
     .otp-digit:focus {
-        border-color: #E8622A;
+        border-color: #1E3A2F;
     }/* ── TOAST ── */
 
     .toast {
@@ -309,8 +309,8 @@
         bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + 16px);
         left: 50%;
         transform: translateX(-50%);
-        background: #1C1410;
-        color: #FDF8F4;
+        background: #1A1208;
+        color: #F4F0E6;
         padding: 10px 20px;
         border-radius: 2px;
         font-family: var(--font-mono);
@@ -337,7 +337,7 @@
         font-size: 11px;
         letter-spacing: .1em;
         text-transform: uppercase;
-        color: #A08878;
+        color: #9A9080;
         margin-bottom: 12px;
     }
 
@@ -348,19 +348,19 @@
         line-height: .95;
         letter-spacing: -.02em;
         text-transform: uppercase;
-        color: #1C1410;
+        color: #1A1208;
     }
 
     .pg-title em {
         font-style: italic;
         font-family: var(--font-serif);
         font-weight: 400;
-        color: #7A5A48;
+        color: #5A4E3A;
     }
 
     .pg-sub {
         font-size: 14px;
-        color: #7A5A48;
+        color: #5A4E3A;
         font-style: italic;
         margin-top: 8px;
         line-height: 1.6;
@@ -383,12 +383,12 @@
     .seg {
         height: 1px;
         flex: 1;
-        background: #E8C8B4;
+        background: #C8BEA8;
         transition: background .3s;
     }
 
     .seg.on {
-        background: #E8622A;
+        background: #1E3A2F;
     }
 
     .form-body {
@@ -403,7 +403,7 @@
         font-size: 10px;
         letter-spacing: .1em;
         text-transform: uppercase;
-        color: #A08878;
+        color: #9A9080;
         margin-bottom: 4px;
     }
 
@@ -417,20 +417,20 @@
         padding: 12px 6px;
         text-align: center;
         background: transparent;
-        border: 1px solid #E8C8B4;
+        border: 1px solid #C8BEA8;
         border-radius: 2px;
         font-family: var(--font-mono);
         font-size: 11px;
         letter-spacing: .06em;
         text-transform: uppercase;
-        color: #7A5A48;
+        color: #5A4E3A;
         cursor: pointer;
         transition: all .2s;
     }
 
     .g-opt.sel {
-        border-color: #E8622A;
-        color: #E8622A;
+        border-color: #1E3A2F;
+        color: #1E3A2F;
         background: rgba(232, 98, 42, .06);
     }
 
@@ -447,7 +447,7 @@
         gap: 14px;
         padding: 16px 18px;
         background: transparent;
-        border: 1px solid #E8C8B4;
+        border: 1px solid #C8BEA8;
         border-radius: 2px;
         cursor: pointer;
         transition: all .2s;
@@ -455,7 +455,7 @@
     }
 
     .rech-item:hover, .rech-item.sel {
-        border-color: #E8622A;
+        border-color: #1E3A2F;
         background: rgba(232, 98, 42, .06);
     }
 
@@ -468,7 +468,7 @@
         align-items: center;
         justify-content: center;
         font-size: 18px;
-        color: #A08878;
+        color: #9A9080;
         flex-shrink: 0;
     }
 
@@ -476,7 +476,7 @@
         font-family: var(--font-sans);
         font-size: 14px;
         font-weight: 700;
-        color: #1C1410;
+        color: #1A1208;
         text-transform: uppercase;
         letter-spacing: .04em;
     }
@@ -485,7 +485,7 @@
         font-family: var(--font-serif);
         font-size: 12px;
         font-style: italic;
-        color: #A08878;
+        color: #9A9080;
         margin-top: 2px;
     }
 
@@ -493,7 +493,7 @@
         margin-left: auto;
         width: 22px;
         height: 22px;
-        border: 1px solid #E8C8B4;
+        border: 1px solid #C8BEA8;
         border-radius: 2px;
         flex-shrink: 0;
         display: flex;
@@ -506,13 +506,13 @@
     }
 
     .rech-item.sel .rech-chk {
-        background: #E8622A;
-        border-color: #E8622A;
+        background: #1E3A2F;
+        border-color: #1E3A2F;
         color: #FDF8F4;
     }/* ── HOME ── */
 
     #s-home {
-        background: #FDF8F4;
+        background: #F4F0E6;
         overflow: hidden;
         justify-content: space-between;
     }
@@ -531,12 +531,12 @@
         font-size: 13px;
         letter-spacing: .1em;
         text-transform: uppercase;
-        color: #A08878;
+        color: #9A9080;
         margin-bottom: 40px;
     }
 
     .home-logo span {
-        color: #E8622A;
+        color: #1E3A2F;
     }
 
     .h-title {
@@ -546,7 +546,7 @@
         line-height: .92;
         letter-spacing: -.03em;
         text-transform: uppercase;
-        color: #1C1410;
+        color: #1A1208;
         margin-bottom: 20px;
     }
 
@@ -554,12 +554,12 @@
         font-style: italic;
         font-family: var(--font-serif);
         font-weight: 400;
-        color: #7A5A48;
+        color: #5A4E3A;
     }
 
     .h-sub {
         font-size: 1rem;
-        color: #7A5A48;
+        color: #5A4E3A;
         line-height: 1.65;
         font-style: italic;
         max-width: 300px;
@@ -570,7 +570,7 @@
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        border: 1px solid #E8C8B4;
+        border: 1px solid #C8BEA8;
         padding: 7px 14px;
         border-radius: 2px;
         margin-bottom: 36px;
@@ -580,7 +580,7 @@
         width: 7px;
         height: 7px;
         border-radius: 50%;
-        background: #E8622A;
+        background: #1E3A2F;
         animation: pulse 2s infinite;
     }
 
@@ -601,7 +601,7 @@
         font-size: 11px;
         letter-spacing: .06em;
         text-transform: uppercase;
-        color: #A08878;
+        color: #9A9080;
     }
 
     .home-bot {
@@ -609,13 +609,13 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
-        border-top: 1px solid #E8C8B4;
+        border-top: 1px solid #C8BEA8;
         padding-top: 20px;
     }/* ── FLASH CARDS ── */
 
     #s-questions {
         overflow: hidden;
-        background: #FDF8F4;
+        background: #F4F0E6;
     }
 
     .q-wrap {
@@ -640,12 +640,12 @@
     .qb {
         height: 1px;
         flex: 1;
-        background: #E8C8B4;
+        background: #C8BEA8;
         transition: background .4s;
     }
 
     .qb.done {
-        background: #E8622A;
+        background: #1E3A2F;
     }
 
     .qb.now {
@@ -663,13 +663,13 @@
         font-size: 10px;
         letter-spacing: .1em;
         text-transform: uppercase;
-        color: #A08878;
+        color: #9A9080;
     }
 
     .qmeta-right {
         font-family: var(--font-mono);
         font-size: 11px;
-        color: #A08878;
+        color: #9A9080;
     }
 
     .card-stack {
@@ -686,8 +686,8 @@
         width: 100%;
         max-width: 340px;
         height: 270px;
-        background: #FAE8DA;
-        border: 1px solid #E8C8B4;
+        background: #EAE4D4;
+        border: 1px solid #C8BEA8;
         border-radius: 4px;
         padding: 1.6rem;
         display: flex;
@@ -755,7 +755,7 @@
     }
 
     .vote-yes .vote-label {
-        color: var(--accent);
+        color: #1E3A2F;
     }
 
     .vote-no .vote-label {
@@ -771,7 +771,7 @@
         font-size: 10px;
         letter-spacing: .1em;
         text-transform: uppercase;
-        color: #A08878;
+        color: #9A9080;
     }
 
     .card-body {
@@ -786,7 +786,7 @@
         font-size: 1.2rem;
         font-style: italic;
         line-height: 1.5;
-        color: #1C1410;
+        color: #1A1208;
     }
 
     .card-theme {
@@ -794,7 +794,7 @@
         font-size: 10px;
         letter-spacing: .08em;
         text-transform: uppercase;
-        color: #C8A890;
+        color: #B0A890;
     }
 
     .fly-right {
@@ -844,7 +844,7 @@
         align-items: center;
         gap: 5px;
         background: transparent;
-        border: 1px solid #E8C8B4;
+        border: 1px solid #C8BEA8;
         padding: .65rem 1.3rem;
         cursor: pointer;
         transition: all .2s;
@@ -861,7 +861,7 @@
         font-size: 10px;
         letter-spacing: .06em;
         text-transform: uppercase;
-        color: #A08878;
+        color: #9A9080;
     }
 
     .btn-no:hover {
@@ -894,19 +894,19 @@
         font-size: 10px;
         letter-spacing: .06em;
         text-transform: uppercase;
-        color: #C8A890;
+        color: #B0A890;
         padding-bottom: 4px;
     }/* ── TABS ── */
 
     #tab-accueil {
-        background: #FDF8F4;
+        background: #F4F0E6;
     }
 
     .accueil-head {
         padding: 52px 24px 16px;
-        border-bottom: 1px solid #E8C8B4;
+        border-bottom: 1px solid #C8BEA8;
         flex-shrink: 0;
-        background: #FDF8F4;
+        background: #F4F0E6;
     }
 
     .accueil-logo {
@@ -915,11 +915,11 @@
         font-size: 1rem;
         letter-spacing: .08em;
         text-transform: uppercase;
-        color: #1C1410;
+        color: #1A1208;
     }
 
     .accueil-logo span {
-        color: #E8622A;
+        color: #1E3A2F;
     }
 
     .accueil-sub {
@@ -927,19 +927,19 @@
         font-size: 10px;
         letter-spacing: .08em;
         text-transform: uppercase;
-        color: #A08878;
+        color: #9A9080;
         margin-top: 4px;
     }
 
     #tab-matchs {
-        background: #FDF8F4;
+        background: #F4F0E6;
     }
 
     .matchs-head {
         padding: 52px 24px 16px;
-        border-bottom: 1px solid #E8C8B4;
+        border-bottom: 1px solid #C8BEA8;
         flex-shrink: 0;
-        background: #FDF8F4;
+        background: #F4F0E6;
     }
 
     .matchs-title {
@@ -948,7 +948,7 @@
         font-size: 1.8rem;
         letter-spacing: -.02em;
         text-transform: uppercase;
-        color: #1C1410;
+        color: #1A1208;
     }
 
     .matchs-list {
@@ -959,8 +959,8 @@
     }
 
     .match-card {
-        background: #FAE8DA;
-        border: 1px solid #E8C8B4;
+        background: #EAE4D4;
+        border: 1px solid #C8BEA8;
         border-radius: 2px;
         padding: 18px;
         cursor: pointer;
@@ -982,7 +982,7 @@
         width: 44px;
         height: 44px;
         border-radius: 2px;
-        background: #E8622A;
+        background: #1E3A2F;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -999,7 +999,7 @@
         font-size: 1rem;
         letter-spacing: .02em;
         text-transform: uppercase;
-        color: #1C1410;
+        color: #1A1208;
     }
 
     .match-score {
@@ -1007,18 +1007,18 @@
         font-family: var(--font-sans);
         font-weight: 800;
         font-size: 1.3rem;
-        color: #E8622A;
+        color: #1E3A2F;
     }
 
     .match-score span {
         font-family: var(--font-mono);
         font-size: 10px;
-        color: #A08878;
+        color: #9A9080;
     }
 
     .match-bar {
         height: 2px;
-        background: #E8C8B4;
+        background: #C8BEA8;
         border-radius: 1px;
         overflow: hidden;
         margin-bottom: 10px;
@@ -1026,7 +1026,7 @@
 
     .match-bar-fill {
         height: 100%;
-        background: #E8622A;
+        background: #1E3A2F;
         border-radius: 1px;
     }
 
@@ -1035,7 +1035,7 @@
         font-size: 10px;
         letter-spacing: .07em;
         text-transform: uppercase;
-        color: #A08878;
+        color: #9A9080;
     }
 
     .match-empty {
@@ -1055,7 +1055,7 @@
     .match-empty-sub {
         font-size: 14px;
         font-style: italic;
-        color: #7A5A48;
+        color: #5A4E3A;
         line-height: 1.6;
     }
 
@@ -1063,7 +1063,7 @@
         position: absolute;
         inset: 0;
         bottom: calc(var(--nav-h) + env(safe-area-inset-bottom));
-        background: #FDF8F4;
+        background: #F4F0E6;
         z-index: 50;
         display: none;
         flex-direction: column;
@@ -1079,8 +1079,8 @@
 
     .detail-head {
         padding: 52px 24px 20px;
-        background: #FAE8DA;
-        border-bottom: 1px solid #F0DDD0;
+        background: #EAE4D4;
+        border-bottom: 1px solid #D8D0BC;
         flex-shrink: 0;
     }
 
@@ -1089,7 +1089,7 @@
         font-size: 10px;
         letter-spacing: .08em;
         text-transform: uppercase;
-        color: #A08878;
+        color: #9A9080;
         background: none;
         border: none;
         cursor: pointer;
@@ -1104,13 +1104,13 @@
         align-items: center;
         gap: 6px;
         padding: 4px 12px;
-        border: 1px solid #E8622A;
+        border: 1px solid #1E3A2F;
         border-radius: 2px;
         font-family: var(--font-mono);
         font-size: 10px;
         letter-spacing: .08em;
         text-transform: uppercase;
-        color: #E8622A;
+        color: #1E3A2F;
         margin-bottom: 16px;
     }
 
@@ -1133,13 +1133,13 @@
     }
 
     .detail-av-a {
-        background: #E8622A;
+        background: #1E3A2F;
         color: #FDF8F4;
     }
 
     .detail-av-b {
-        background: #E8C8B4;
-        color: #A08878;
+        background: #C8BEA8;
+        color: #9A9080;
         margin-left: -6px;
     }
 
@@ -1148,20 +1148,20 @@
         font-weight: 800;
         font-size: 3rem;
         letter-spacing: -.03em;
-        color: #E8622A;
+        color: #1E3A2F;
         line-height: 1;
     }
 
     .detail-score sup {
         font-size: 1rem;
-        color: #A08878;
+        color: #9A9080;
         font-weight: 400;
     }
 
     .detail-score-lbl {
         font-family: var(--font-mono);
         font-size: 10px;
-        color: #A08878;
+        color: #9A9080;
         letter-spacing: .08em;
         text-transform: uppercase;
         margin-top: 2px;
@@ -1176,8 +1176,8 @@
     }
 
     .detail-block {
-        background: #FAE8DA;
-        border: 1px solid #E8C8B4;
+        background: #EAE4D4;
+        border: 1px solid #C8BEA8;
         border-radius: 2px;
         padding: 16px;
     }
@@ -1187,7 +1187,7 @@
         font-size: 10px;
         letter-spacing: .1em;
         text-transform: uppercase;
-        color: #A08878;
+        color: #9A9080;
         margin-bottom: 10px;
     }
 
@@ -1197,7 +1197,7 @@
         font-size: 1.6rem;
         letter-spacing: -.02em;
         text-transform: uppercase;
-        color: #1C1410;
+        color: #1A1208;
     }
 
     .detail-mystery {
@@ -1205,19 +1205,19 @@
         align-items: center;
         gap: 6px;
         padding: 4px 10px;
-        border: 1px solid #E8C8B4;
+        border: 1px solid #C8BEA8;
         border-radius: 2px;
         font-family: var(--font-mono);
         font-size: 10px;
         letter-spacing: .06em;
-        color: #A08878;
+        color: #9A9080;
         margin-top: 8px;
     }
 
     .detail-desc {
         font-size: 13px;
         font-style: italic;
-        color: #7A5A48;
+        color: #5A4E3A;
         line-height: 1.6;
         margin-top: 10px;
     }
@@ -1227,7 +1227,7 @@
         align-items: center;
         gap: 12px;
         padding: 10px 0;
-        border-bottom: 1px solid #F0DDD0;
+        border-bottom: 1px solid #D8D0BC;
     }
 
     .drow:last-child {
@@ -1239,7 +1239,7 @@
         width: 32px;
         height: 32px;
         border-radius: 2px;
-        background: #F0DDD0;
+        background: #D8D0BC;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1252,13 +1252,13 @@
         font-size: 13px;
         font-weight: 700;
         letter-spacing: .02em;
-        color: #1C1410;
+        color: #1A1208;
     }
 
     .dsub {
         font-size: 12px;
         font-style: italic;
-        color: #A08878;
+        color: #9A9080;
         margin-top: 2px;
     }
 
@@ -1273,7 +1273,7 @@
         align-items: center;
         justify-content: space-between;
         padding: 12px 14px;
-        border: 1px solid #E8C8B4;
+        border: 1px solid #C8BEA8;
         border-radius: 2px;
         cursor: pointer;
         transition: all .2s;
@@ -1291,14 +1291,14 @@
     }
 
     .chat-bot {
-        background: #FAE8DA;
-        color: #1C1410;
+        background: #EAE4D4;
+        color: #1A1208;
         border-bottom-left-radius: 2px;
         align-self: flex-start;
     }
 
     .chat-system {
-        background: #E8622A;
+        background: #1E3A2F;
         color: #FDF8F4;
         font-style: normal;
         font-family: 'DM Mono', monospace;
@@ -1316,22 +1316,22 @@
         align-items: center;
         justify-content: space-between;
         padding: 10px 14px;
-        border: 1px solid #E8C8B4;
-        border-radius: 6px;
+        border: 1px solid #C8BEA8;
+        border-radius: 50px;
         cursor: pointer;
         transition: all .2s;
         margin-bottom: 6px;
-        background: #FDF8F4;
+        background: #F4F0E6;
     }
 
     .chat-slot:hover, .chat-slot.selected {
-        border-color: #E8622A;
+        border-color: #1E3A2F;
         background: rgba(232, 98, 42, .06);
     }
 
     .chat-slot.matched {
-        background: #E8622A;
-        border-color: #E8622A;
+        background: #1E3A2F;
+        border-color: #1E3A2F;
     }
 
     .chat-slot.matched .slot-label {
@@ -1342,13 +1342,13 @@
         font-family: 'Newsreader', serif;
         font-size: 13px;
         font-style: italic;
-        color: #1C1410;
+        color: #1A1208;
     }
 
     .slot-check {
         width: 18px;
         height: 18px;
-        border: 1px solid #E8C8B4;
+        border: 1px solid #C8BEA8;
         border-radius: 2px;
         display: flex;
         align-items: center;
@@ -1360,19 +1360,19 @@
     }
 
     .chat-slot.selected .slot-check {
-        background: #E8622A;
-        border-color: #E8622A;
+        background: #1E3A2F;
+        border-color: #1E3A2F;
         color: #FDF8F4;
     }
 
     .chat-slot.matched .slot-check {
-        background: #FDF8F4;
+        background: #F4F0E6;
         border-color: #FDF8F4;
-        color: #E8622A;
+        color: #1E3A2F;
     }
 
     .slot:hover, .slot.sel {
-        border-color: #E8622A;
+        border-color: #1E3A2F;
         background: rgba(232, 98, 42, .06);
     }
 
@@ -1387,14 +1387,14 @@
         font-family: var(--font-serif);
         font-size: 12px;
         font-style: italic;
-        color: #A08878;
+        color: #9A9080;
         margin-top: 2px;
     }
 
     .slot-chk {
         width: 20px;
         height: 20px;
-        border: 1px solid #E8C8B4;
+        border: 1px solid #C8BEA8;
         border-radius: 2px;
         display: flex;
         align-items: center;
@@ -1407,8 +1407,8 @@
     }
 
     .slot.sel .slot-chk {
-        background: #E8622A;
-        border-color: #E8622A;
+        background: #1E3A2F;
+        border-color: #1E3A2F;
         color: #FDF8F4;
     }
 
@@ -1421,14 +1421,14 @@
     }/* ── PROFIL ── */
 
     #tab-profil {
-        background: #FDF8F4;
+        background: #F4F0E6;
     }
 
     .profil-head {
         padding: 52px 24px 20px;
-        border-bottom: 1px solid #E8C8B4;
+        border-bottom: 1px solid #C8BEA8;
         flex-shrink: 0;
-        background: #FDF8F4;
+        background: #F4F0E6;
     }
 
     .profil-av-wrap {
@@ -1442,7 +1442,7 @@
         width: 56px;
         height: 56px;
         border-radius: 2px;
-        background: #E8622A;
+        background: #1E3A2F;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1458,13 +1458,13 @@
         font-size: 1.6rem;
         letter-spacing: -.02em;
         text-transform: uppercase;
-        color: #1C1410;
+        color: #1A1208;
     }
 
     .profil-email {
         font-family: var(--font-mono);
         font-size: 11px;
-        color: #A08878;
+        color: #9A9080;
         letter-spacing: .04em;
         margin-top: 2px;
     }
@@ -1481,7 +1481,7 @@
         font-size: 10px;
         letter-spacing: .1em;
         text-transform: uppercase;
-        color: #A08878;
+        color: #9A9080;
         margin: 8px 0 4px;
     }
 
@@ -1490,15 +1490,15 @@
         align-items: center;
         justify-content: space-between;
         padding: 14px 16px;
-        background: #FAE8DA;
-        border: 1px solid #E8C8B4;
+        background: #EAE4D4;
+        border: 1px solid #C8BEA8;
         border-radius: 2px;
         cursor: pointer;
         transition: border-color .2s;
     }
 
     .profil-row:hover {
-        border-color: #A08878;
+        border-color: #9A9080;
     }
 
     .profil-row-left {
@@ -1506,14 +1506,14 @@
         font-weight: 700;
         font-size: 13px;
         letter-spacing: .02em;
-        color: #1C1410;
+        color: #1A1208;
     }
 
     .profil-row-right {
         font-family: var(--font-serif);
         font-size: 12px;
         font-style: italic;
-        color: #A08878;
+        color: #9A9080;
     }
 
     .profil-stats {
@@ -1524,8 +1524,8 @@
     }
 
     .profil-stat {
-        background: #FAE8DA;
-        border: 1px solid #E8C8B4;
+        background: #EAE4D4;
+        border: 1px solid #C8BEA8;
         border-radius: 2px;
         padding: 14px;
     }
@@ -1535,7 +1535,7 @@
         font-weight: 800;
         font-size: 1.6rem;
         letter-spacing: -.02em;
-        color: #E8622A;
+        color: #1E3A2F;
     }
 
     .profil-stat-lbl {
@@ -1543,26 +1543,26 @@
         font-size: 10px;
         letter-spacing: .07em;
         text-transform: uppercase;
-        color: #A08878;
+        color: #9A9080;
         margin-top: 2px;
     }/* ── ADMIN ── */
 
     #s-admin {
-        background: #FDF8F4;
+        background: #F4F0E6;
     }
 
     .admin-head {
         padding: 52px 24px 20px;
-        border-bottom: 1px solid #E8C8B4;
+        border-bottom: 1px solid #C8BEA8;
         flex-shrink: 0;
-        background: #FDF8F4;
+        background: #F4F0E6;
     }
 
     .admin-body {
         padding: 16px 24px;
         flex: 1;
         overflow-y: auto;
-        background: #FDF8F4;
+        background: #F4F0E6;
     }
 
     .admin-stat-grid {
@@ -1573,8 +1573,8 @@
     }
 
     .astat {
-        background: #FAE8DA;
-        border: 1px solid #E8C8B4;
+        background: #EAE4D4;
+        border: 1px solid #C8BEA8;
         border-radius: 2px;
         padding: 14px;
     }
@@ -1584,13 +1584,13 @@
         font-weight: 800;
         font-size: 1.8rem;
         letter-spacing: -.02em;
-        color: #E8622A;
+        color: #1E3A2F;
     }
 
     .astat-lbl {
         font-family: var(--font-mono);
         font-size: 10px;
-        color: #A08878;
+        color: #9A9080;
         text-transform: uppercase;
         letter-spacing: .07em;
         margin-top: 2px;
@@ -1602,7 +1602,7 @@
         font-weight: 500;
         letter-spacing: .1em;
         text-transform: uppercase;
-        color: #A08878;
+        color: #9A9080;
         margin-bottom: 10px;
     }
 
@@ -1611,7 +1611,7 @@
         align-items: center;
         gap: 12px;
         padding: 12px 0;
-        border-bottom: 1px solid #F0DDD0;
+        border-bottom: 1px solid #D8D0BC;
     }
 
     .user-row:last-child {
@@ -1622,14 +1622,14 @@
         width: 36px;
         height: 36px;
         border-radius: 2px;
-        background: #FAE8DA;
+        background: #EAE4D4;
         display: flex;
         align-items: center;
         justify-content: center;
         font-family: var(--font-sans);
         font-weight: 800;
         font-size: 14px;
-        color: #E8622A;
+        color: #1E3A2F;
         flex-shrink: 0;
     }
 
@@ -1637,7 +1637,7 @@
         font-family: var(--font-sans);
         font-size: 13px;
         font-weight: 700;
-        color: #1C1410;
+        color: #1A1208;
         letter-spacing: .02em;
     }
 
@@ -1645,7 +1645,7 @@
         font-family: var(--font-serif);
         font-size: 12px;
         font-style: italic;
-        color: #A08878;
+        color: #9A9080;
         margin-top: 1px;
     }
 
@@ -1661,20 +1661,20 @@
     }
 
     .badge-wait {
-        background: #FAE8DA;
-        color: #A08878;
+        background: #EAE4D4;
+        color: #9A9080;
     }
 
     .badge-match {
-        border: 1px solid #E8622A;
-        color: #E8622A;
+        border: 1px solid #1E3A2F;
+        color: #1E3A2F;
     }
 
     .spinner {
         width: 18px;
         height: 18px;
-        border: 1.5px solid #E8C8B4;
-        border-top-color: #E8622A;
+        border: 1.5px solid #C8BEA8;
+        border-top-color: #1E3A2F;
         border-radius: 50%;
         animation: spin .8s linear infinite;
         margin: 12px auto;
@@ -1706,13 +1706,6 @@
     <div id="app">
         <div class="toast" id="toast"></div>
 
-        <!-- PULL TO REFRESH -->
-        <div id="ptr" style="position:fixed;top:0;left:0;right:0;max-width:430px;margin:0 auto;z-index:999;display:flex;align-items:center;justify-content:center;height:0;overflow:hidden;background:#FDF8F4;transition:height .2s ease;">
-            <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.8rem;letter-spacing:-.02em;color:#E8622A;line-height:1;">
-                <span id="ptr-o" style="display:inline-block;">O</span>
-            </div>
-        </div>
-
         <!-- ══ HOME ══ -->
         <div class="screen active" id="s-home" style="background:#1C1410;overflow:hidden;justify-content:flex-end;">
 
@@ -1727,7 +1720,7 @@
             <div style="position:absolute;top:52px;left:28px;z-index:2;">
                 <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;letter-spacing:.08em;text-transform:uppercase;color:#FDF8F4;">
                     Kino
-                    <span style="color:#E8622A;">.</span>
+                    <span style="color:#1E3A2F;">.</span>
                 </div>
             </div>
 
@@ -1744,7 +1737,7 @@
                 <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2rem,9vw,3.2rem);line-height:.95;letter-spacing:-.03em;text-transform:uppercase;color:#FDF8F4;margin-bottom:10px;">
                     Le dating,
                     <br>
-                    <span style="font-style:italic;font-family:'Newsreader',serif;font-weight:400;color:#E8622A;">pour de vrai.</span>
+                    <span style="font-style:italic;font-family:'Newsreader',serif;font-weight:400;color:#F4F0E6;">pour de vrai.</span>
                 </div>
 
                 <!-- Sous-titre -->
@@ -1752,8 +1745,8 @@
 
                 <!-- CTAs -->
                 <div style="display:flex;flex-direction:column;gap:10px;">
-                    <button class="btn btn-primary" onclick="goTo('s-signup')" style="font-size:14px;letter-spacing:.06em;">Créer mon profil</button>
-                    <button onclick="goTo('s-login')" style="width:100%;padding:15px 24px;background:rgba(245,243,238,0.12);border:1px solid rgba(245,243,238,0.3);border-radius:2px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#FDF8F4;cursor:pointer;backdrop-filter:blur(4px);transition:all .2s;">J'ai déjà un compte</button>
+                    <button class="btn btn-primary" onclick="goTo('s-signup')" style="font-size:14px;letter-spacing:.06em;">Commencer</button>
+                    <button onclick="goTo('s-login')" style="width:100%;padding:15px 24px;background:rgba(245,243,238,0.12);border:1px solid rgba(245,243,238,0.3);border-radius:50px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#FDF8F4;cursor:pointer;backdrop-filter:blur(4px);transition:all .2s;">J'ai déjà un compte</button>
                     <button class="btn-ghost" onclick="goTo('s-admin-login')" style="color:rgba(245,243,238,0.4);">Accès admin</button>
                 </div>
 
@@ -1931,13 +1924,13 @@
                 <div>
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
                         <div class="flbl" style="margin-bottom:0;">Tranche d&#39;âge</div>
-                        <div style="font-family:var(--font-sans);font-weight:700;font-size:13px;color:#E8622A;" id="onb-age-label">18 – 45 ans</div>
+                        <div style="font-family:var(--font-sans);font-weight:700;font-size:13px;color:#1E3A2F;" id="onb-age-label">18 – 45 ans</div>
                     </div>
-                    <input type="range" id="onb-age-min" min="18" max="99" value="18" step="1" oninput="updateOnbAge()" style="width:100%;accent-color:#E8622A;margin-bottom:8px;">
-                    <input type="range" id="onb-age-max" min="18" max="99" value="45" step="1" oninput="updateOnbAge()" style="width:100%;accent-color:#E8622A;">
+                    <input type="range" id="onb-age-min" min="18" max="99" value="18" step="1" oninput="updateOnbAge()" style="width:100%;accent-color:#1E3A2F;margin-bottom:8px;">
+                    <input type="range" id="onb-age-max" min="18" max="99" value="45" step="1" oninput="updateOnbAge()" style="width:100%;accent-color:#1E3A2F;">
                     <div style="display:flex;justify-content:space-between;margin-top:4px;">
-                        <span style="font-family:var(--font-mono);font-size:9px;color:#C8A890;">18 ans</span>
-                        <span style="font-family:var(--font-mono);font-size:9px;color:#C8A890;">99 ans</span>
+                        <span style="font-family:var(--font-mono);font-size:9px;color:#B0A890;">18 ans</span>
+                        <span style="font-family:var(--font-mono);font-size:9px;color:#B0A890;">99 ans</span>
                     </div>
                 </div>
                 <div>
@@ -1989,15 +1982,9 @@
 
         <!-- TAB ACCUEIL -->
         <div class="tab-screen" id="tab-accueil" style="display:flex;flex-direction:column;">
-            <div class="accueil-head">
-                <div class="accueil-logo">
-                    Kino
-                    <span>.</span>
-                </div>
-                <div class="accueil-sub" id="accueil-sub">Ici, on rencontre vraiment.</div>
-            </div>
+
             <div id="tab-card-area" style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
-                <div class="q-wrap" style="padding-top:16px;flex:1;">
+                <div class="q-wrap" style="padding-top:52px;flex:1;">
                     <div class="q-header">
                         <div class="qbars" id="tab-qbars"></div>
                         <div class="qmeta">
@@ -2026,7 +2013,7 @@
             <div id="tab-done" style="display:none;padding:48px 24px;text-align:center">
                 <div style="font-size:2.5rem;margin-bottom:20px">✓</div>
                 <div style="font-family:var(--font-sans);font-weight:800;font-size:1.3rem;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:8px">Cartes complétées</div>
-                <p style="font-size:14px;font-style:italic;color:#7A5A48;line-height:1.6">Ici, on rencontre vraiment. Consulte l'onglet Matchs — on cherche quelqu'un pour toi.</p>
+                <p style="font-size:14px;font-style:italic;color:#5A4E3A;line-height:1.6">Ici, on rencontre vraiment. Consulte l'onglet Matchs — on cherche quelqu'un pour toi.</p>
             </div>
         </div>
 
@@ -2038,23 +2025,23 @@
             <div id="matchs-content" class="matchs-list" style="flex:1;overflow-y:auto;"></div>
 
             <!-- CHAT INTERFACE -->
-            <div id="chat-screen" style="display:none;position:absolute;inset:0;bottom:var(--nav-h);background:#FDF8F4;flex-direction:column;">
+            <div id="chat-screen" style="display:none;position:absolute;inset:0;bottom:var(--nav-h);background:#F4F0E6;flex-direction:column;">
                 <!-- Chat header -->
-                <div style="padding:52px 20px 14px;border-bottom:1px solid #F0DDD0;background:#FDF8F4;flex-shrink:0;">
-                    <button onclick="closeChat()" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#A08878;background:none;border:none;cursor:pointer;margin-bottom:10px;display:flex;align-items:center;gap:6px;">← Retour</button>
+                <div style="padding:52px 20px 14px;border-bottom:1px solid #D8D0BC;background:#F4F0E6;flex-shrink:0;">
+                    <button onclick="closeChat()" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#9A9080;background:none;border:none;cursor:pointer;margin-bottom:10px;display:flex;align-items:center;gap:6px;">← Retour</button>
                     <div style="display:flex;align-items:center;gap:12px;">
-                        <div style="width:40px;height:40px;border-radius:2px;background:#E8622A;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:#FDF8F4;" id="chat-av">?</div>
+                        <div style="width:40px;height:40px;border-radius:2px;background:#1E3A2F;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:#FDF8F4;" id="chat-av">?</div>
                         <div>
-                            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;color:#1C1410;" id="chat-title">Assistant de —</div>
-                            <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#A08878;">Organisation du rendez-vous</div>
+                            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;color:#1A1208;" id="chat-title">Assistant de —</div>
+                            <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#9A9080;">Organisation du rendez-vous</div>
                         </div>
                     </div>
                 </div>
                 <!-- Chat messages -->
                 <div id="chat-messages" style="flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:4px;"></div>
                 <!-- Confirm button -->
-                <div id="chat-foot" style="padding:12px 20px 24px;border-top:1px solid #F0DDD0;display:none;flex-shrink:0;">
-                    <button onclick="confirmSlots()" style="width:100%;padding:14px;background:#E8622A;border:none;border-radius:2px;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#FDF8F4;cursor:pointer;">Confirmer mes disponibilités</button>
+                <div id="chat-foot" style="padding:12px 20px 24px;border-top:1px solid #D8D0BC;display:none;flex-shrink:0;">
+                    <button onclick="confirmSlots()" style="width:100%;padding:14px;background:#1E3A2F;border:none;border-radius:50px;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#FDF8F4;cursor:pointer;">Confirmer mes disponibilités</button>
                 </div>
             </div>
         </div>
@@ -2098,8 +2085,8 @@
                 <div class="profil-section-lbl" style="margin-top:16px;">Je cherche</div>
 
                 <!-- Genre recherché -->
-                <div style="background:#FAE8DA;border:1px solid #E8C8B4;border-radius:2px;padding:14px 16px;">
-                    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#A08878;margin-bottom:10px;">Genre</div>
+                <div style="background:#EAE4D4;border:1px solid #C8BEA8;border-radius:2px;padding:14px 16px;">
+                    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#9A9080;margin-bottom:10px;">Genre</div>
                     <div style="display:flex;flex-wrap:wrap;gap:6px;" id="genre-chips">
                         <button onclick="toggleGenreChip(this,'homme')" class="pref-chip">Homme</button>
                         <button onclick="toggleGenreChip(this,'non-binaire')" class="pref-chip">Non-binaire</button>
@@ -2109,24 +2096,24 @@
                 </div>
 
                 <!-- Tranche d'âge -->
-                <div style="background:#FAE8DA;border:1px solid #E8C8B4;border-radius:2px;padding:14px 16px;">
+                <div style="background:#EAE4D4;border:1px solid #C8BEA8;border-radius:2px;padding:14px 16px;">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-                        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#A08878;">Tranche d'âge</div>
-                        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:#E8622A;" id="age-range-label">18 – 45 ans</div>
+                        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#9A9080;">Tranche d'âge</div>
+                        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:#1E3A2F;" id="age-range-label">18 – 45 ans</div>
                     </div>
                     <div style="margin-bottom:8px;">
-                        <input type="range" id="age-min" min="18" max="99" value="18" step="1" oninput="updateAgeRange()" style="width:100%;accent-color:#E8622A;margin-bottom:6px;">
-                        <input type="range" id="age-max" min="18" max="99" value="45" step="1" oninput="updateAgeRange()" style="width:100%;accent-color:#E8622A;">
+                        <input type="range" id="age-min" min="18" max="99" value="18" step="1" oninput="updateAgeRange()" style="width:100%;accent-color:#1E3A2F;margin-bottom:6px;">
+                        <input type="range" id="age-max" min="18" max="99" value="45" step="1" oninput="updateAgeRange()" style="width:100%;accent-color:#1E3A2F;">
                     </div>
                     <div style="display:flex;justify-content:space-between;">
-                        <span style="font-family:'DM Mono',monospace;font-size:9px;color:#C8A890;letter-spacing:.06em;">18 ans</span>
-                        <span style="font-family:'DM Mono',monospace;font-size:9px;color:#C8A890;letter-spacing:.06em;">99 ans</span>
+                        <span style="font-family:'DM Mono',monospace;font-size:9px;color:#B0A890;letter-spacing:.06em;">18 ans</span>
+                        <span style="font-family:'DM Mono',monospace;font-size:9px;color:#B0A890;letter-spacing:.06em;">99 ans</span>
                     </div>
                 </div>
 
                 <!-- Rôle -->
-                <div style="background:#FAE8DA;border:1px solid #E8C8B4;border-radius:2px;padding:14px 16px;">
-                    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#A08878;margin-bottom:10px;">Je cherche quelqu'un de</div>
+                <div style="background:#EAE4D4;border:1px solid #C8BEA8;border-radius:2px;padding:14px 16px;">
+                    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#9A9080;margin-bottom:10px;">Je cherche quelqu'un de</div>
                     <div style="display:flex;gap:6px;flex-wrap:wrap;" id="role-chips">
                         <button onclick="toggleRoleChip(this,'actif')" class="pref-chip">Actif</button>
                         <button onclick="toggleRoleChip(this,'passif')" class="pref-chip">Passif</button>
@@ -2135,7 +2122,7 @@
                     </div>
                 </div>
 
-                <button onclick="savePreferences()" style="background:#E8622A;border:none;border-radius:2px;padding:13px;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#FDF8F4;cursor:pointer;width:100%;margin-top:4px;">Sauvegarder mes préférences</button>
+                <button onclick="savePreferences()" style="background:#1E3A2F;border:none;border-radius:2px;padding:13px;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#FDF8F4;cursor:pointer;width:100%;margin-top:4px;">Sauvegarder mes préférences</button>
 
                 <div class="profil-section-lbl" style="margin-top:16px;">Compte</div>
                 <div class="profil-row" onclick="goTo('s-admin-login')">
@@ -2188,10 +2175,10 @@
             <div class="admin-head">
                 <div style="display:flex;justify-content:space-between;align-items:flex-start">
                     <div>
-                        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#E8622A;margin-bottom:6px">Kino.</div>
+                        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#1E3A2F;margin-bottom:6px">Kino.</div>
                         <div style="font-family:var(--font-sans);font-weight:800;font-size:1.6rem;letter-spacing:-.02em;text-transform:uppercase">Dashboard</div>
                     </div>
-                    <button onclick="loadAdmin()" style="background:var(--line2);border:none;border-radius:2px;width:36px;height:36px;cursor:pointer;font-size:16px;color:#1C1410">↻</button>
+                    <button onclick="loadAdmin()" style="background:var(--line2);border:none;border-radius:2px;width:36px;height:36px;cursor:pointer;font-size:16px;color:#1A1208">↻</button>
                 </div>
             </div>
             <div class="admin-body">
@@ -3290,8 +3277,8 @@
                 document.getElementById('tab-done').style.display = 'block';
                 document.getElementById('tab-done').innerHTML = `
                                 <div style="font-size:2.5rem;margin-bottom:20px">✓</div>
-                                <div style="font-family:var(--font-sans);font-weight:800;font-size:1.3rem;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:8px;color:#1C1410;">Toutes les cartes répondues !</div>
-                                <p style="font-size:14px;font-style:italic;color:#7A5A48;line-height:1.6;">Tu as répondu à ${st.reponses.length} cartes. Ton profil est très précis — on cherche quelqu’un pour toi.</p>`;
+                                <div style="font-family:var(--font-sans);font-weight:800;font-size:1.3rem;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:8px;color:#1A1208;">Toutes les cartes répondues !</div>
+                                <p style="font-size:14px;font-style:italic;color:#5A4E3A;line-height:1.6;">Tu as répondu à ${st.reponses.length} cartes. Ton profil est très précis — on cherche quelqu’un pour toi.</p>`;
             } else {
                 document.getElementById('tab-card-area').style.display = 'flex';
                 document.getElementById('tab-done').style.display = 'none';
@@ -3473,7 +3460,7 @@
             document.getElementById('stat-waiting').textContent = users ? users.filter(u => u.statut_match === 'en_attente').length : 0;
             document.getElementById('stat-accepted').textContent = matches ? matches.filter(m => m.statut === 'accepte').length : 0;
             if (!users || users.length === 0) {
-                document.getElementById('admin-users').innerHTML = '<p style="font-size:13px;font-style:italic;color:#A08878">Aucun utilisateur.</p>';
+                document.getElementById('admin-users').innerHTML = '<p style="font-size:13px;font-style:italic;color:#9A9080">Aucun utilisateur.</p>';
                 return;
             }
             document.getElementById('admin-users').innerHTML = users.slice(0, 15).map(u => `
@@ -3756,21 +3743,21 @@
         if (assistantDone) {
             assistantCard.innerHTML = `
                         <div class="match-card-top">
-                            <div class="match-av" style="background:#1C1410;color:#FDF8F4;font-size:.75rem;letter-spacing:.04em;">K</div>
-                            <div style="flex:1"><div class="match-name">Kino Assistant</div><div style="font-family:'Newsreader',serif;font-size:12px;font-style:italic;color:#A08878;margin-top:2px;">Onboarding complété</div></div>
+                            <div class="match-av" style="background:#1E3A2F;color:#F4F0E6;font-size:.75rem;letter-spacing:.04em;">K</div>
+                            <div style="flex:1"><div class="match-name">Kino Assistant</div><div style="font-family:'Newsreader',serif;font-size:12px;font-style:italic;color:#9A9080;margin-top:2px;">Onboarding complété</div></div>
                             <div style="font-family:'DM Mono',monospace;font-size:10px;color:#4A9B6F;">✓</div>
                         </div>
-                        <div style="font-family:'Newsreader',serif;font-size:13px;font-style:italic;color:#7A5A48;margin-top:8px;">Tu es prêt. On cherche quelqu’un pour toi.</div>`;
+                        <div style="font-family:'Newsreader',serif;font-size:13px;font-style:italic;color:#5A4E3A;margin-top:8px;">Tu es prêt. On cherche quelqu’un pour toi.</div>`;
         } else {
             assistantCard.innerHTML = `
                         <div class="match-card-top">
-                            <div class="match-av" style="background:#1C1410;color:#FDF8F4;font-size:.75rem;letter-spacing:.04em;">K</div>
-                            <div style="flex:1"><div class="match-name">Kino Assistant</div><div style="font-family:'Newsreader',serif;font-size:12px;font-style:italic;color:#A08878;margin-top:2px;">Comprendre le concept</div></div>
-                            <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#E8622A;padding:4px 8px;border:1px solid #E8C8B4;border-radius:2px;">Nouveau</div>
+                            <div class="match-av" style="background:#1E3A2F;color:#F4F0E6;font-size:.75rem;letter-spacing:.04em;">K</div>
+                            <div style="flex:1"><div class="match-name">Kino Assistant</div><div style="font-family:'Newsreader',serif;font-size:12px;font-style:italic;color:#9A9080;margin-top:2px;">Comprendre le concept</div></div>
+                            <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#1E3A2F;padding:4px 8px;border:1px solid #C8BEA8;border-radius:2px;">Nouveau</div>
                         </div>
                         <div class="match-bar"><div class="match-bar-fill" style="width:100%;background:#1C1410;"></div></div>
-                        <div style="font-family:'Newsreader',serif;font-size:13px;font-style:italic;color:#7A5A48;line-height:1.5;margin:8px 0 0;">Bienvenue sur Kino. Comprends comment fonctionne ta prochaine rencontre.</div>
-                        <div style="padding-top:10px;border-top:1px solid #F0DDD0;margin-top:10px;"><div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#A08878;">Appuie pour commencer →</div></div>`;
+                        <div style="font-family:'Newsreader',serif;font-size:13px;font-style:italic;color:#5A4E3A;line-height:1.5;margin:8px 0 0;">Bienvenue sur Kino. Comprends comment fonctionne ta prochaine rencontre.</div>
+                        <div style="padding-top:10px;border-top:1px solid #D8D0BC;margin-top:10px;"><div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#9A9080;">Appuie pour commencer →</div></div>`;
         }
         assistantCard.onclick = () => openKinoAssistant();
         el.appendChild(assistantCard);
@@ -3803,37 +3790,37 @@
                 if (remaining > 0) {
                     const h = Math.floor(remaining / 3600000);
                     const min = Math.floor((remaining % 3600000) / 60000);
-                    countdownHTML = `<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:#FDF8F4;border:1px solid #E8C8B4;border-radius:2px;margin-bottom:10px;">
-                                        <div style="width:6px;height:6px;border-radius:50%;background:#E8622A;animation:pulse 2s infinite;flex-shrink:0;"></div>
-                                        <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#E8622A;">⏱ ${h}h${String(min).padStart(2, '0')} pour répondre</span>
+                    countdownHTML = `<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:#F4F0E6;border:1px solid #C8BEA8;border-radius:2px;margin-bottom:10px;">
+                                        <div style="width:6px;height:6px;border-radius:50%;background:#1E3A2F;animation:pulse 2s infinite;flex-shrink:0;"></div>
+                                        <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#1E3A2F;">⏱ ${h}h${String(min).padStart(2, '0')} pour répondre</span>
                                     </div>`;
                 }
             }
 
             let actionHTML = '';
             if (m.statut === 'confirmed') {
-                actionHTML = `<div style="display:flex;align-items:center;gap:8px;padding:10px 0 0;border-top:1px solid #F0DDD0;margin-top:10px;">
+                actionHTML = `<div style="display:flex;align-items:center;gap:8px;padding:10px 0 0;border-top:1px solid #D8D0BC;margin-top:10px;">
                                 <div style="width:8px;height:8px;border-radius:50%;background:#4A9B6F;flex-shrink:0;"></div>
                                 <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:#4A9B6F;">Rendez-vous confirmé ✓</span>
                             </div>`;
             } else if (m.statut === 'accepte' || m.statut === 'slots_pending') {
-                actionHTML = `<div style="padding-top:12px;border-top:1px solid #F0DDD0;margin-top:10px;">
-                                <button class="open-chat-btn" data-id="${m.id}" data-name="${name}" data-isusera="${isUserA}" style="width:100%;padding:10px;background:#E8622A;border:none;border-radius:2px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#FDF8F4;cursor:pointer;">Organiser la rencontre →</button>
+                actionHTML = `<div style="padding-top:12px;border-top:1px solid #D8D0BC;margin-top:10px;">
+                                <button class="open-chat-btn" data-id="${m.id}" data-name="${name}" data-isusera="${isUserA}" style="width:100%;padding:10px;background:#1E3A2F;border:none;border-radius:50px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#FDF8F4;cursor:pointer;">Organiser la rencontre →</button>
                             </div>`;
             } else if (myReponse === 'accepte') {
-                actionHTML = `<div style="padding:10px 0 0;border-top:1px solid #F0DDD0;margin-top:10px;">
-                                <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:#A08878;">En attente de sa réponse…</span>
+                actionHTML = `<div style="padding:10px 0 0;border-top:1px solid #D8D0BC;margin-top:10px;">
+                                <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:#9A9080;">En attente de sa réponse…</span>
                             </div>`;
             } else if (myReponse === 'refuse') {
-                actionHTML = `<div style="padding:10px 0 0;border-top:1px solid #F0DDD0;margin-top:10px;">
+                actionHTML = `<div style="padding:10px 0 0;border-top:1px solid #D8D0BC;margin-top:10px;">
                                 <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:#C0392B;">Match refusé</span>
                             </div>`;
             } else {
-                actionHTML = `<div style="display:flex;flex-direction:column;gap:8px;padding-top:12px;border-top:1px solid #F0DDD0;margin-top:10px;">
+                actionHTML = `<div style="display:flex;flex-direction:column;gap:8px;padding-top:12px;border-top:1px solid #D8D0BC;margin-top:10px;">
                                 ${countdownHTML}
                                 <div style="display:flex;gap:8px;">
-                                    <button class="refuse-btn" data-id="${m.id}" data-isusera="${isUserA}" style="flex:1;padding:10px;background:transparent;border:1px solid #E8C8B4;border-radius:2px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#A08878;cursor:pointer;">Refuser</button>
-                                    <button class="accept-btn" data-id="${m.id}" data-isusera="${isUserA}" style="flex:2;padding:10px;background:#E8622A;border:none;border-radius:2px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#FDF8F4;cursor:pointer;">Accepter le date !</button>
+                                    <button class="refuse-btn" data-id="${m.id}" data-isusera="${isUserA}" style="flex:1;padding:10px;background:transparent;border:1px solid #C8BEA8;border-radius:50px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#9A9080;cursor:pointer;">Refuser</button>
+                                    <button class="accept-btn" data-id="${m.id}" data-isusera="${isUserA}" style="flex:2;padding:10px;background:#1E3A2F;border:none;border-radius:50px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#FDF8F4;cursor:pointer;">Accepter le date !</button>
                                 </div>
                             </div>`;
             }
@@ -3846,13 +3833,13 @@
                             <div class="match-av">${name.charAt(0).toUpperCase()}</div>
                             <div style="flex:1">
                                 <div class="match-name">${name}</div>
-                                <div style="font-family:'Newsreader',serif;font-size:12px;font-style:italic;color:#A08878;margin-top:2px;">${other ? other.age + ' ans' : ''}</div>
+                                <div style="font-family:'Newsreader',serif;font-size:12px;font-style:italic;color:#9A9080;margin-top:2px;">${other ? other.age + ' ans' : ''}</div>
                             </div>
                             <div class="match-score">${score}<span>%</span></div>
                         </div>
                         <div class="match-bar"><div class="match-bar-fill" style="width:${score}%"></div></div>
-                        <div style="font-family:'Newsreader',serif;font-size:13px;font-style:italic;color:#7A5A48;line-height:1.5;margin:8px 0 0;">
-                            Vos réponses sont alignées à <strong style="color:#1C1410;">${score}%</strong>.
+                        <div style="font-family:'Newsreader',serif;font-size:13px;font-style:italic;color:#5A4E3A;line-height:1.5;margin:8px 0 0;">
+                            Vos réponses sont alignées à <strong style="color:#1A1208;">${score}%</strong>.
                         </div>
                         ${actionHTML}`;
             el.appendChild(card);
@@ -4088,19 +4075,19 @@
         card.style.cursor = 'pointer';
         card.innerHTML = `
                 <div class="match-card-top">
-                    <div class="match-av" style="background:#1C1410;color:#FDF8F4;font-size:.75rem;letter-spacing:.04em;">K</div>
+                    <div class="match-av" style="background:#1E3A2F;color:#F4F0E6;font-size:.75rem;letter-spacing:.04em;">K</div>
                     <div style="flex:1">
                         <div class="match-name">Kino Assistant</div>
-                        <div style="font-family:'Newsreader',serif;font-size:12px;font-style:italic;color:#A08878;margin-top:2px;">Comprendre le concept</div>
+                        <div style="font-family:'Newsreader',serif;font-size:12px;font-style:italic;color:#9A9080;margin-top:2px;">Comprendre le concept</div>
                     </div>
-                    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#E8622A;padding:4px 8px;border:1px solid #E8C8B4;border-radius:2px;">Nouveau</div>
+                    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#1E3A2F;padding:4px 8px;border:1px solid #C8BEA8;border-radius:2px;">Nouveau</div>
                 </div>
                 <div class="match-bar"><div class="match-bar-fill" style="width:100%;background:#1C1410;"></div></div>
-                <div style="font-family:'Newsreader',serif;font-size:13px;font-style:italic;color:#7A5A48;line-height:1.5;margin:8px 0 0;">
+                <div style="font-family:'Newsreader',serif;font-size:13px;font-style:italic;color:#5A4E3A;line-height:1.5;margin:8px 0 0;">
                     Bienvenue sur Kino. Comprends comment fonctionne ta prochaine rencontre.
                 </div>
-                <div style="padding-top:12px;border-top:1px solid #F0DDD0;margin-top:10px;">
-                    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#A08878;">Appuie pour commencer →</div>
+                <div style="padding-top:12px;border-top:1px solid #D8D0BC;margin-top:10px;">
+                    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#9A9080;">Appuie pour commencer →</div>
                 </div>`;
         card.onclick = () => openKinoAssistant();
         el.appendChild(card);
@@ -4306,11 +4293,11 @@
             btnWrap.style.cssText = 'display:flex;flex-direction:column;gap:6px;margin:8px 0 4px;';
             step.answers.forEach((ans, i) => {
                 const btn = document.createElement('button');
-                btn.style.cssText = `padding:10px 14px;background:${i === 0 ? '#E8622A' : 'transparent'};border:1px solid ${i === 0 ? '#E8622A' : '#E8C8B4'};border-radius:4px;font-family:'Newsreader',serif;font-size:13px;font-style:italic;color:${i === 0 ? '#FDF8F4' : '#7A5A48'};cursor:pointer;text-align:left;transition:all .2s;`;
+                btn.style.cssText = `padding:10px 14px;background:${i === 0 ? '#E8622A' : 'transparent'};border:1px solid ${i === 0 ? '#E8622A' : '#C8BEA8'};border-radius:4px;font-family:'Newsreader',serif;font-size:13px;font-style:italic;color:${i === 0 ? '#FDF8F4' : '#7A5A48'};cursor:pointer;text-align:left;transition:all .2s;`;
                 btn.textContent = ans;
                 btn.onclick = () => {
                     // Montrer la réponse choisie
-                    btnWrap.innerHTML = `<div style="font-family:'Newsreader',serif;font-size:13px;font-style:italic;color:#A08878;padding:4px 0;">→ ${ans}</div>`;
+                    btnWrap.innerHTML = `<div style="font-family:'Newsreader',serif;font-size:13px;font-style:italic;color:#9A9080;padding:4px 0;">→ ${ans}</div>`;
                     setTimeout(() => playKinoStep(step.next[i]), 400);
                 };
                 btnWrap.appendChild(btn);
@@ -4328,7 +4315,7 @@
             // Bouton fermer
             setTimeout(() => {
                 const foot = document.getElementById('chat-foot');
-                foot.innerHTML = `<button onclick="closeChat()" style="width:100%;padding:14px;background:#1C1410;border:none;border-radius:2px;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#FDF8F4;cursor:pointer;">C’est parti ✓</button>`;
+                foot.innerHTML = `<button onclick="closeChat()" style="width:100%;padding:14px;background:#1E3A2F;border:none;border-radius:50px;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#FDF8F4;cursor:pointer;">C’est parti ✓</button>`;
                 foot.style.display = 'block';
             }, 600);
         }
@@ -4350,85 +4337,6 @@
             window.webkit.messageHandlers.haptic.postMessage(type);
         }
     }
-
-    /* ══ PULL TO REFRESH ══ */
-    (function() {
-        let startY = 0,
-            pulling = false,
-            triggered = false;
-        const ptr = document.getElementById('ptr');
-        const ptrO = document.getElementById('ptr-o');
-        const THRESHOLD = 80;
-
-        document.addEventListener('touchstart', e => {
-            // Only trigger if scrolled to top
-            const active = document.querySelector('.tab-screen.active') || document.querySelector('.screen.active');
-            if (!active)
-                return;
-            const scrollTop = active.scrollTop || 0;
-            if (scrollTop > 2)
-                return;
-            startY = e.touches[0].clientY;
-            pulling = true;
-            triggered = false;
-        }, {
-            passive: true
-        });
-
-        document.addEventListener('touchmove', e => {
-            if (!pulling)
-                return;
-            const dy = e.touches[0].clientY - startY;
-            if (dy < 0) {
-                pulling = false;
-                return;
-            }
-            const progress = Math.min(dy, THRESHOLD * 1.5);
-            const h = Math.min(progress * 0.6, 60);
-            ptr.style.height = h + 'px';
-
-            if (dy > THRESHOLD && !triggered) {
-                triggered = true;
-
-                ptrO.classList.add('spinning');
-            } else if (dy <= THRESHOLD && triggered) {
-                triggered = false;
-
-                ptrO.classList.remove('spinning');
-            }
-        }, {
-            passive: true
-        });
-
-        document.addEventListener('touchend', () => {
-            if (!pulling)
-                return;
-            pulling = false;
-            if (triggered) {
-
-                // Keep open during refresh
-                ptr.style.height = '60px';
-                setTimeout(() => {
-                    // Reload data
-                    if (typeof loadMatchs === 'function')
-                        loadMatchs();
-                    if (typeof loadProfileData === 'function')
-                        loadProfileData();
-                    if (typeof renderTabCards === 'function')
-                        renderTabCards();
-                    // Close
-                    setTimeout(() => {
-                        ptr.style.height = '0';
-                        ptrO.classList.remove('spinning');
-
-                    }, 800);
-                }, 400);
-            } else {
-                ptr.style.height = '0';
-                ptrO.classList.remove('spinning');
-            }
-        });
-    })();
 
     /* ══ INIT ══ */
     function hideLoading() {}
