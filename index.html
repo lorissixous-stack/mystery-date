@@ -2006,7 +2006,7 @@
                     </div>
                 </div>
                 <div class="onb-body">
-                    <input class="onb-input" id="onb-prenom" type="text" placeholder="Ton prénom" autocomplete="given-name" oninput="onbCheck1()">
+                    <input class="onb-input" id="onb-prenom" type="text" placeholder="Ton prénom" autocomplete="given-name" oninput="onbCheck1()" onblur="onbCheck1()" onfocus="onbCheck1()">
                 </div>
                 <div class="onb-foot">
                     <button class="btn btn-primary onb-btn" id="onb-btn-1" onclick="goTo('s-onb-2')" disabled>Continuer</button>
@@ -2029,7 +2029,7 @@
                     </div>
                 </div>
                 <div class="onb-body">
-                    <input class="onb-input" id="onb-age" type="number" placeholder="Ton âge" min="18" max="99" oninput="onbCheck2()">
+                    <input class="onb-input" id="onb-age" type="number" placeholder="Ton âge" min="18" max="99" oninput="onbCheck2()" onblur="onbCheck2()" onfocus="onbCheck2()">
                     <p class="onb-hint" style="margin-top:10px;">18 ans minimum.</p>
                 </div>
                 <div class="onb-foot">
@@ -2177,7 +2177,7 @@
                     <input class="onb-input" id="onb-email" type="email" placeholder="ton@email.com" autocomplete="email" oninput="onbCheck7()" onchange="onbCheck7()" onpaste="setTimeout(onbCheck7,0)">
                 </div>
                 <div class="onb-foot">
-                    <button class="btn btn-primary onb-btn" id="onb-btn-7" onclick="sendOnbOTP()" disabled>Recevoir mon code</button>
+                    <button class="btn btn-primary" id="onb-btn-7" onclick="sendOnbOTP()">Recevoir mon code</button>
                     <button class="onb-back" onclick="goTo('s-onb-6')">← Retour</button>
                 </div>
             </div>
@@ -3221,39 +3221,27 @@
         document.getElementById('onb-age-max-label').textContent = max;
     }
     async function sendOnbOTP() {
-        // Lire toutes les valeurs directement depuis les inputs
-        const prenomEl = document.getElementById('onb-prenom');
-        const ageEl = document.getElementById('onb-age');
-        const prenom = prenomEl ? prenomEl.value.trim() : '';
-        const age = ageEl ? parseInt(ageEl.value) : 0;
         const email = document.getElementById('onb-email').value.trim();
 
-        // Vérifications avec messages clairs
-        if (!prenom) {
-            showToast('Retourne à l\'étape 1 — entre ton prénom');
-            return;
-        }
-        if (!age || age < 18) {
-            showToast('Retourne à l\'étape 2 — vérifie ton âge');
-            return;
-        }
-        if (!st.genre) {
-            showToast('Retourne à l\'étape 3 — choisis ton genre');
-            return;
-        }
-        if (!st.recherche) {
-            showToast('Retourne à l\'étape 4 — dis qui tu cherches');
-            return;
-        }
-        if (!email || !email.includes('@')) {
-            showToast('Email invalide');
+        // Seule vérification bloquante : email valide
+        if (!email || !email.includes('@') || !email.includes('.')) {
+            showToast('Entre une adresse email valide');
             return;
         }
 
-        // Sauvegarder dans st
-        st.prenom = prenom;
-        st.age = age;
+        // Lire les autres champs (même s'ils sont dans des écrans cachés)
+        const prenomEl = document.getElementById('onb-prenom');
+        const ageEl = document.getElementById('onb-age');
+        const prenom = prenomEl ? prenomEl.value.trim() : st.prenom || '';
+        const age = ageEl && ageEl.value ? parseInt(ageEl.value) : st.age || 0;
+
+        st.prenom = prenom || 'Membre';
+        st.age = age >= 18 ? age : 18;
         st.email = email;
+        if (!st.genre)
+            st.genre = 'homme';
+        if (!st.recherche)
+            st.recherche = 'tous';
 
         // Préférences
         const ageMin = document.getElementById('onb-age-min');
