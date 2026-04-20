@@ -3186,10 +3186,13 @@
         };
         const end = (dx) => {
             el.style.transition = '';
+            haptic('medium');
             if (dx > 80)
                 ctx === 'signup' ? vote('yes') : tabVote('yes');
-            else if (dx < -80)
+            else if (dx < -80) {
+                haptic('light');
                 ctx === 'signup' ? vote('no') : tabVote('no');
+            }
             else {
                 el.style.transform = '';
                 el.querySelectorAll('.vote-overlay').forEach(o => o.style.opacity = 0);
@@ -4061,6 +4064,7 @@
                 statut: 'confirmed',
                 confirmed_slot: label
             }).eq('id', currentMatch.id);
+            haptic('success');
             showToast('Rendez-vous confirmé !');
         } else {
             showToast('Disponibilités enregistrées !');
@@ -4093,6 +4097,7 @@
                 await sb.from('matches').update({
                     statut: 'accepte'
                 }).eq('id', matchId);
+                haptic('success');
                 showToast('Match accepté des deux côtés !');
                 setTimeout(() => loadMatchs(), 500);
                 return;
@@ -4366,6 +4371,23 @@
                 foot.innerHTML = `<button onclick="closeChat()" style="width:100%;padding:14px;background:#1C1410;border:none;border-radius:2px;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#FDF8F4;cursor:pointer;">C’est parti ✓</button>`;
                 foot.style.display = 'block';
             }, 600);
+        }
+    }
+
+    /* ══ HAPTIC FEEDBACK ══ */
+    function haptic(type) {
+        // Vibration API (Android + WebView)
+        if (navigator.vibrate) {
+            if (type === 'light')
+                navigator.vibrate(10);
+            else if (type === 'medium')
+                navigator.vibrate(20);
+            else if (type === 'success')
+                navigator.vibrate([10, 30, 10]);
+        }
+        // iOS Taptic Engine via Median/GoNative bridge
+        if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.haptic) {
+            window.webkit.messageHandlers.haptic.postMessage(type);
         }
     }
 
