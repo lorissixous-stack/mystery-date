@@ -1703,6 +1703,188 @@
     #ptr-o.spinning {
         animation: spinO .6s linear infinite;
         display: inline-block;
+    }/* ── ONBOARDING STEP-BY-STEP ── */
+
+    .screen.onb-screen {
+        overflow: hidden;
+    }
+
+    .onb-wrap {
+        display: grid;
+        grid-template-rows: auto auto 1fr auto;
+        height: 100%;
+        padding: calc(48px + env(safe-area-inset-top)) 28px calc(24px + env(safe-area-inset-bottom));
+        box-sizing: border-box;
+        gap: 0;
+    }
+
+    .onb-header {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 0;
+    }
+
+    .onb-progress {
+        width: 100%;
+        height: 2px;
+        background: #E0D8C8;
+        border-radius: 2px;
+        overflow: hidden;
+    }
+
+    .onb-bar {
+        height: 100%;
+        background: #1E3A2F;
+        border-radius: 2px;
+        transition: width .5s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    .onb-step {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        color: #9A9080;
+    }
+
+    .onb-question {
+        font-family: var(--font-sans);
+        font-weight: 800;
+        font-size: clamp(1.6rem, 7vw, 2.2rem);
+        line-height: 1;
+        letter-spacing: -.03em;
+        text-transform: uppercase;
+        color: #1A1208;
+        margin-top: 20px;
+    }
+
+    .onb-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 20px 0 12px;
+        overflow: hidden;
+    }
+
+    .onb-input {
+        width: 100%;
+        padding: 12px 0;
+        background: none;
+        border: none;
+        border-bottom: 2px solid #C8BEA8;
+        font-family: var(--font-sans);
+        font-size: clamp(1rem, 4vw, 1.3rem);
+        font-weight: 700;
+        color: #1A1208;
+        outline: none;
+        transition: border-color .2s;
+    }
+
+    .onb-input:focus {
+        border-color: #1E3A2F;
+    }
+
+    .onb-input::placeholder {
+        color: #C8BEA8;
+        font-weight: 400;
+    }
+
+    .onb-choices {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .onb-choice {
+        width: 100%;
+        padding: 14px 18px;
+        background: #EAE4D4;
+        border: 1.5px solid #C8BEA8;
+        border-radius: 3px;
+        font-family: var(--font-sans);
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: .03em;
+        color: #1A1208;
+        cursor: pointer;
+        text-align: left;
+        transition: all .15s ease;
+        flex-shrink: 0;
+    }
+
+    .onb-choice:active, .onb-choice.sel {
+        background: #1E3A2F;
+        border-color: #1E3A2F;
+        color: #FDF8F4;
+        transform: scale(.99);
+    }
+
+    .onb-foot {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .onb-btn:disabled {
+        opacity: .3;
+        pointer-events: none;
+    }
+
+    .onb-back {
+        background: none;
+        border: none;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        color: #9A9080;
+        cursor: pointer;
+        padding: 6px 0;
+        text-align: center;
+        transition: color .15s;
+    }
+
+    .onb-back:hover {
+        color: #5A4E3A;
+    }
+
+    .onb-hint {
+        font-family: var(--font-serif);
+        font-size: 13px;
+        font-style: italic;
+        color: #9A9080;
+        line-height: 1.5;
+        margin-bottom: 12px;
+    }
+
+    .onb-range-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    .onb-range-lbl {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        color: #9A9080;
+    }
+
+    .onb-range-val {
+        font-family: var(--font-sans);
+        font-weight: 800;
+        font-size: 1.3rem;
+        color: #1E3A2F;
+    }
+
+    input[type=range].onb-range {
+        width: 100%;
+        accent-color: #1E3A2F;
+        margin-bottom: 20px;
+        cursor: pointer;
     }
     </style>
 </head>
@@ -1749,7 +1931,7 @@
 
                 <!-- CTAs -->
                 <div style="display:flex;flex-direction:column;gap:10px;">
-                    <button class="btn btn-primary" onclick="goTo('s-signup')" style="font-size:14px;letter-spacing:.06em;">Commencer</button>
+                    <button class="btn btn-primary" onclick="goTo('s-onb-1')" style="font-size:14px;letter-spacing:.06em;">Commencer</button>
                     <button onclick="goTo('s-login')" style="width:100%;padding:15px 24px;background:rgba(245,243,238,0.12);border:1px solid rgba(245,243,238,0.3);border-radius:50px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#FDF8F4;cursor:pointer;backdrop-filter:blur(4px);transition:all .2s;">J'ai déjà un compte</button>
                     <button class="btn-ghost" onclick="goTo('s-admin-login')" style="color:rgba(245,243,238,0.4);">Accès admin</button>
                 </div>
@@ -1807,181 +1989,199 @@
             </div>
         </div>
 
-        <!-- ══ SIGNUP ══ -->
-        <div class="screen" id="s-signup">
-            <div class="pg-head">
-                <div class="segs">
-                    <div class="seg on"></div>
-                    <div class="seg"></div>
-                    <div class="seg"></div>
-                </div>
-                <div class="pg-eye">Étape 1 · Profil</div>
-                <div class="pg-title">
-                    On fait
-                    <br>
-                    <em>connaissance</em>
-                </div>
-                <p class="pg-sub">Ici, on rencontre vraiment. Commence par toi.</p>
-            </div>
-            <div class="form-body">
-                <div>
-                    <div class="flbl">Prénom</div>
-                    <input class="input" id="ip" type="text" placeholder="Ton prénom…"/>
-                </div>
-                <div>
-                    <div class="flbl">Âge</div>
-                    <input class="input" id="ia" type="number" placeholder="Ton âge" min="18" max="99"/>
-                </div>
-                <div>
-                    <div class="flbl">Email</div>
-                    <input class="input" id="ie" type="email" placeholder="ton@email.com"/>
-                </div>
-                <div>
-                    <div class="flbl">Tu es</div>
-                    <div class="g-grid">
-                        <button class="g-opt" onclick="sg(this,'homme')">Homme</button>
-                        <button class="g-opt" onclick="sg(this,'non-binaire')">Non-binaire</button>
-                        <button class="g-opt" onclick="sg(this,'autre')">Autre</button>
+        <!-- ══ ONBOARDING ÉTAPE PAR ÉTAPE ══ -->
+
+        <!-- ÉTAPE 1 — Prénom -->
+        <div class="screen onb-screen" id="s-onb-1">
+            <div class="onb-wrap">
+                <div class="onb-header">
+                    <div class="onb-progress">
+                        <div class="onb-bar" style="width:14%"></div>
+                    </div>
+                    <div class="onb-step">1 · 7</div>
+                    <div class="onb-question">
+                        Comment
+                        <br>
+                        tu t&#39;appelles ?
                     </div>
                 </div>
-            </div>
-            <div class="pg-foot">
-                <button class="btn btn-primary" onclick="vsignup()">Continuer</button>
-                <button class="btn btn-outline" onclick="goTo('s-home')">Retour</button>
+                <div class="onb-body">
+                    <input class="onb-input" id="onb-prenom" type="text" placeholder="Ton prénom" autocomplete="given-name" oninput="onbCheck1()">
+                </div>
+                <div class="onb-foot">
+                    <button class="btn btn-primary onb-btn" id="onb-btn-1" onclick="goTo('s-onb-2')" disabled>Continuer</button>
+                </div>
             </div>
         </div>
 
-        <!-- ══ RECHERCHE ══ -->
-        <div class="screen" id="s-recherche">
-            <div class="pg-head">
-                <div class="segs">
-                    <div class="seg on"></div>
-                    <div class="seg on" style="opacity:.5"></div>
-                    <div class="seg"></div>
+        <!-- ÉTAPE 2 — Âge -->
+        <div class="screen onb-screen" id="s-onb-2">
+            <div class="onb-wrap">
+                <div class="onb-header">
+                    <div class="onb-progress">
+                        <div class="onb-bar" style="width:28%"></div>
+                    </div>
+                    <div class="onb-step">2 · 7</div>
+                    <div class="onb-question">
+                        Tu as
+                        <br>
+                        quel âge ?
+                    </div>
                 </div>
-                <div class="pg-eye">Étape 2 · Préférence</div>
-                <div class="pg-title">
-                    Qui
-                    <br>
-                    <em>recherches-tu ?</em>
+                <div class="onb-body">
+                    <input class="onb-input" id="onb-age" type="number" placeholder="Ton âge" min="18" max="99" oninput="onbCheck2()">
+                    <p class="onb-hint" style="margin-top:10px;">18 ans minimum.</p>
                 </div>
-                <p class="pg-sub">Filtre absolu — jamais de profil incompatible.</p>
-            </div>
-            <div class="rech-list">
-                <button class="rech-item" onclick="sr(this,'homme')">
-                    <div class="rech-ico">♂</div>
-                    <div>
-                        <div class="rech-lbl">Un homme</div>
-                        <div class="rech-sub">Gay, bi, queer</div>
-                    </div>
-                    <div class="rech-chk">✓</div>
-                </button>
-                <button class="rech-item" onclick="sr(this,'non-binaire')">
-                    <div class="rech-ico" style="font-size:14px">⊕</div>
-                    <div>
-                        <div class="rech-lbl">Non-binaire</div>
-                        <div class="rech-sub">En dehors des cases</div>
-                    </div>
-                    <div class="rech-chk">✓</div>
-                </button>
-                <button class="rech-item" onclick="sr(this,'les deux')">
-                    <div class="rech-ico" style="font-size:13px">∞</div>
-                    <div>
-                        <div class="rech-lbl">Peu importe</div>
-                        <div class="rech-sub">Ouvert à tout</div>
-                    </div>
-                    <div class="rech-chk">✓</div>
-                </button>
-            </div>
-            <div class="pg-foot">
-                <button class="btn btn-primary" onclick="goTo('s-preferences')">Continuer</button>
-                <button class="btn btn-outline" onclick="goTo('s-signup')">Retour</button>
+                <div class="onb-foot">
+                    <button class="btn btn-primary onb-btn" id="onb-btn-2" onclick="goTo('s-onb-3')" disabled>Continuer</button>
+                    <button class="onb-back" onclick="goTo('s-onb-1')">← Retour</button>
+                </div>
             </div>
         </div>
 
-        <!-- ══ PRÉFÉRENCES (onboarding) ══ -->
-        <div class="screen" id="s-preferences">
-            <div class="pg-head">
-                <div class="segs">
-                    <div class="seg on"></div>
-                    <div class="seg on"></div>
-                    <div class="seg on" style="opacity:.5"></div>
-                </div>
-                <div class="pg-eye">Étape 3 · Préférences</div>
-                <div class="pg-title">
-                    Ce que
-                    <br>
-                    <em>tu cherches</em>
-                </div>
-                <p class="pg-sub">On affine ta recherche dès le départ.</p>
-            </div>
-            <div class="form-body" style="gap:20px;">
-                <div>
-                    <div class="flbl">Genre recherché</div>
-                    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;" id="onb-genre-chips">
-                        <button onclick="toggleOnbGenre(this,'homme')" class="pref-chip">Homme</button>
-                        <button onclick="toggleOnbGenre(this,'non-binaire')" class="pref-chip">Non-binaire</button>
-                        <button onclick="toggleOnbGenre(this,'trans')" class="pref-chip">Trans</button>
-                        <button onclick="toggleOnbGenre(this,'tous')" class="pref-chip active">Tous</button>
+        <!-- ÉTAPE 3 — Genre -->
+        <div class="screen onb-screen" id="s-onb-3">
+            <div class="onb-wrap">
+                <div class="onb-header">
+                    <div class="onb-progress">
+                        <div class="onb-bar" style="width:42%"></div>
+                    </div>
+                    <div class="onb-step">3 · 7</div>
+                    <div class="onb-question">
+                        Tu te définis
+                        <br>
+                        comment ?
                     </div>
                 </div>
-                <div>
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-                        <div class="flbl" style="margin-bottom:0;">Tranche d&#39;âge</div>
-                        <div style="font-family:var(--font-sans);font-weight:700;font-size:13px;color:#1E3A2F;" id="onb-age-label">18 – 45 ans</div>
-                    </div>
-                    <input type="range" id="onb-age-min" min="18" max="99" value="18" step="1" oninput="updateOnbAge()" style="width:100%;accent-color:#1E3A2F;margin-bottom:8px;">
-                    <input type="range" id="onb-age-max" min="18" max="99" value="45" step="1" oninput="updateOnbAge()" style="width:100%;accent-color:#1E3A2F;">
-                    <div style="display:flex;justify-content:space-between;margin-top:4px;">
-                        <span style="font-family:var(--font-mono);font-size:9px;color:#B0A890;">18 ans</span>
-                        <span style="font-family:var(--font-mono);font-size:9px;color:#B0A890;">99 ans</span>
+                <div class="onb-body">
+                    <div class="onb-choices">
+                        <button class="onb-choice" onclick="selectGenre(this,'homme')">Homme</button>
+                        <button class="onb-choice" onclick="selectGenre(this,'non-binaire')">Non-binaire</button>
+                        <button class="onb-choice" onclick="selectGenre(this,'trans')">Trans</button>
                     </div>
                 </div>
-                <div>
-                    <div class="flbl">Je cherche quelqu&#39;un de</div>
-                    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;" id="onb-role-chips">
-                        <button onclick="toggleOnbRole(this,'actif')" class="pref-chip">Actif</button>
-                        <button onclick="toggleOnbRole(this,'passif')" class="pref-chip">Passif</button>
-                        <button onclick="toggleOnbRole(this,'versatile')" class="pref-chip">Versatile</button>
-                        <button onclick="toggleOnbRole(this,'peu importe')" class="pref-chip active">Peu importe</button>
-                    </div>
+                <div class="onb-foot">
+                    <button class="btn btn-primary onb-btn" id="onb-btn-3" onclick="goTo('s-onb-4')" disabled>Continuer</button>
+                    <button class="onb-back" onclick="goTo('s-onb-2')">← Retour</button>
                 </div>
-            </div>
-            <div class="pg-foot">
-                <button class="btn btn-primary" onclick="startQFromPrefs()">Continuer</button>
-                <button class="btn btn-outline" onclick="goTo('s-recherche')">Retour</button>
             </div>
         </div>
 
-        <!-- ══ FLASH CARDS (onboarding) ══ -->
-        <div class="screen" id="s-questions">
-            <div class="q-wrap">
-                <div class="q-header">
-                    <div class="qbars" id="qbars"></div>
-                    <div class="qmeta">
-                        <span class="qmeta-left">Flash cards de personnalité</span>
-                        <span class="qmeta-right" id="qcount">1 / 15</span>
+        <!-- ÉTAPE 4 — Qui cherches-tu -->
+        <div class="screen onb-screen" id="s-onb-4">
+            <div class="onb-wrap">
+                <div class="onb-header">
+                    <div class="onb-progress">
+                        <div class="onb-bar" style="width:57%"></div>
+                    </div>
+                    <div class="onb-step">4 · 7</div>
+                    <div class="onb-question">
+                        Tu cherches
+                        <br>
+                        qui ?
                     </div>
                 </div>
-                <div class="card-stack" id="card-stack"></div>
-                <div class="q-actions">
-                    <button class="action-btn btn-no" onclick="vote('no')">
-                        <span class="action-icon">✕</span>
-                        <span class="action-label">Non</span>
-                    </button>
-                    <button class="action-btn btn-maybe" onclick="vote('maybe')">
-                        <span class="action-icon">〜</span>
-                        <span class="action-label">Peut-être</span>
-                    </button>
-                    <button class="action-btn btn-yes" onclick="vote('yes')">
-                        <span class="action-icon">✓</span>
-                        <span class="action-label">Oui</span>
-                    </button>
+                <div class="onb-body">
+                    <div class="onb-choices">
+                        <button class="onb-choice" onclick="selectRecherche(this,'homme')">Un homme</button>
+                        <button class="onb-choice" onclick="selectRecherche(this,'non-binaire')">Non-binaire</button>
+                        <button class="onb-choice" onclick="selectRecherche(this,'trans')">Trans</button>
+                        <button class="onb-choice" onclick="selectRecherche(this,'tous')">Peu importe</button>
+                    </div>
                 </div>
-                <div class="qhint">← glisse ou utilise les boutons →</div>
+                <div class="onb-foot">
+                    <button class="btn btn-primary onb-btn" id="onb-btn-4" onclick="goTo('s-onb-5')" disabled>Continuer</button>
+                    <button class="onb-back" onclick="goTo('s-onb-3')">← Retour</button>
+                </div>
             </div>
         </div>
 
+        <!-- ÉTAPE 5 — Tranche d'âge -->
+        <div class="screen onb-screen" id="s-onb-5">
+            <div class="onb-wrap">
+                <div class="onb-header">
+                    <div class="onb-progress">
+                        <div class="onb-bar" style="width:71%"></div>
+                    </div>
+                    <div class="onb-step">5 · 7</div>
+                    <div class="onb-question">
+                        Quelle tranche
+                        <br>
+                        d&#39;âge ?
+                    </div>
+                </div>
+                <div class="onb-body" style="justify-content:flex-start;padding-top:12px;">
+                    <div class="onb-range-row">
+                        <span class="onb-range-lbl">Âge minimum</span>
+                        <span class="onb-range-val" id="onb-age-min-label">18</span>
+                    </div>
+                    <input type="range" class="onb-range" id="onb-age-min" min="18" max="99" value="18" step="1" oninput="updateOnbAge()">
+                    <div class="onb-range-row">
+                        <span class="onb-range-lbl">Âge maximum</span>
+                        <span class="onb-range-val" id="onb-age-max-label">45</span>
+                    </div>
+                    <input type="range" class="onb-range" id="onb-age-max" min="18" max="99" value="45" step="1" oninput="updateOnbAge()">
+                </div>
+                <div class="onb-foot">
+                    <button class="btn btn-primary" onclick="goTo('s-onb-6')">Continuer</button>
+                    <button class="onb-back" onclick="goTo('s-onb-4')">← Retour</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ÉTAPE 6 — Rôle -->
+        <div class="screen onb-screen" id="s-onb-6">
+            <div class="onb-wrap">
+                <div class="onb-header">
+                    <div class="onb-progress">
+                        <div class="onb-bar" style="width:85%"></div>
+                    </div>
+                    <div class="onb-step">6 · 7</div>
+                    <div class="onb-question">
+                        Tu cherches
+                        <br>
+                        quelqu&#39;un de ?
+                    </div>
+                </div>
+                <div class="onb-body">
+                    <div class="onb-choices">
+                        <button class="onb-choice" onclick="selectRole(this,'actif')">Actif</button>
+                        <button class="onb-choice" onclick="selectRole(this,'passif')">Passif</button>
+                        <button class="onb-choice" onclick="selectRole(this,'versatile')">Versatile</button>
+                        <button class="onb-choice" onclick="selectRole(this,'peu importe')">Peu importe</button>
+                    </div>
+                </div>
+                <div class="onb-foot">
+                    <button class="btn btn-primary onb-btn" id="onb-btn-6" onclick="goTo('s-onb-7')" disabled>Continuer</button>
+                    <button class="onb-back" onclick="goTo('s-onb-5')">← Retour</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ÉTAPE 7 — Email -->
+        <div class="screen onb-screen" id="s-onb-7">
+            <div class="onb-wrap">
+                <div class="onb-header">
+                    <div class="onb-progress">
+                        <div class="onb-bar" style="width:100%"></div>
+                    </div>
+                    <div class="onb-step">7 · 7</div>
+                    <div class="onb-question">
+                        Ton adresse
+                        <br>
+                        email ?
+                    </div>
+                </div>
+                <div class="onb-body">
+                    <p class="onb-hint">On t&#39;envoie un code de vérification. Pas de spam.</p>
+                    <input class="onb-input" id="onb-email" type="email" placeholder="ton@email.com" autocomplete="email" oninput="onbCheck7()" onchange="onbCheck7()" onpaste="setTimeout(onbCheck7,0)">
+                </div>
+                <div class="onb-foot">
+                    <button class="btn btn-primary onb-btn" id="onb-btn-7" onclick="sendOnbOTP()" disabled>Recevoir mon code</button>
+                    <button class="onb-back" onclick="goTo('s-onb-6')">← Retour</button>
+                </div>
+            </div>
+        </div>
         <!-- ══════════ APP (bottom nav) ══════════ -->
 
         <!-- TAB ACCUEIL -->
@@ -2753,7 +2953,7 @@
         if (st.otpContext === 'login')
             goTo('s-login');
         else
-            goTo('s-signup');
+            goTo('s-onb-1');
     }
     function goTo(id) {
         document.querySelectorAll('.screen').forEach(s => {
@@ -2819,8 +3019,8 @@
         if (context === 'login' && !hasAccount) {
             showToast('Pas encore de compte.', 3000);
             setTimeout(() => {
-                document.getElementById('ie').value = email;
-                goTo('s-signup');
+                document.getElementById('onb-email').value = email;
+                goTo('s-onb-1');
                 showToast('Crée ton profil pour commencer.');
             }, 1600);
             return;
@@ -2880,7 +3080,7 @@
             await loadExistingProfile();
         }
         else {
-            goTo('s-recherche');
+            startQ();
         }
     }
 
@@ -2910,7 +3110,7 @@
                 }).eq('id', byEmail.id);
                 showApp();
             } else {
-                goTo('s-signup');
+                goTo('s-onb-1');
                 showToast('Complète ton profil pour continuer');
             }
         }
@@ -2949,91 +3149,7 @@
         el.classList.add('active');
     }
 
-    function updateOnbAge() {
-        let min = parseInt(document.getElementById('onb-age-min').value);
-        let max = parseInt(document.getElementById('onb-age-max').value);
-        if (min > max) {
-            if (event.target.id === 'onb-age-min')
-                min = max;
-            else
-                max = min;
-            document.getElementById('onb-age-min').value = min;
-            document.getElementById('onb-age-max').value = max;
-        }
-        document.getElementById('onb-age-label').textContent = min + ' – ' + max + ' ans';
-    }
-
-    function startQFromPrefs() {
-        // Sauvegarder les préférences dans st pour les enregistrer avec le profil
-        st.pref_genres = onbGenres;
-        st.pref_age_min = parseInt(document.getElementById('onb-age-min').value);
-        st.pref_age_max = parseInt(document.getElementById('onb-age-max').value);
-        st.pref_roles = onbRole;
-
-        // Pré-remplir la page profil "Je cherche"
-        setTimeout(() => {
-            // Sync avec les chips du profil
-            document.querySelectorAll('#genre-chips .pref-chip').forEach(c => {
-                c.classList.toggle('active', onbGenres.includes(c.textContent.toLowerCase()));
-            });
-            selectedGenres = [...onbGenres];
-            document.querySelectorAll('#role-chips .pref-chip').forEach(c => {
-                c.classList.toggle('active', onbRole.includes(c.textContent.toLowerCase()));
-            });
-            selectedRoles = [...onbRole];
-            document.getElementById('age-min').value = st.pref_age_min;
-            document.getElementById('age-max').value = st.pref_age_max;
-            updateAgeRange();
-        }, 100);
-
-        startQ();
-    }
-
-    /* ══ ONBOARDING PREFS ══ */
-
-    function toggleOnbGenre(el, val) {
-        if (val === 'tous') {
-            onbGenres = ['tous'];
-            document.querySelectorAll('#onb-genre-chips .pref-chip').forEach(c => {
-                c.classList.toggle('active', c.textContent.toLowerCase() === 'tous');
-            });
-            return;
-        }
-        onbGenres = onbGenres.filter(g => g !== 'tous');
-        document.querySelector('#onb-genre-chips .pref-chip:last-child').classList.remove('active');
-        if (onbGenres.includes(val)) {
-            onbGenres = onbGenres.filter(g => g !== val);
-            el.classList.remove('active');
-        }
-        else {
-            onbGenres.push(val);
-            el.classList.add('active');
-        }
-        if (onbGenres.length === 0) {
-            onbGenres = ['tous'];
-            document.querySelector('#onb-genre-chips .pref-chip:last-child').classList.add('active');
-        }
-    }
-
-    function toggleOnbRole(el, val) {
-        onbRole = [val];
-        document.querySelectorAll('#onb-role-chips .pref-chip').forEach(c => c.classList.remove('active'));
-        el.classList.add('active');
-    }
-
-    function updateOnbAge() {
-        let min = parseInt(document.getElementById('onb-age-min').value);
-        let max = parseInt(document.getElementById('onb-age-max').value);
-        if (min > max) {
-            if (event.target.id === 'onb-age-min')
-                min = max;
-            else
-                max = min;
-            document.getElementById('onb-age-min').value = min;
-            document.getElementById('onb-age-max').value = max;
-        }
-        document.getElementById('onb-age-label').textContent = min + ' – ' + max + ' ans';
-    }
+    /* updateOnbAge - see new version below */
 
     function startQFromPrefs() {
         st.pref_genres = onbGenres;
@@ -3059,7 +3175,98 @@
         startQ();
     }
 
-    /* ══ SIGNUP ══ */
+    /* ══ ONBOARDING STEP-BY-STEP ══ */
+    function onbCheck1() {
+        const v = document.getElementById('onb-prenom').value.trim();
+        document.getElementById('onb-btn-1').disabled = v.length < 2;
+    }
+    function onbCheck2() {
+        const v = parseInt(document.getElementById('onb-age').value);
+        document.getElementById('onb-btn-2').disabled = !(v >= 18 && v <= 99);
+    }
+    function onbCheck7() {
+        const v = document.getElementById('onb-email').value.trim();
+        document.getElementById('onb-btn-7').disabled = !v.includes('@');
+    }
+    function selectGenre(el, val) {
+        st.genre = val;
+        document.querySelectorAll('.onb-choice[onclick*="selectGenre"]').forEach(b => b.classList.remove('sel'));
+        el.classList.add('sel');
+        document.getElementById('onb-btn-3').disabled = false;
+    }
+    function selectRecherche(el, val) {
+        st.recherche = val;
+        document.querySelectorAll('.onb-choice[onclick*="selectRecherche"]').forEach(b => b.classList.remove('sel'));
+        el.classList.add('sel');
+        document.getElementById('onb-btn-4').disabled = false;
+    }
+    function selectRole(el, val) {
+        onbRole = [val];
+        document.querySelectorAll('.onb-choice[onclick*="selectRole"]').forEach(b => b.classList.remove('sel'));
+        el.classList.add('sel');
+        document.getElementById('onb-btn-6').disabled = false;
+    }
+    function updateOnbAge() {
+        let min = parseInt(document.getElementById('onb-age-min').value);
+        let max = parseInt(document.getElementById('onb-age-max').value);
+        if (min > max) {
+            if (event.target.id === 'onb-age-min')
+                min = max;
+            else
+                max = min;
+            document.getElementById('onb-age-min').value = min;
+            document.getElementById('onb-age-max').value = max;
+        }
+        document.getElementById('onb-age-min-label').textContent = min;
+        document.getElementById('onb-age-max-label').textContent = max;
+    }
+    async function sendOnbOTP() {
+        // Lire toutes les valeurs directement depuis les inputs
+        const prenomEl = document.getElementById('onb-prenom');
+        const ageEl = document.getElementById('onb-age');
+        const prenom = prenomEl ? prenomEl.value.trim() : '';
+        const age = ageEl ? parseInt(ageEl.value) : 0;
+        const email = document.getElementById('onb-email').value.trim();
+
+        // Vérifications avec messages clairs
+        if (!prenom) {
+            showToast('Retourne à l\'étape 1 — entre ton prénom');
+            return;
+        }
+        if (!age || age < 18) {
+            showToast('Retourne à l\'étape 2 — vérifie ton âge');
+            return;
+        }
+        if (!st.genre) {
+            showToast('Retourne à l\'étape 3 — choisis ton genre');
+            return;
+        }
+        if (!st.recherche) {
+            showToast('Retourne à l\'étape 4 — dis qui tu cherches');
+            return;
+        }
+        if (!email || !email.includes('@')) {
+            showToast('Email invalide');
+            return;
+        }
+
+        // Sauvegarder dans st
+        st.prenom = prenom;
+        st.age = age;
+        st.email = email;
+
+        // Préférences
+        const ageMin = document.getElementById('onb-age-min');
+        const ageMax = document.getElementById('onb-age-max');
+        st.pref_genres = onbGenres && onbGenres.length > 0 ? onbGenres : ['tous'];
+        st.pref_age_min = ageMin ? parseInt(ageMin.value) : 18;
+        st.pref_age_max = ageMax ? parseInt(ageMax.value) : 45;
+        st.pref_roles = onbRole && onbRole.length > 0 ? onbRole : ['peu importe'];
+
+        sendOTP('signup');
+    }
+
+    /* ══ SIGNUP (legacy) ══ */
     function sg(b, v) {
         st.genre = v;
         document.querySelectorAll('.g-opt').forEach(x => x.classList.remove('sel'));
@@ -3092,14 +3299,9 @@
         sendOTP('signup');
     }
     function startQ() {
-        if (!st.recherche) {
-            showToast('Indique ce que tu recherches');
-            return;
-        }
         cardIdx = 0;
         st.reponses = [];
-        renderStack('card-stack', 'qbars', 'qcount', cardIdx);
-        goTo('s-questions');
+        saveUser().then(() => showApp());
     }
 
     /* ══ CARDS ENGINE ══ */
@@ -4390,4 +4592,3 @@
     })();
     </script>
 </body>
-</html>
