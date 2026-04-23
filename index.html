@@ -2994,7 +2994,8 @@
 
     /* ══ OTP AUTH ══ */
     async function sendOTP(context) {
-        const email = (context === 'login' ? document.getElementById('login-email') : document.getElementById('ie')).value.trim();
+        const emailEl = context === 'login' ? document.getElementById('login-email') : document.getElementById('onb-email');
+        const email = emailEl ? emailEl.value.trim() : st.email || '';
         if (!email || !email.includes('@')) {
             showToast('Email invalide');
             return;
@@ -3268,7 +3269,9 @@
     function vsignup() {
         const p = document.getElementById('ip').value.trim();
         const a = document.getElementById('ia').value;
-        const e = document.getElementById('ie').value.trim();
+        const e = (document.getElementById('onb-email') || {
+            value: st.email || ''
+        }).value.trim();
         if (!p || !a || !e || !st.genre) {
             showToast('Remplis tous les champs');
             return;
